@@ -37,11 +37,11 @@ Plain Markdown keeps media glued to the text flow. *Media Layout* uses a dedicat
 4. **Drag & resize** the element to place it precisely.  
    ![3 полный контроль положений медиа на странице](https://github.com/user-attachments/assets/03618c54-d910-4fdd-aab2-0080643e1fc5)
 
-6. Open the item’s menu to set **Background** and **Opacity**; toggle **Only for this file** to keep styling local.  
+5. Open the item’s menu to set **Background** and **Opacity**; toggle **Only for this file** to keep styling local.  
    ![2 кастомизация](https://github.com/user-attachments/assets/859a75c0-a1dc-4156-882e-0d0855c775c5)
 
-7. **Lock** items when the layout looks right.
-8. **Save a Preset** to capture the whole page and **Apply** it later.  
+6. **Lock** items when the layout looks right.
+7. **Save a Preset** to capture the whole page and **Apply** it later.  
 ![4 сохранение пресетов](https://github.com/user-attachments/assets/e572529e-92c6-4410-b6af-c0a6dcd046dc)
 
 ---
