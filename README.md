@@ -74,7 +74,7 @@ Plain Markdown keeps media glued to the text flow. *Media Layout* uses a dedicat
 ---
 
 ## Where data is stored
-The plugin uses Obsidian’s standard plugin storage (inside your vault’s `.obsidian/plugins/<your-plugin-id>/`), keeping:
+The plugin uses Obsidian’s standard plugin storage (inside your vault’s `.obsidian/plugins/media-layout/`), keeping:
 - page layouts (positions/sizes),
 - clone states,
 - per-item/local backgrounds & opacity,
