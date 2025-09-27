@@ -1,93 +1,94 @@
-# Media Layout (Obsidian)
-### A plugin that lets you freely arrange videos, images, and audio — and save reusable presets
+# Media Layout
+### A plugin that lets you freely arrange videos, images, and audio — with **clone-only presets** for rock-solid layouts
 
-Break out of Markdown’s linear flow: **drag, resize, and position media anywhere on the page** in Live Preview. Build galleries, dashboards, and magazine-style layouts. Save the whole composition as a **preset**, or reuse the same media via **clones** with independent size/position/background.
+Break out of Markdown’s linear flow: **drag, resize, and position media anywhere on the page** in Live Preview. You can edit both **originals in the text flow** and **clones** (recommended). Presets and page saves are now **clone-only**: they store and restore clones (with their size/position/background) and leave originals in the flow, which avoids fragile edge cases.
 
-![1 эта должна быть первой_тут основная суть плагина, изменение размеров и положения медиа](https://github.com/user-attachments/assets/f6e86c45-cd42-476c-8ec1-77850c66d90c)
+![Main demo – resize & position media](https://github.com/user-attachments/assets/f6e86c45-cd42-476c-8ec1-77850c66d90c)
 
 ---
 
 ## Features
-- **Free move & resize** for videos, images, and audio (stable, no “jitter”) in **Live Preview**.
-- **Clones** — place the same media multiple times with **independent**:
-  - position (x/y), size (w/h),
-  - background color & **opacity**,
-  - lock state.
-- **Presets** — save the entire page layout (including clones, backgrounds, locks) and **restore in one click**.
-- **Backgrounds**:
-  - **Global** background & opacity for all media,
-  - **Local** per-item background, with **“Only for this file”** switch to limit styling to the current note.
+- **Free move & resize** for videos, images, and audio in **Live Preview** — works for **originals** (in-flow) and **clones**.
+- **Clone-only presets** — save/apply page layouts that include **only clones** (their geometry, backgrounds, locks). Originals remain in the text flow.
+- **Optional detaching of originals** — you *can* detach originals to reposition them, but it’s disabled by default and not recommended (see **Important notes**).
+- **Backgrounds**  
+  - **Global** background & opacity for all media,  
+  - **Local** per-item background, with **“Only for this file”** to limit styling to the current note.
 - **Lock / Unlock** any item to avoid accidental moves.
-- **Persistence** — layouts (including clones) are restored after reload.
+- **Persistence** — layouts (clones, settings) persist across reloads.
+- **Smooth modal animation** (can be disabled) for a pleasant, non-jittery UI.
+- **Customization timing** — tune panel **hide duration**, clone **restore delay**, and note-box **restore delay**.
 - **Localization** built-in: de, pl, es, fr, it, be, uk, uz, vi, zh-CN, zh-TW (and expandable).
-- **Audio UX** — resize/position works; handles are **invisible but active** (clean look).
-- **Safety** — designed to avoid text selection while dragging and to keep cursor behavior stable.
+- **Audio UX** — resize/position works; handles are **invisible but active**.
+- **Safety** — designed to avoid text selection during drag and keep cursor behavior stable.
 
 ---
 
 ## Why this exists
-Plain Markdown keeps media glued to the text flow. *Media Layout* uses a dedicated floating layer and/or **clones** so you can **compose pages visually** while your note stays simple and portable.
+Plain Markdown keeps media glued to the text flow. *Media Layout* provides a floating control layer and **clones** so you can **compose pages visually** while your notes remain simple and portable. By making presets **clone-only**, the plugin avoids flow corruption and stays robust on complex pages.
 
 ---
 
 ## How to use
 1. **Enable** the plugin.
 2. Insert media into a note (video / image / audio).
-3. **Clone** (recommended) or **Detach** the item.
-4. **Drag & resize** the element to place it precisely.  
-   ![3 полный контроль положений медиа на странице](https://github.com/user-attachments/assets/03618c54-d910-4fdd-aab2-0080643e1fc5)
-
-5. Open the item’s menu to set **Background** and **Opacity**; toggle **Only for this file** to keep styling local.  
-   ![2 кастомизация](https://github.com/user-attachments/assets/859a75c0-a1dc-4156-882e-0d0855c775c5)
-
-6. **Lock** items when the layout looks right.
-7. **Save a Preset** to capture the whole page and **Apply** it later.  
-![4 сохранение пресетов](https://github.com/user-attachments/assets/e572529e-92c6-4410-b6af-c0a6dcd046dc)
+3. Create a **Clone** (recommended). You can also work with **originals in flow**; to **reposition originals** by detaching them, enable the setting in **`Media Layout: Settings`** (see Important notes).
+4. **Drag & resize** to precise positions.  
+   ![Full control of positions](https://github.com/user-attachments/assets/03618c54-d910-4fdd-aab2-0080643e1fc5)
+5. Open the item menu to set **Background** / **Opacity**; toggle **Only for this file** for local styling.  
+   ![Customization](https://github.com/user-attachments/assets/859a75c0-a1dc-4156-882e-0d0855c775c5)
+6. **Lock** items when ready.
+7. **Save a Preset** — this now saves **clones only**. **Apply** will restore clones (sizes/positions/backgrounds); originals stay in the flow.  
+   ![Saving presets](https://github.com/user-attachments/assets/e572529e-92c6-4410-b6af-c0a6dcd046dc)
 
 ---
 
 ## Core concepts
-### Detach vs Clone
-- **Detach** moves the *original* media into a floating layer for absolute positioning.
-- **Clone** creates an extra visual instance pointing to the same file, but with its **own** geometry and styling.
+### Originals (in-flow) vs Clones
+- **Originals** live in the Markdown flow. You can resize them; to change their **position on page**, you must enable **Detach originals** in **`Media Layout: Settings`** (off by default).
+- **Clones** are independent visual instances referencing the same file, with their **own** size, position, background, and lock.
 
-> **Recommendation:** Prefer **clones** for complex layouts. They’re robust and won’t disturb surrounding text or other plugins.
+> **Recommendation:** Use **clones** for production layouts. Presets are clone-only by design; originals remain stable in the text flow.
 
 ---
 
 ## Important notes & limitations
-- **Detaching originals** can sometimes lead to **incorrect placement or visual glitches** depending on surrounding content or other plugins.  
-  **Best practice:** use **clones** for production layouts — they are the most reliable.
-- Very heavy pages (many large videos/GIFs) can impact performance — keep file sizes reasonable.
+- **Detaching originals** can cause **incorrect flow or visual glitches** depending on surrounding content or other plugins.  
+  **Best practice:** keep originals in the flow and build your layout with **clones**.
+- **Reset all** truly resets **everything**: clones, their positions, and any detached originals (restores originals to normal flow).
+- Heavy pages (many large videos/GIFs) may impact performance — keep sizes reasonable.
 - Aggressive custom CSS or third-party media enhancers may affect overlays/backgrounds.
 
 ---
 
 ## Settings & options
-- Global background & opacity (defaults for all media).
-- Local (per-item) background & opacity with **Only for this file** switch.
-- Clone management (create/remove; each clone is independent).
-- Presets (save/apply; include clones and styling).
-- Reset & restore helpers for quick cleanup.
-- Language selection (localization).
+- **Detach originals (off by default)** — allows repositioning originals outside the flow; use with caution.
+- **Presets** — **clone-only** save/apply; include clone geometry, backgrounds, locks.
+- **Backgrounds** — global defaults; per-item local background & opacity with **Only for this file**.
+- **Timing & animation**
+  - **Panel hide duration** (how long the panel waits before hiding),
+  - **Clone restore delay** (stagger clone appearance),
+  - **Note-box restore delay**,
+  - **Modal animation** — smooth open/close (can be disabled).
+- **Reset & restore** tools for quick cleanup.
+- **Language selection** (localization).
 
 ---
 
 ## Where data is stored
-The plugin uses Obsidian’s standard plugin storage (inside your vault’s `.obsidian/plugins/media-layout/`), keeping:
-- page layouts (positions/sizes),
-- clone states,
+The plugin uses Obsidian’s standard plugin storage (`.obsidian/plugins/media-layout/`), keeping:
+- clone layouts (positions/sizes),
 - per-item/local backgrounds & opacity,
-- preset definitions.
+- **clone-only** preset definitions.
 
 ---
 
 ## FAQ
 **Do clones duplicate files?**  
-No. Clones reference the same media file; only geometry/styling is duplicated.
+No. They reference the same media file — only geometry/styling is duplicated.
 
 **Will my layout persist after restart?**  
-Yes. Layouts (including clones and presets) are restored automatically.
+Yes. Clones and their presets are restored automatically.
 
 **Can I edit in Reading Mode?**  
 Editing is meant for **Live Preview**. Reading Mode shows the arranged result; interactions are limited.
