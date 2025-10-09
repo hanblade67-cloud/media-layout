@@ -88,6 +88,15 @@ Open via Command Palette: **`Media Layout: Settings`**.
 
 ---
 
+## Multi-select (Ctrl + Left Click)
+
+- **Item selection:** Hold `Ctrl` and **left-click** to select/deselect **clones** and **tables/note boxes**.
+- **Marquee selection:** Hold `Ctrl` and **left-drag** on empty space to draw a selection rectangle; everything inside gets selected.
+- **Group move:** With multiple items selected, **drag any selected item** to move the whole group (relative positions are preserved).
+- **Bulk delete:** Use the delete/remove action to delete **all selected** items at once.
+
+---
+
 ## Where data is stored
 The plugin uses Obsidian’s standard plugin storage (`.obsidian/plugins/media-layout/`), keeping:
 - clone layouts (positions/sizes),
@@ -122,3 +131,4 @@ Yes. Clones and their presets are restored automatically.
 
 **Can I edit in Reading Mode?**  
 Editing is meant for **Live Preview**. Reading Mode shows the arranged result; interactions are limited.
+
