@@ -132,3 +132,4 @@ Yes. Clones and their presets are restored automatically.
 **Can I edit in Reading Mode?**  
 Editing is meant for **Live Preview**. Reading Mode shows the arranged result; interactions are limited.
 
+

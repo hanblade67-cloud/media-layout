@@ -1,7 +1,7 @@
 {
   "id": "media-layout",
   "name": "Media Layout",
-  "version": "5.0.0",
+  "version": "5.3.0",
   "minAppVersion": "1.5.0",
   "author": "Hanblade",
    "description":"Page editor for media layout: drag, detach/lock, resize images, video, audio; floating notes; presets; safe reset",

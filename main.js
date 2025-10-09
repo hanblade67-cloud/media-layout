@@ -73,7 +73,7 @@ var I18N = {
     duplicate: "Duplicate",
     reset: "Reset",
     removeBg: "Remove background",
-    deleteClone: "Delete clone",
+    deleteClone: "Delete",
     lock: "Lock",
     unlock: "Unlock",
     localOnlyCheckboxLabel: "Only for this file",
@@ -90,7 +90,13 @@ var I18N = {
     modalAnimationLabel: "Window animation",
     cloneRestoreDelayLabel: "Clone appearance delay",
     noteRestoreDelayLabel: "Note box appearance delay",
-    hideDelayLabel: "Panel hide delay"
+    hideDelayLabel: "Panel hide delay",
+    changeTextColor: "Change text color",
+    cloneNearFile: "Clone next to the file",
+    addStroke: "Add stroke",
+    addLink: "Add link",
+    applyToHeader: "Apply to header",
+    deleteSelected: "Delete selected ({n})"
   },
   ru: {
     cloneSettingsTitle: "\u041A\u0430\u0441\u0442\u043E\u043C\u0438\u0437\u0430\u0446\u0438\u044F \u043A\u043B\u043E\u043D\u043E\u0432",
@@ -141,7 +147,7 @@ var I18N = {
     duplicate: "\u041A\u043B\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C",
     reset: "\u0421\u0431\u0440\u043E\u0441\u0438\u0442\u044C",
     removeBg: "\u0423\u0431\u0440\u0430\u0442\u044C \u0444\u043E\u043D",
-    deleteClone: "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u043A\u043B\u043E\u043D",
+    deleteClone: "\u0423\u0434\u0430\u043B\u0438\u0442\u044C",
     lock: "\u0417\u0430\u043A\u0440\u0435\u043F\u0438\u0442\u044C",
     unlock: "\u0420\u0430\u0437\u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u0430\u0442\u044C",
     localOnlyCheckboxLabel: "\u0422\u043E\u043B\u044C\u043A\u043E \u0434\u043B\u044F \u044D\u0442\u043E\u0433\u043E \u0444\u0430\u0439\u043B\u0430",
@@ -158,7 +164,13 @@ var I18N = {
     modalAnimationLabel: "\u0410\u043D\u0438\u043C\u0430\u0446\u0438\u044F \u043E\u043A\u043E\u043D",
     cloneRestoreDelayLabel: "\u0417\u0430\u0434\u0435\u0440\u0436\u043A\u0430 \u043F\u043E\u044F\u0432\u043B\u0435\u043D\u0438\u044F \u043A\u043B\u043E\u043D\u043E\u0432",
     noteRestoreDelayLabel: "\u0417\u0430\u0434\u0435\u0440\u0436\u043A\u0430 \u043F\u043E\u044F\u0432\u043B\u0435\u043D\u0438\u044F \u0442\u0430\u0431\u043B\u0438\u0447\u0435\u043A",
-    hideDelayLabel: "\u0417\u0430\u0434\u0435\u0440\u0436\u043A\u0430 \u0441\u043A\u0440\u044B\u0442\u0438\u044F \u043F\u0430\u043D\u0435\u043B\u0438"
+    hideDelayLabel: "\u0417\u0430\u0434\u0435\u0440\u0436\u043A\u0430 \u0441\u043A\u0440\u044B\u0442\u0438\u044F \u043F\u0430\u043D\u0435\u043B\u0438",
+    changeTextColor: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0446\u0432\u0435\u0442 \u0442\u0435\u043A\u0441\u0442\u0430",
+    cloneNearFile: "\u041A\u043B\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u0440\u044F\u0434\u043E\u043C \u0441 \u0444\u0430\u0439\u043B\u043E\u043C",
+    addStroke: "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043E\u0431\u0432\u043E\u0434\u043A\u0443",
+    applyToHeader: "\u041F\u0440\u0438\u043C\u0435\u043D\u0438\u0442\u044C \u0434\u043B\u044F \u0448\u0430\u043F\u043A\u0438",
+    addLink: "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0441\u0441\u044B\u043B\u043A\u0443",
+    deleteSelected: "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0432\u044B\u0434\u0435\u043B\u0435\u043D\u043D\u043E\u0435 ({n})"
   },
   de: {
     cloneSettingsTitle: "Klon-Anpassung",
@@ -209,7 +221,7 @@ var I18N = {
     bgColor: "Hintergrundfarbe \xE4ndern",
     duplicate: "Duplizieren",
     reset: "Zur\xFCcksetzen",
-    deleteClone: "Klon l\xF6schen",
+    deleteClone: "l\xF6schen",
     lock: "Sperren",
     unlock: "Entsperren",
     localOnlyCheckboxLabel: "Nur f\xFCr diese Datei",
@@ -226,7 +238,13 @@ var I18N = {
     modalAnimationLabel: "Modal-Animation",
     cloneRestoreDelayLabel: "Verz\xF6gerung f\xFCr Klon-Einblendung",
     noteRestoreDelayLabel: "Verz\xF6gerung f\xFCr Notizbox-Einblendung",
-    hideDelayLabel: "Verz\xF6gerung beim Ausblenden des Panels"
+    hideDelayLabel: "Verz\xF6gerung beim Ausblenden des Panels",
+    changeTextColor: "Textfarbe \xE4ndern",
+    cloneNearFile: "Neben der Datei klonen",
+    addStroke: "Kontur hinzuf\xFCgen",
+    applyToHeader: "Auf Kopfzeile anwenden",
+    addLink: "Link hinzuf\xFCgen",
+    deleteSelected: "Ausgew\xE4hlte l\xF6schen ({n})"
   },
   pl: {
     cloneSettingsTitle: "Dostosowanie klon\xF3w",
@@ -277,7 +295,7 @@ var I18N = {
     bgColor: "Zmie\u0144 kolor t\u0142a",
     duplicate: "Duplikuj",
     reset: "Resetuj",
-    deleteClone: "Usu\u0144 klon",
+    deleteClone: "Usu\u0144",
     lock: "Zablokuj",
     unlock: "Odblokuj",
     localOnlyCheckboxLabel: "Tylko dla tego pliku",
@@ -294,7 +312,13 @@ var I18N = {
     modalAnimationLabel: "Animacja okien modalnych",
     cloneRestoreDelayLabel: "Op\xF3\u017Anienie pojawiania si\u0119 klon\xF3w",
     noteRestoreDelayLabel: "Op\xF3\u017Anienie pojawiania si\u0119 okienek notatek",
-    hideDelayLabel: "Op\xF3\u017Anienie ukrywania panelu"
+    hideDelayLabel: "Op\xF3\u017Anienie ukrywania panelu",
+    changeTextColor: "Zmie\u0144 kolor tekstu",
+    cloneNearFile: "Klonuj obok pliku",
+    addStroke: "Dodaj obrys",
+    applyToHeader: "Zastosuj do nag\u0142\xF3wka",
+    addLink: "Dodaj link",
+    deleteSelected: "Usu\u0144 zaznaczone ({n})"
   },
   es: {
     cloneSettingsTitle: "Personalizar clones",
@@ -345,7 +369,7 @@ var I18N = {
     bgColor: "Cambiar color de fondo",
     duplicate: "Duplicar",
     reset: "Restablecer",
-    deleteClone: "Eliminar clon",
+    deleteClone: "Eliminar",
     lock: "Bloquear",
     unlock: "Desbloquear",
     localOnlyCheckboxLabel: "Solo para este archivo",
@@ -362,7 +386,13 @@ var I18N = {
     modalAnimationLabel: "Animaci\xF3n de la ventana modal",
     cloneRestoreDelayLabel: "Retraso en la aparici\xF3n de los clones",
     noteRestoreDelayLabel: "Retraso en la aparici\xF3n de los cuadros de notas",
-    hideDelayLabel: "Retraso al ocultar el panel"
+    hideDelayLabel: "Retraso al ocultar el panel",
+    changeTextColor: "Cambiar color del texto",
+    cloneNearFile: "Clonar junto al archivo",
+    addStroke: "A\xF1adir contorno",
+    applyToHeader: "Aplicar al encabezado",
+    addLink: "A\xF1adir enlace",
+    deleteSelected: "Eliminar seleccionados ({n})"
   },
   fr: {
     cloneSettingsTitle: "Personnalisation des clones",
@@ -430,7 +460,13 @@ var I18N = {
     modalAnimationLabel: "Animation des fen\xEAtres modales",
     cloneRestoreDelayLabel: "D\xE9lai d\u2019apparition des clones",
     noteRestoreDelayLabel: "D\xE9lai d\u2019apparition des bo\xEEtes de notes",
-    hideDelayLabel: "D\xE9lai avant masquage du panneau"
+    hideDelayLabel: "D\xE9lai avant masquage du panneau",
+    changeTextColor: "Changer la couleur du texte",
+    cloneNearFile: "Cloner \xE0 c\xF4t\xE9 du fichier",
+    addStroke: "Ajouter un contour",
+    applyToHeader: "Appliquer \xE0 l'en-t\xEAte",
+    addLink: "Ajouter un lien",
+    deleteSelected: "Supprimer les \xE9l\xE9ments s\xE9lectionn\xE9s ({n})"
   },
   it: {
     cloneSettingsTitle: "Personalizzazione cloni",
@@ -481,7 +517,7 @@ var I18N = {
     bgColor: "Cambia colore sfondo",
     duplicate: "Duplica",
     reset: "Reset",
-    deleteClone: "Elimina clone",
+    deleteClone: "Elimina",
     lock: "Blocca",
     unlock: "Sblocca",
     localOnlyCheckboxLabel: "Solo per questo file",
@@ -498,7 +534,13 @@ var I18N = {
     modalAnimationLabel: "Animazione delle finestre modali",
     cloneRestoreDelayLabel: "Ritardo nella comparsa dei cloni",
     noteRestoreDelayLabel: "Ritardo nella comparsa dei riquadri nota",
-    hideDelayLabel: "Ritardo nel nascondere il pannello"
+    hideDelayLabel: "Ritardo nel nascondere il pannello",
+    changeTextColor: "Cambia colore del testo",
+    cloneNearFile: "Clona accanto al file",
+    addStroke: "Aggiungi contorno",
+    applyToHeader: "Applica all'intestazione",
+    addLink: "Aggiungi link",
+    deleteSelected: "Elimina selezionati ({n})"
   },
   be: {
     cloneSettingsTitle: "\u041D\u0430\u043B\u0430\u0434\u043A\u0430 \u043A\u043B\u043E\u043D\u0430\u045E",
@@ -549,7 +591,7 @@ var I18N = {
     bgColor: "\u0417\u043C\u044F\u043D\u0456\u0446\u044C \u043A\u043E\u043B\u0435\u0440 \u0444\u043E\u043D\u0443",
     duplicate: "\u0414\u0443\u0431\u043B\u044F\u0432\u0430\u0446\u044C",
     reset: "\u0421\u043A\u0456\u0434",
-    deleteClone: "\u0412\u044B\u0434\u0430\u043B\u0456\u0446\u044C \u043A\u043B\u043E\u043D",
+    deleteClone: "\u0412\u044B\u0434\u0430\u043B\u0456\u0446\u044C",
     lock: "\u0417\u0430\u0444\u0456\u043A\u0441\u0430\u0432\u0430\u0446\u044C",
     unlock: "\u0420\u0430\u0437\u0431\u043B\u0430\u043A\u0456\u0440\u0430\u0432\u0430\u0446\u044C",
     localOnlyCheckboxLabel: "\u0422\u043E\u043B\u044C\u043A\u0456 \u0434\u043B\u044F \u0433\u044D\u0442\u0430\u0433\u0430 \u0444\u0430\u0439\u043B\u0430",
@@ -566,7 +608,13 @@ var I18N = {
     modalAnimationLabel: "\u0410\u043D\u0456\u043C\u0430\u0446\u044B\u044F \u043C\u0430\u0434\u0430\u043B\u044C\u043D\u044B\u0445 \u0432\u043E\u043A\u043D\u0430\u045E",
     cloneRestoreDelayLabel: "\u0417\u0430\u0442\u0440\u044B\u043C\u043A\u0430 \u0437\u2019\u044F\u045E\u043B\u0435\u043D\u043D\u044F \u043A\u043B\u043E\u043D\u0430\u045E",
     noteRestoreDelayLabel: "\u0417\u0430\u0442\u0440\u044B\u043C\u043A\u0430 \u0437\u2019\u044F\u045E\u043B\u0435\u043D\u043D\u044F \u0431\u043B\u043E\u043A\u0430\u045E \u043D\u0430\u0442\u0430\u0442\u0430\u043A",
-    hideDelayLabel: "\u0417\u0430\u0442\u0440\u044B\u043C\u043A\u0430 \u0441\u043A\u0440\u044B\u0446\u0446\u044F \u043F\u0430\u043D\u044D\u043B\u0456"
+    hideDelayLabel: "\u0417\u0430\u0442\u0440\u044B\u043C\u043A\u0430 \u0441\u043A\u0440\u044B\u0446\u0446\u044F \u043F\u0430\u043D\u044D\u043B\u0456",
+    changeTextColor: "\u0417\u043C\u044F\u043D\u0456\u0446\u044C \u043A\u043E\u043B\u0435\u0440 \u0442\u044D\u043A\u0441\u0442\u0443",
+    cloneNearFile: "\u041A\u043B\u0430\u043D\u0456\u0440\u0430\u0432\u0430\u0446\u044C \u043F\u043E\u0431\u0430\u0447 \u0437 \u0444\u0430\u0439\u043B\u0430\u043C",
+    addStroke: "\u0414\u0430\u0434\u0430\u0446\u044C \u0430\u0431\u0432\u043E\u0434\u043A\u0443",
+    applyToHeader: "\u041F\u0440\u044B\u043C\u044F\u043D\u0456\u0446\u044C \u0434\u043B\u044F \u0448\u0430\u043F\u043A\u0456",
+    addLink: "\u0414\u0430\u0434\u0430\u0446\u044C \u0441\u043F\u0430\u0441\u044B\u043B\u043A\u0443",
+    deleteSelected: "\u0412\u044B\u0434\u0430\u043B\u0456\u0446\u044C \u0432\u044B\u0431\u0440\u0430\u043D\u044B\u044F ({n})"
   },
   uk: {
     cloneSettingsTitle: "\u041D\u0430\u043B\u0430\u0448\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u043A\u043B\u043E\u043D\u0456\u0432",
@@ -617,7 +665,7 @@ var I18N = {
     bgColor: "\u0417\u043C\u0456\u043D\u0438\u0442\u0438 \u043A\u043E\u043B\u0456\u0440 \u0444\u043E\u043D\u0443",
     duplicate: "\u0414\u0443\u0431\u043B\u044E\u0432\u0430\u0442\u0438",
     reset: "\u0421\u043A\u0438\u043D\u0443\u0442\u0438",
-    deleteClone: "\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438 \u043A\u043B\u043E\u043D",
+    deleteClone: "\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438",
     lock: "\u0417\u0430\u043A\u0440\u0456\u043F\u0438\u0442\u0438",
     unlock: "\u0420\u043E\u0437\u0431\u043B\u043E\u043A\u0443\u0432\u0430\u0442\u0438",
     localOnlyCheckboxLabel: "\u041B\u0438\u0448\u0435 \u0434\u043B\u044F \u0446\u044C\u043E\u0433\u043E \u0444\u0430\u0439\u043B\u0443",
@@ -634,7 +682,13 @@ var I18N = {
     modalAnimationLabel: "\u0410\u043D\u0456\u043C\u0430\u0446\u0456\u044F \u043C\u043E\u0434\u0430\u043B\u044C\u043D\u0438\u0445 \u0432\u0456\u043A\u043E\u043D",
     cloneRestoreDelayLabel: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u043E\u044F\u0432\u0438 \u043A\u043B\u043E\u043D\u0456\u0432",
     noteRestoreDelayLabel: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u043E\u044F\u0432\u0438 \u0431\u043B\u043E\u043A\u0456\u0432 \u043D\u043E\u0442\u0430\u0442\u043E\u043A",
-    hideDelayLabel: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u0440\u0438\u0445\u043E\u0432\u0443\u0432\u0430\u043D\u043D\u044F \u043F\u0430\u043D\u0435\u043B\u0456"
+    hideDelayLabel: "\u0417\u0430\u0442\u0440\u0438\u043C\u043A\u0430 \u043F\u0440\u0438\u0445\u043E\u0432\u0443\u0432\u0430\u043D\u043D\u044F \u043F\u0430\u043D\u0435\u043B\u0456",
+    changeTextColor: "\u0417\u043C\u0456\u043D\u0438\u0442\u0438 \u043A\u043E\u043B\u0456\u0440 \u0442\u0435\u043A\u0441\u0442\u0443",
+    cloneNearFile: "\u041A\u043B\u043E\u043D\u0443\u0432\u0430\u0442\u0438 \u043F\u043E\u0440\u0443\u0447 \u0456\u0437 \u0444\u0430\u0439\u043B\u043E\u043C",
+    addStroke: "\u0414\u043E\u0434\u0430\u0442\u0438 \u043E\u0431\u0432\u0435\u0434\u0435\u043D\u043D\u044F",
+    applyToHeader: "\u0417\u0430\u0441\u0442\u043E\u0441\u0443\u0432\u0430\u0442\u0438 \u0434\u043E \u0448\u0430\u043F\u043A\u0438",
+    addLink: "\u0414\u043E\u0434\u0430\u0442\u0438 \u043F\u043E\u0441\u0438\u043B\u0430\u043D\u043D\u044F",
+    deleteSelected: "\u0412\u0438\u0434\u0430\u043B\u0438\u0442\u0438 \u0432\u0438\u0431\u0440\u0430\u043D\u0456 ({n})"
   },
   uz: {
     cloneSettingsTitle: "Klon sozlamalari",
@@ -702,7 +756,13 @@ var I18N = {
     modalAnimationLabel: "Modal oynalar animatsiyasi",
     cloneRestoreDelayLabel: "Klonlarning paydo bo\u2018lish kechikishi",
     noteRestoreDelayLabel: "Eslatma bloklarining paydo bo\u2018lish kechikishi",
-    hideDelayLabel: "Panelni yashirish kechikishi"
+    hideDelayLabel: "Panelni yashirish kechikishi",
+    changeTextColor: "Matn rangini o'zgartirish",
+    cloneNearFile: "Fayl yoniga klon yaratish",
+    addStroke: "Chiziq qo'shish",
+    applyToHeader: "Sarlavhaga qo'llash",
+    addLink: "Havola qo\u02BBshish",
+    deleteSelected: "Tanlanganlarni o\u02BBchirish ({n})"
   },
   vi: {
     cloneSettingsTitle: "T\xF9y ch\u1EC9nh b\u1EA3n sao",
@@ -753,7 +813,7 @@ var I18N = {
     bgColor: "\u0110\u1ED5i m\xE0u n\u1EC1n",
     duplicate: "Nh\xE2n b\u1EA3n",
     reset: "\u0110\u1EB7t l\u1EA1i",
-    deleteClone: "Xo\xE1 b\u1EA3n sao",
+    deleteClone: "Xo\xE1",
     lock: "Kho\xE1",
     unlock: "M\u1EDF kho\xE1",
     localOnlyCheckboxLabel: "Ch\u1EC9 cho t\u1EC7p n\xE0y",
@@ -770,7 +830,13 @@ var I18N = {
     modalAnimationLabel: "Hi\u1EC7u \u1EE9ng cho c\u1EEDa s\u1ED5 modal",
     cloneRestoreDelayLabel: "\u0110\u1ED9 tr\u1EC5 xu\u1EA5t hi\u1EC7n c\u1EE7a b\u1EA3n sao",
     noteRestoreDelayLabel: "\u0110\u1ED9 tr\u1EC5 xu\u1EA5t hi\u1EC7n c\u1EE7a h\u1ED9p ghi ch\xFA",
-    hideDelayLabel: "\u0110\u1ED9 tr\u1EC5 \u1EA9n b\u1EA3ng \u0111i\u1EC1u khi\u1EC3n"
+    hideDelayLabel: "\u0110\u1ED9 tr\u1EC5 \u1EA9n b\u1EA3ng \u0111i\u1EC1u khi\u1EC3n",
+    changeTextColor: "\u0110\u1ED5i m\xE0u ch\u1EEF",
+    cloneNearFile: "Nh\xE2n b\u1EA3n b\xEAn c\u1EA1nh t\u1EC7p",
+    addStroke: "Th\xEAm vi\u1EC1n",
+    applyToHeader: "\xC1p d\u1EE5ng cho ti\xEAu \u0111\u1EC1",
+    addLink: "Th\xEAm li\xEAn k\u1EBFt",
+    deleteSelected: "X\xF3a m\u1EE5c \u0111\xE3 ch\u1ECDn ({n})"
   },
   "zh-CN": {
     cloneSettingsTitle: "\u514B\u9686\u81EA\u5B9A\u4E49",
@@ -821,7 +887,7 @@ var I18N = {
     bgColor: "\u66F4\u6539\u80CC\u666F\u989C\u8272",
     duplicate: "\u590D\u5236",
     reset: "\u91CD\u7F6E",
-    deleteClone: "\u5220\u9664\u514B\u9686",
+    deleteClone: "\u79FB\u8D70",
     lock: "\u9501\u5B9A",
     unlock: "\u89E3\u9501",
     localOnlyCheckboxLabel: "\u4EC5\u5BF9\u6B64\u6587\u4EF6",
@@ -838,7 +904,13 @@ var I18N = {
     modalAnimationLabel: "\u6A21\u6001\u7A97\u53E3\u52A8\u753B",
     cloneRestoreDelayLabel: "\u514B\u9686\u663E\u793A\u5EF6\u8FDF",
     noteRestoreDelayLabel: "\u4FBF\u7B3A\u6846\u663E\u793A\u5EF6\u8FDF",
-    hideDelayLabel: "\u9762\u677F\u9690\u85CF\u5EF6\u8FDF"
+    hideDelayLabel: "\u9762\u677F\u9690\u85CF\u5EF6\u8FDF",
+    changeTextColor: "\u66F4\u6539\u6587\u672C\u989C\u8272",
+    cloneNearFile: "\u5728\u6587\u4EF6\u65C1\u8FB9\u514B\u9686",
+    addStroke: "\u6DFB\u52A0\u63CF\u8FB9",
+    applyToHeader: "\u5E94\u7528\u4E8E\u6807\u9898",
+    addLink: "\u6DFB\u52A0\u94FE\u63A5",
+    deleteSelected: "\u5220\u9664\u6240\u9009 ({n})"
   },
   "zh-TW": {
     cloneSettingsTitle: "\u8907\u88FD\u9805\u81EA\u8A02",
@@ -889,7 +961,7 @@ var I18N = {
     bgColor: "\u8B8A\u66F4\u80CC\u666F\u984F\u8272",
     duplicate: "\u91CD\u88FD",
     reset: "\u91CD\u8A2D",
-    deleteClone: "\u522A\u9664\u8907\u88FD\u9805",
+    deleteClone: "\u79FB\u8D70",
     lock: "\u9396\u5B9A",
     unlock: "\u89E3\u9664\u9396\u5B9A",
     localOnlyCheckboxLabel: "\u50C5\u6B64\u6A94\u6848",
@@ -906,7 +978,13 @@ var I18N = {
     modalAnimationLabel: "\u6A21\u614B\u8996\u7A97\u52D5\u756B",
     cloneRestoreDelayLabel: "\u8907\u672C\u986F\u793A\u5EF6\u9072",
     noteRestoreDelayLabel: "\u5099\u8A3B\u65B9\u584A\u986F\u793A\u5EF6\u9072",
-    hideDelayLabel: "\u9762\u677F\u96B1\u85CF\u5EF6\u9072"
+    hideDelayLabel: "\u9762\u677F\u96B1\u85CF\u5EF6\u9072",
+    changeTextColor: "\u8B8A\u66F4\u6587\u5B57\u984F\u8272",
+    cloneNearFile: "\u5728\u6A94\u6848\u65C1\u908A\u514B\u9686",
+    addStroke: "\u65B0\u589E\u5916\u6846",
+    applyToHeader: "\u5957\u7528\u5230\u6A19\u984C",
+    addLink: "\u65B0\u589E\u9023\u7D50",
+    deleteSelected: "\u522A\u9664\u6240\u9078 ({n})"
   }
 };
 function getLocale(app) {
@@ -920,6 +998,13 @@ function t(app, key, vars) {
   if (vars) for (const k in vars) s = s.replace(new RegExp(`\\{${k}\\}`, "g"), String(vars[k]));
   return s;
 }
+function findContentSizer(root) {
+  const readingSizer = root.querySelector(".markdown-preview-view .markdown-preview-sizer");
+  if (readingSizer) return readingSizer;
+  const editorSizer = root.querySelector(".markdown-source-view .cm-sizer");
+  if (editorSizer) return editorSizer;
+  return null;
+}
 var MAX_WIDTH_PRESETS = 15;
 var MAX_LAYOUT_PRESETS = 150;
 var clamp = (n, min, max) => Math.max(min, Math.min(max, n));
@@ -932,7 +1017,9 @@ var WidthPresetModal = class extends import_obsidian.Modal {
   }
   onOpen() {
     const { contentEl } = this;
+    this.modalEl.style.width = "355px";
     contentEl.addClass("ms-bgcolor-modal-content");
+    contentEl.addClass("ms-width-preset-modal-content");
     contentEl.empty();
     contentEl.createEl("h3", { text: t(this.app, "addPresetTitle") });
     let val = "";
@@ -992,6 +1079,50 @@ var RenamePresetModal = class extends import_obsidian.Modal {
     const cancel = row.createEl("button", { text: t(this.app, "cancel") });
     const submit = () => {
       this.onSubmit(inp.value.trim() || null);
+      this.close();
+    };
+    ok.onclick = submit;
+    cancel.onclick = () => {
+      this.onSubmit(null);
+      this.close();
+    };
+    inp.onkeydown = (e) => {
+      if (e.key === "Enter") submit();
+      if (e.key === "Escape") {
+        this.onSubmit(null);
+        this.close();
+      }
+    };
+    setTimeout(() => {
+      inp.focus();
+      inp.select();
+    }, 0);
+  }
+  onClose() {
+    this.contentEl.empty();
+  }
+};
+var LinkModal = class extends import_obsidian.Modal {
+  onSubmit;
+  init;
+  constructor(app, init, onSubmit) {
+    super(app);
+    this.init = init || "";
+    this.onSubmit = onSubmit;
+  }
+  onOpen() {
+    const { contentEl } = this;
+    contentEl.empty();
+    contentEl.addClass("ms-rename-modal");
+    contentEl.createEl("h3", { text: t(this.app, "addLink") });
+    const wrap = contentEl.createDiv({ cls: "ms-rename-form" });
+    const inp = wrap.createEl("input", { type: "text", value: this.init, attr: { spellcheck: "false" } });
+    inp.placeholder = "https://...";
+    const row = contentEl.createDiv({ cls: "ms-rename-actions" });
+    const ok = row.createEl("button", { text: t(this.app, "ok") });
+    const cancel = row.createEl("button", { text: t(this.app, "cancel") });
+    const submit = () => {
+      this.onSubmit(inp.value.trim());
       this.close();
     };
     ok.onclick = submit;
@@ -1081,18 +1212,24 @@ var BgColorModal = class extends import_obsidian.Modal {
   onOk;
   t;
   isClone;
-  constructor(app, initial, onOk, t2, isClone) {
+  isNoteBox;
+  isTextColor;
+  initialStrokeState;
+  constructor(app, initial, onOk, t2, options) {
     super(app);
     this.value = initial || "#242424";
     this.onOk = onOk;
     this.t = t2;
-    this.isClone = isClone;
+    this.isClone = !!options.isClone;
+    this.isNoteBox = !!options.isNoteBox;
+    this.isTextColor = !!options.isTextColor;
+    this.initialStrokeState = !!options.initialStrokeState;
   }
   onOpen() {
     const { contentEl } = this;
     contentEl.addClass("ms-bgcolor-modal-content");
     contentEl.empty();
-    contentEl.createEl("h3", { text: this.t("bgColor") });
+    contentEl.createEl("h3", { text: this.isTextColor ? this.t("changeTextColor") : this.t("bgColor") });
     const wrap = contentEl.createDiv({ cls: "ms-bgcolor-wrap" });
     const colorInp = wrap.createEl("input", { type: "color" });
     colorInp.value = this.coerceHex(this.value);
@@ -1107,19 +1244,33 @@ var BgColorModal = class extends import_obsidian.Modal {
       if (v) colorInp.value = v;
     });
     let localOnlyCb = null;
+    let applyToHeaderCb = null;
     let removeBgCb = null;
-    if (this.isClone) {
-      const optionsContainer = contentEl.createDiv({ attr: { style: "display: flex; flex-direction: column; align-items: flex-start;" } });
-      const localRow = optionsContainer.createEl("label", { cls: "ms-row", attr: { style: "display: flex; align-items: center; cursor: pointer; margin-bottom: 8px;" } });
-      localOnlyCb = localRow.createEl("input", { type: "checkbox", attr: { style: "margin-right: 6px;" } });
-      const span = localRow.createEl("span", { text: this.t("localOnlyCheckboxLabel") });
+    let addStrokeCb = null;
+    const optionsContainer = contentEl.createDiv({ attr: { style: "display: flex; flex-direction: column; align-items: flex-start;" } });
+    const createCheckbox = (text) => {
+      const row = optionsContainer.createEl("label", { cls: "ms-row", attr: { style: "display: flex; align-items: center; cursor: pointer; margin-bottom: 8px;" } });
+      const cb = row.createEl("input", { type: "checkbox", attr: { style: "margin-right: 6px;" } });
+      const span = row.createEl("span", { text });
       span.style.position = "relative";
       span.style.bottom = "0px";
-      const removeBgRow = optionsContainer.createEl("label", { cls: "ms-row", attr: { style: "display: flex; align-items: center; cursor: pointer;" } });
-      removeBgCb = removeBgRow.createEl("input", { type: "checkbox", attr: { style: "margin-right: 6px;" } });
-      const removeSpan = removeBgRow.createEl("span", { text: this.t("removeBg") });
-      removeSpan.style.position = "relative";
-      removeSpan.style.bottom = "0px";
+      return [row, cb];
+    };
+    if (!this.isTextColor) {
+      if (this.isClone) {
+        [, localOnlyCb] = createCheckbox(this.t("localOnlyCheckboxLabel"));
+      }
+      if (this.isNoteBox) {
+        [, applyToHeaderCb] = createCheckbox(this.t("applyToHeader"));
+      }
+      if (this.isClone || this.isNoteBox) {
+        [, removeBgCb] = createCheckbox(this.t("removeBg"));
+      }
+    } else {
+      [, addStrokeCb] = createCheckbox(this.t("addStroke"));
+      if (addStrokeCb) addStrokeCb.checked = this.initialStrokeState;
+    }
+    if (optionsContainer.hasChildNodes()) {
       optionsContainer.style.marginBottom = "12px";
     }
     const actions = contentEl.createDiv({ cls: "modal-button-container" });
@@ -1128,13 +1279,19 @@ var BgColorModal = class extends import_obsidian.Modal {
     const resetBtn = actions.createEl("button", { text: this.t("reset") });
     actions.insertBefore(resetBtn, cancelBtn);
     resetBtn.addEventListener("click", () => {
-      const v = "#242424";
-      colorInp.value = v;
-      textInp.value = v;
+      const resetColor = this.isTextColor ? "#FFFFFF" : this.isNoteBox ? "#262626" : "#242424";
+      colorInp.value = resetColor;
+      textInp.value = resetColor;
     });
     okBtn.addEventListener("click", () => {
       const v = this.coerceHex(textInp.value) || "#242424";
-      this.onOk(v, localOnlyCb?.checked ?? false, removeBgCb?.checked ?? false);
+      this.onOk({
+        hex: v,
+        isLocal: localOnlyCb?.checked ?? false,
+        removeBg: removeBgCb?.checked ?? false,
+        applyToHeader: applyToHeaderCb?.checked ?? false,
+        addStroke: addStrokeCb?.checked ?? false
+      });
       this.close();
     });
     cancelBtn.addEventListener("click", () => this.close());
@@ -1212,14 +1369,6 @@ var CloneSettingsModal = class extends import_obsidian.Modal {
       this.initial.hideDelay = seconds;
       hideDelayLabel.textContent = `${seconds.toFixed(1)}s`;
     });
-    const handlesRow = form.createDiv({ cls: "setting-item" });
-    handlesRow.createEl("div", { text: t(this.app, "showAudioHandles"), cls: "setting-item-name" });
-    const handlesControls = handlesRow.createDiv({ cls: "setting-item-control" });
-    const handlesCheckbox = handlesControls.createEl("input", { type: "checkbox" });
-    handlesCheckbox.checked = this.initial.showAudioHandles;
-    handlesCheckbox.addEventListener("change", () => {
-      this.initial.showAudioHandles = handlesCheckbox.checked;
-    });
     const buttons = contentEl.createDiv({ cls: "modal-button-container" });
     const okBtn = buttons.createEl("button", { text: t(this.app, "ok"), cls: "mod-cta" });
     const resetBtn = buttons.createEl("button", { text: t(this.app, "reset") });
@@ -1241,7 +1390,6 @@ var CloneSettingsModal = class extends import_obsidian.Modal {
       controlsOpacityLabel.textContent = "35%";
       hideDelaySlider.value = "20";
       hideDelayLabel.textContent = "2.0s";
-      handlesCheckbox.checked = true;
     });
   }
   onClose() {
@@ -1275,6 +1423,11 @@ var MediaLayoutSettingsModal = class extends import_obsidian.Modal {
     const modalAnimationControls = modalAnimationRow.createDiv({ cls: "setting-item-control" });
     const modalAnimationCheckbox = modalAnimationControls.createEl("input", { type: "checkbox" });
     modalAnimationCheckbox.checked = this.plugin.enableModalAnimation;
+    const cloneNearFileRow = form.createDiv({ cls: "setting-item" });
+    cloneNearFileRow.createEl("div", { text: t(this.app, "cloneNearFile"), cls: "setting-item-name" });
+    const cloneNearFileControls = cloneNearFileRow.createDiv({ cls: "setting-item-control" });
+    const cloneNearFileCheckbox = cloneNearFileControls.createEl("input", { type: "checkbox" });
+    cloneNearFileCheckbox.checked = this.plugin.cloneNearFile;
     const cloneRestoreDelayRow = form.createDiv({ cls: "setting-item" });
     cloneRestoreDelayRow.createEl("div", { text: t(this.app, "cloneRestoreDelayLabel"), cls: "setting-item-name" });
     const cloneRestoreDelayControls = cloneRestoreDelayRow.createDiv({ cls: "setting-item-control" });
@@ -1306,6 +1459,7 @@ var MediaLayoutSettingsModal = class extends import_obsidian.Modal {
       this.plugin.hideDetachButton = hideDetachCheckbox.checked;
       this.plugin.enableModalAnimation = modalAnimationCheckbox.checked;
       this.plugin.cloneRestoreDelay = Number(cloneRestoreDelaySlider.value);
+      this.plugin.cloneNearFile = cloneNearFileCheckbox.checked;
       this.plugin.noteRestoreDelay = Number(noteRestoreDelaySlider.value);
       await this.plugin.persistAll();
       this.plugin.applyAllHandleStyles();
@@ -1318,12 +1472,14 @@ var MediaLayoutSettingsModal = class extends import_obsidian.Modal {
     resetBtn.addEventListener("click", async () => {
       handlesOnHoverCheckbox.checked = true;
       hideDetachCheckbox.checked = true;
+      cloneNearFileCheckbox.checked = true;
       modalAnimationCheckbox.checked = true;
       cloneRestoreDelaySlider.value = "300";
       cloneRestoreDelayLabel.textContent = "0.3s";
       noteRestoreDelaySlider.value = "200";
       noteRestoreDelayLabel.textContent = "0.2s";
       this.plugin.showHandlesOnHover = true;
+      this.plugin.cloneNearFile = true;
       this.plugin.cloneShowAudioHandles = true;
       this.plugin.hideDetachButton = true;
       this.plugin.enableModalAnimation = true;
@@ -1360,10 +1516,35 @@ var MediaSize = class extends import_obsidian.Plugin {
   enableModalAnimation = true;
   hideDetachButton = true;
   showHandlesOnHover = true;
+  cloneNearFile = true;
   cloneShowAudioHandles = true;
   // Текущая открытая заметка и пул таймеров для жёсткой отмены отложенных операций
   currentNotePath = null;
   pendingTimers = /* @__PURE__ */ new Set();
+  // ИСПРАВЛЕНИЕ race condition: ID таймера для отложенного применения пресета
+  presetTimerId = null;
+  // КРИТИЧНО: Флаг и очередь для защиты от одновременных вызовов persistAll
+  persistInProgress = false;
+  persistQueue = null;
+  // --- НОВОЕ: Управление выделением ---
+  selectedKeys = /* @__PURE__ */ new Set();
+  isMarqueeSelecting = false;
+  marqueeStart = null;
+  // ИСПРАВЛЕНО: Переменные для скролла вынесены в свойства класса, чтобы быть доступными везде
+  scrollRatioX = 0;
+  scrollRatioY = 0;
+  hScrollEl = null;
+  vScrollEl = null;
+  wasLockedBeforeFs = false;
+  // === СИСТЕМА ЛОГИРОВАНИЯ ===
+  debugLog = [];
+  maxDebugLines = 2e3;
+  enableDebugMode = false;
+  logFilePath = "";
+  autoSaveLogTimer = null;
+  // === СИСТЕМА БЭКАПОВ ===
+  backupTimer = null;
+  lastBackupHash = "";
   // ====== Новое: стабильные якоря для оригиналов ======
   /** Стабильный якорь оригинала, чтобы переживать рестарты (src + порядковый индекс + подпись) */
   computeOriginalAnchor(host) {
@@ -1407,13 +1588,13 @@ var MediaSize = class extends import_obsidian.Plugin {
   }
   // Единый абсолютный слой поверх редактора для всех плавающих хостов
   ensureFloatLayer(root) {
-    let layer = root.querySelector(":scope > .ms-float-layer");
+    let sizer = findContentSizer(root.closest(".markdown-source-view, .markdown-reading-view"));
+    if (!sizer) sizer = root;
+    let layer = sizer.querySelector(":scope > .ms-float-layer");
     if (!layer) {
       layer = document.createElement("div");
       layer.className = "ms-float-layer";
-      const cs = getComputedStyle(root);
-      if (cs.position === "static") root.style.position = "relative";
-      root.appendChild(layer);
+      sizer.appendChild(layer);
     }
     const path = this.getActiveNote()?.path ?? "";
     if (path) {
@@ -1467,6 +1648,7 @@ var MediaSize = class extends import_obsidian.Plugin {
       this.enableModalAnimation = persisted.enableModalAnimation ?? true;
       this.hideDetachButton = persisted.hideDetachButton ?? true;
       this.cloneShowAudioHandles = persisted.cloneShowAudioHandles ?? true;
+      this.cloneNearFile = persisted.cloneNearFile ?? true;
     } else {
       this.notes = {};
       this.presets = {};
@@ -1479,6 +1661,11 @@ var MediaSize = class extends import_obsidian.Plugin {
     const ctxHandler = (e) => this.lastCtxEvt = e;
     document.addEventListener("contextmenu", ctxHandler, true);
     this.register(() => document.removeEventListener("contextmenu", ctxHandler, true));
+    this.registerDomEvent(document, "mousedown", (e) => {
+      if (e.ctrlKey || e.metaKey) this.handleMarqueeStart(e);
+    }, { capture: true });
+    document.addEventListener("mousedown", this.handleDeselectClick, true);
+    this.register(() => document.removeEventListener("mousedown", this.handleDeselectClick, true));
     this.registerMarkdownPostProcessor((el, ctx) => {
       const notePath = ctx?.sourcePath || this.getActiveNote()?.path || "";
       this.processRoot(el, notePath);
@@ -1493,22 +1680,37 @@ var MediaSize = class extends import_obsidian.Plugin {
         if (view) this.app.workspace.trigger("markdown-render", view.contentEl);
       }, 500);
     });
-    this.registerEvent(this.app.workspace.on("file-open", async (file) => {
-      await this.hardCleanupForSwitch(this.currentNotePath || void 0);
-      this.currentNotePath = file?.path ?? null;
+    let switchDebounceTimer = null;
+    const scheduleSwitch = (file) => {
+      if (switchDebounceTimer) clearTimeout(switchDebounceTimer);
+      switchDebounceTimer = window.setTimeout(() => handleFileSwitch(file), 0);
+    };
+    const handleFileSwitch = async (file) => {
+      this.cancelScheduled?.();
+      await this.hardCleanupForSwitch(this.currentNotePath ?? this.getActiveNote()?.path ?? void 0);
+      this.currentNotePath = file?.path ?? this.getActiveNote()?.path ?? null;
       this.scanActive();
-      const p = this.getActiveNote()?.path;
-      if (p) this.restoreClonesFromStore(p);
+    };
+    this.registerEvent(this.app.workspace.on("file-open", (file) => scheduleSwitch(file)));
+    this.registerEvent(this.app.workspace.on("active-leaf-change", () => {
+      scheduleSwitch(this.app.workspace.getActiveFile());
+      this.schedule(() => {
+        const notePath = this.getActiveNote()?.path;
+        if (notePath) this.realignClonesIfNeeded(notePath);
+      }, 100);
     }));
-    this.registerEvent(this.app.workspace.on("layout-change", async () => {
+    this.app.workspace.onLayoutReady(() => scheduleSwitch(this.app.workspace.getActiveFile()));
+    this.registerEvent(this.app.workspace.on("layout-change", () => {
       this.scanActive();
-    }));
-    this.registerEvent(this.app.workspace.on("active-leaf-change", async () => {
-      await this.hardCleanupForSwitch(this.currentNotePath || void 0);
-      this.currentNotePath = this.getActiveNote()?.path ?? null;
-      this.scanActive();
-      const p = this.getActiveNote()?.path;
-      if (p) this.restoreClonesFromStore(p);
+      this.schedule(() => {
+        const leaves = this.app.workspace.getLeavesOfType("markdown");
+        leaves.forEach((leaf) => {
+          const file = leaf.view?.file;
+          if (file?.path) {
+            this.realignClonesIfNeeded(file.path);
+          }
+        });
+      }, 150);
     }));
     this.registerEvent(
       this.app.workspace.on("editor-menu", (menu, _editor, view) => {
@@ -1516,6 +1718,9 @@ var MediaSize = class extends import_obsidian.Plugin {
         if (!ev) return;
         const target = ev.target;
         if (!target) return;
+        if (this.isMarqueeSelecting || ev.ctrlKey && target.closest(".ms-host")) {
+          return;
+        }
         menu.addItem((i) => {
           i.setTitle(t(this.app, "addNote")).setIcon("layout-template");
           i.onClick(async () => {
@@ -1523,11 +1728,13 @@ var MediaSize = class extends import_obsidian.Plugin {
             if (!viewRoot) return;
             const notePath2 = view?.file?.path ?? this.getActiveNote()?.path ?? "";
             const key2 = this.makeNoteKey();
-            const r = viewRoot.getBoundingClientRect();
-            const x = ev.clientX - r.left | 0;
-            const y = ev.clientY - r.top | 0;
-            this.createNoteHost(viewRoot, key2, x, y, { w: 260, h: 160, txt: "", fontSize: 16 });
-            await this.saveState(notePath2, key2, { w: 260, h: 160, x, y, txt: "", fontSize: 16 });
+            const defaultWidth = 260;
+            const defaultHeight = 160;
+            const vr = viewRoot.getBoundingClientRect();
+            const x = ev.clientX - vr.left + viewRoot.scrollLeft - defaultWidth * 2 | 0;
+            const y = ev.clientY - vr.top + viewRoot.scrollTop - defaultHeight * 1.5 | 0;
+            this.createNoteHost(viewRoot, key2, x, y, { w: defaultWidth, h: defaultHeight, txt: "", fontSize: 16, focus: true });
+            await this.saveState(notePath2, key2, { w: defaultWidth, h: defaultHeight, x, y, txt: "", fontSize: 16 });
           });
         });
         const host = target.closest(".ms-host") || target.closest(".internal-embed, .media-embed, .mx-media-embed, img, video, audio");
@@ -1540,6 +1747,25 @@ var MediaSize = class extends import_obsidian.Plugin {
         const notePath = view?.file?.path ?? this.getActiveNote()?.path ?? "";
         const key = isNote ? host.dataset.msKey ?? this.makeNoteKey() : host.dataset.msKey ?? this.makeEmbedKey(this.getSrcAndBase(host, media).src);
         host.dataset.msKey = key;
+        const isTargetSelected = this.selectedKeys.has(key);
+        if (isTargetSelected && this.selectedKeys.size > 1) {
+          this.buildGroupContextMenu(menu, host, key, kind, notePath);
+          return;
+        }
+        if (isClone && kind === "image") {
+          menu.addItem(
+            (i) => i.setTitle(t(this.app, "addLink")).setIcon("link").onClick(async () => {
+              const currentState = this.notes[notePath]?.clones?.[key];
+              const initialLink = currentState?.link || "";
+              new LinkModal(this.app, initialLink, async (link) => {
+                if (link !== null) {
+                  await this.saveState(notePath, key, { link });
+                  this.applyLinkOverlay(host, link);
+                }
+              }).open();
+            })
+          );
+        }
         if (isClone) {
           if (kind !== "note") {
             this.addSizePresetsMenu(menu, notePath, key, host, media, kind);
@@ -1558,6 +1784,20 @@ var MediaSize = class extends import_obsidian.Plugin {
                     if (w && h) await this.applyAndSaveSize(notePath, key, host, media, kind, { w, h }, keep ? false : true);
                   }
                 ).open();
+              })
+            );
+          }
+          if (kind === "image") {
+            menu.addItem(
+              (i) => i.setTitle(t(this.app, "addLink")).setIcon("link").onClick(async () => {
+                const currentState = this.notes[notePath]?.clones?.[key];
+                const initialLink = currentState?.link || "";
+                new LinkModal(this.app, initialLink, async (link) => {
+                  if (link !== null) {
+                    await this.saveState(notePath, key, { link });
+                    this.applyLinkOverlay(host, link);
+                  }
+                }).open();
               })
             );
           }
@@ -1588,7 +1828,7 @@ var MediaSize = class extends import_obsidian.Plugin {
               i.onClick(() => {
                 const tr = (k) => t(this.app, k);
                 const initialColor = this.notes[notePath]?.clones?.[key]?.bgColor || this.meBgColor;
-                new BgColorModal(this.app, initialColor, async (hex, isLocal, removeBg) => {
+                new BgColorModal(this.app, initialColor, async ({ hex, isLocal, removeBg }) => {
                   if (removeBg) {
                     host.querySelector(".ms-media-bg")?.remove();
                     host.querySelector(".ms-local-bg")?.remove();
@@ -1602,7 +1842,7 @@ var MediaSize = class extends import_obsidian.Plugin {
                     host.querySelector(".ms-local-bg")?.remove();
                     await this.saveState(notePath, key, { bgColor: void 0 });
                   }
-                }, tr, isClone).open();
+                }, tr, { isClone: true }).open();
               });
             });
           }
@@ -1685,11 +1925,6 @@ var MediaSize = class extends import_obsidian.Plugin {
           );
         }
         menu.addItem(
-          (i) => i.setTitle(t(this.app, "restorePos")).setIcon("home").onClick(async () => {
-            await this.applyAndSaveSize(notePath, key, host, media, kind, { x: 0, y: 0, w: void 0, h: void 0, reset: true });
-          })
-        );
-        menu.addItem(
           (i) => i.setTitle(t(this.app, "openLocation")).setIcon("folder-open").onClick(async () => {
             const notePath2 = view?.file?.path ?? this.getActiveNote()?.path ?? "";
             const { src } = this.getSrcAndBase(host, media);
@@ -1725,17 +1960,32 @@ var MediaSize = class extends import_obsidian.Plugin {
             });
           });
         }
+        if (isDetached) {
+          menu.addItem(
+            (i) => i.setTitle(t(this.app, "restorePos")).setIcon("home").onClick(async () => {
+              await this.applyAndSaveSize(notePath, key, host, media, kind, { x: 0, y: 0, w: void 0, h: void 0, reset: true });
+            })
+          );
+        }
         if (kind !== "note") {
           menu.addItem((item) => {
             item.setTitle(t(this.app, "duplicate")).setIcon("copy");
             item.onClick(async () => {
-              const viewRoot = this.getAttachRoot();
+              const viewRoot = this.getHostRoot(host);
               if (!viewRoot) return;
               const cloneHost = this.createCleanCloneElement(host);
               const cloneKey = `${key}::clone::${this.makeNoteKey()}`;
-              const r = viewRoot.getBoundingClientRect();
-              const x = ev.clientX - r.left | 0;
-              const y = ev.clientY - r.top | 0;
+              const defaultWidth = 480;
+              const defaultHeight = 270;
+              const vr = viewRoot.getBoundingClientRect();
+              let x, y;
+              if (this.cloneNearFile) {
+                x = ev.clientX - vr.left - defaultWidth + viewRoot.scrollLeft | 0;
+                y = ev.clientY - vr.top - defaultHeight + viewRoot.scrollTop | 0;
+              } else {
+                x = ev.clientX - vr.left - defaultWidth | 0;
+                y = ev.clientY - vr.top - defaultHeight | 0;
+              }
               this.createCloneHost(viewRoot, cloneHost, cloneKey, key, x, y, true);
               this.schedule(() => {
                 this.applyCloneSettingsToAll();
@@ -1748,7 +1998,7 @@ var MediaSize = class extends import_obsidian.Plugin {
             i.setTitle(t(this.app, "bgColor")).setIcon("palette");
             i.onClick(() => {
               const tr = (k) => t(this.app, k);
-              new BgColorModal(this.app, this.meBgColor, (hex, isLocal, removeBg) => this.setMediaBgColor(hex, isLocal, host, notePath, key), tr, isClone).open();
+              new BgColorModal(this.app, this.meBgColor, ({ hex, isLocal }) => this.setMediaBgColor(hex, isLocal, host, notePath, key), tr, { isClone }).open();
             });
           });
         }
@@ -1821,18 +2071,423 @@ var MediaSize = class extends import_obsidian.Plugin {
         new MediaLayoutSettingsModal(this.app, this).open();
       }
     });
+    this.addCommand({
+      id: "ms-export-logs",
+      name: "\u{1F4CB} Export debug logs to note",
+      callback: async () => {
+        await this.exportLogsToNote();
+      }
+    });
+    this.addCommand({
+      id: "ms-save-logs",
+      name: "\u{1F4BE} Save debug logs to file",
+      callback: async () => {
+        const path = await this.saveDebugLog();
+        new import_obsidian.Notice(`\u{1F4BE} Logs saved to: ${path}`);
+      }
+    });
+    this.addCommand({
+      id: "ms-clear-logs",
+      name: "\u{1F5D1}\uFE0F Clear debug logs",
+      callback: () => {
+        this.clearDebugLog();
+      }
+    });
+    this.addCommand({
+      id: "ms-toggle-debug",
+      name: "\u{1F50D} Toggle debug mode",
+      callback: () => {
+        this.enableDebugMode = !this.enableDebugMode;
+        new import_obsidian.Notice(`\u{1F50D} Debug mode: ${this.enableDebugMode ? "ON" : "OFF"}`);
+        this.info("Debug mode toggled", { enabled: this.enableDebugMode });
+        if (this.enableDebugMode) {
+          this.autoSaveLogTimer = window.setInterval(() => {
+            this.saveDebugLog();
+          }, 3e4);
+        } else if (this.autoSaveLogTimer) {
+          clearInterval(this.autoSaveLogTimer);
+          this.autoSaveLogTimer = null;
+        }
+      }
+    });
+    this.addCommand({
+      id: "ms-create-backup",
+      name: "\u{1F4BE} Create backup now",
+      callback: async () => {
+        await this.createBackup();
+        new import_obsidian.Notice("\u2705 Backup created successfully");
+      }
+    });
+    this.addCommand({
+      id: "ms-restore-backup",
+      name: "\u267B\uFE0F Restore from backup",
+      callback: async () => {
+        const backups = await this.listBackups();
+        if (backups.length === 0) {
+          new import_obsidian.Notice("\u26A0\uFE0F No backups found");
+          return;
+        }
+        const menu = new import_obsidian.Menu();
+        backups.forEach((backup) => {
+          const dateStr = backup.date.toLocaleString();
+          menu.addItem((item) => {
+            item.setTitle(`${dateStr}`).setIcon("clock").onClick(async () => {
+              const confirmed = await new Promise((resolve) => {
+                const modal = new import_obsidian.Modal(this.app);
+                modal.titleEl.setText("Restore from backup?");
+                modal.contentEl.createEl("p", {
+                  text: `This will restore data from: ${dateStr}
+Current data will be overwritten.`
+                });
+                const btnContainer = modal.contentEl.createDiv({ cls: "modal-button-container" });
+                const btnRestore = btnContainer.createEl("button", { text: "Restore" });
+                const btnCancel = btnContainer.createEl("button", { text: "Cancel" });
+                btnRestore.addEventListener("click", () => {
+                  modal.close();
+                  resolve(true);
+                });
+                btnCancel.addEventListener("click", () => {
+                  modal.close();
+                  resolve(false);
+                });
+                modal.open();
+              });
+              if (confirmed) {
+                await this.restoreFromBackup(backup.path);
+              }
+            });
+          });
+        });
+        menu.showAtMouseEvent(window.event);
+      }
+    });
+    this.addCommand({
+      id: "ms-list-backups",
+      name: "\u{1F4CB} List all backups",
+      callback: async () => {
+        const backups = await this.listBackups();
+        if (backups.length === 0) {
+          new import_obsidian.Notice("\u26A0\uFE0F No backups found");
+          return;
+        }
+        let message = `Found ${backups.length} backup(s):
+
+`;
+        backups.forEach((backup, index) => {
+          message += `${index + 1}. ${backup.date.toLocaleString()}
+`;
+        });
+        new import_obsidian.Notice(message, 1e4);
+        console.log("[Media Layout] Available backups:", backups);
+      }
+    });
     const sb = this.addStatusBarItem();
     sb.setText(t(this.app, "sbReady"));
     sb.setAttr("title", t(this.app, "sbTitle"));
     sb.addEventListener("click", () => this.scanActive());
+    this.backupTimer = window.setInterval(() => {
+      this.createBackup();
+    }, 10 * 60 * 1e3);
+    this.schedule(() => this.createBackup(), 1e4);
   }
-  onunload() {
-    this.persistAll();
+  async onunload() {
+    if (this.enableDebugMode && this.debugLog.length > 0) {
+      await this.saveDebugLog();
+    }
+    if (this.autoSaveLogTimer) {
+      clearInterval(this.autoSaveLogTimer);
+    }
+    if (this.backupTimer) {
+      clearInterval(this.backupTimer);
+      this.backupTimer = null;
+    }
+    await this.persistAll();
     this.observers.forEach((o) => o.disconnect());
     this.observers.length = 0;
     document.getElementById(this.STYLE_ID)?.remove();
     document.getElementById("ms-global-handle-style")?.remove();
     document.getElementById("ms-modal-animation-style")?.remove();
+  }
+  // === МЕТОДЫ ЛОГИРОВАНИЯ ===
+  log(level, message, data) {
+    const timestamp = (/* @__PURE__ */ new Date()).toISOString();
+    const entry = {
+      timestamp,
+      level,
+      message,
+      data
+    };
+    this.debugLog.push(entry);
+    if (this.debugLog.length > this.maxDebugLines) {
+      this.debugLog.shift();
+    }
+    if (this.enableDebugMode || level === "WARN" || level === "ERROR") {
+      const dataStr = data ? ` ${JSON.stringify(data)}` : "";
+      const fullMessage = `[Media Layout] [${level}] ${message}${dataStr}`;
+      switch (level) {
+        case "ERROR":
+          console.error(fullMessage);
+          break;
+        case "WARN":
+          console.warn(fullMessage);
+          break;
+        default:
+          console.log(fullMessage);
+      }
+    }
+  }
+  debug(message, data) {
+    this.log("DEBUG", message, data);
+  }
+  info(message, data) {
+    this.log("INFO", message, data);
+  }
+  warn(message, data) {
+    this.log("WARN", message, data);
+  }
+  error(message, data) {
+    this.log("ERROR", message, data);
+  }
+  // Сохранение логов в файл
+  async saveDebugLog() {
+    try {
+      const logPath = (0, import_obsidian.normalizePath)(`${this.manifest.dir}/debug.log`);
+      const logContent = this.debugLog.map((entry) => {
+        const dataStr = entry.data ? ` | Data: ${JSON.stringify(entry.data)}` : "";
+        return `${entry.timestamp} [${entry.level}] ${entry.message}${dataStr}`;
+      }).join("\n");
+      await this.app.vault.adapter.write(logPath, logContent);
+      this.logFilePath = logPath;
+      console.log("[Media Layout] Debug log saved:", logPath, `(${this.debugLog.length} entries)`);
+      return logPath;
+    } catch (err) {
+      console.error("[Media Layout] Failed to save debug log:", err);
+      throw err;
+    }
+  }
+  // Экспорт логов в заметку
+  async exportLogsToNote() {
+    try {
+      const timestamp = (/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-").slice(0, -5);
+      const noteName = `Media Layout Debug ${timestamp}.md`;
+      let content = `# Media Layout Debug Log
+
+`;
+      content += `Generated: ${(/* @__PURE__ */ new Date()).toLocaleString()}
+`;
+      content += `Total entries: ${this.debugLog.length}
+`;
+      content += `Debug mode: ${this.enableDebugMode ? "ON" : "OFF"}
+
+`;
+      content += `---
+
+`;
+      const byLevel = {
+        ERROR: this.debugLog.filter((e) => e.level === "ERROR"),
+        WARN: this.debugLog.filter((e) => e.level === "WARN"),
+        INFO: this.debugLog.filter((e) => e.level === "INFO"),
+        DEBUG: this.debugLog.filter((e) => e.level === "DEBUG")
+      };
+      content += `## Summary
+
+`;
+      content += `- Errors: ${byLevel.ERROR.length}
+`;
+      content += `- Warnings: ${byLevel.WARN.length}
+`;
+      content += `- Info: ${byLevel.INFO.length}
+`;
+      content += `- Debug: ${byLevel.DEBUG.length}
+
+`;
+      if (byLevel.ERROR.length > 0) {
+        content += `## Recent Errors
+
+`;
+        byLevel.ERROR.slice(-10).forEach((entry) => {
+          content += `### ${entry.timestamp}
+`;
+          content += `**${entry.message}**
+`;
+          if (entry.data) {
+            content += `\`\`\`json
+${JSON.stringify(entry.data, null, 2)}
+\`\`\`
+`;
+          }
+          content += `
+`;
+        });
+      }
+      content += `## Full Log
+
+`;
+      content += `\`\`\`
+`;
+      this.debugLog.forEach((entry) => {
+        const dataStr = entry.data ? ` | ${JSON.stringify(entry.data)}` : "";
+        content += `${entry.timestamp} [${entry.level}] ${entry.message}${dataStr}
+`;
+      });
+      content += `\`\`\`
+`;
+      await this.app.vault.create(noteName, content);
+      new import_obsidian.Notice(`\u2705 Logs exported to: ${noteName}`);
+      const file = this.app.vault.getAbstractFileByPath(noteName);
+      if (file instanceof import_obsidian.TFile) {
+        await this.app.workspace.getLeaf(false).openFile(file);
+      }
+    } catch (err) {
+      this.error("Failed to export logs to note", { error: String(err) });
+      new import_obsidian.Notice("\u274C Failed to export logs");
+    }
+  }
+  // Очистка логов
+  clearDebugLog() {
+    this.debugLog = [];
+    this.info("Debug log cleared");
+    new import_obsidian.Notice("\u{1F5D1}\uFE0F Debug log cleared");
+  }
+  // === СИСТЕМА БЭКАПОВ ===
+  // Простой хеш для определения изменений
+  simpleHash(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash = hash & hash;
+    }
+    return hash.toString();
+  }
+  // Создание бэкапа
+  async createBackup() {
+    try {
+      const pluginDir = this.manifest.dir;
+      if (!pluginDir) {
+        console.warn("[Media Layout] Plugin dir is undefined, cannot create backup");
+        return;
+      }
+      const data = {
+        notes: this.notes ?? {},
+        presets: this.presets ?? {},
+        meBgColor: this.meBgColor ?? "#242424",
+        userPresets: this.userPresets ?? [],
+        layoutPresets: this.layoutPresets ?? {},
+        layoutNames: this.layoutNames ?? {},
+        cloneAnimation: this.cloneAnimation,
+        cloneBgOpacity: this.cloneBgOpacity,
+        cloneControlsOpacity: this.cloneControlsOpacity,
+        cloneHideDelay: this.cloneHideDelay,
+        noteRestoreDelay: this.noteRestoreDelay,
+        cloneRestoreDelay: this.cloneRestoreDelay,
+        cloneShowAudioHandles: this.cloneShowAudioHandles,
+        enableModalAnimation: this.enableModalAnimation,
+        hideDetachButton: this.hideDetachButton,
+        cloneNearFile: this.cloneNearFile,
+        showHandlesOnHover: this.showHandlesOnHover,
+        backupTimestamp: (/* @__PURE__ */ new Date()).toISOString()
+      };
+      const dataStr = JSON.stringify(data);
+      const currentHash = this.simpleHash(dataStr);
+      if (currentHash === this.lastBackupHash) {
+        console.log("[Media Layout] Data unchanged, skipping backup");
+        return;
+      }
+      this.lastBackupHash = currentHash;
+      const now = /* @__PURE__ */ new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const hour = String(now.getHours()).padStart(2, "0");
+      const minute = String(now.getMinutes()).padStart(2, "0");
+      const backupFileName = `${day}_${month}_${year}_${hour}\uA789${minute}_data_backup.json`;
+      const backupPath = (0, import_obsidian.normalizePath)(`${pluginDir}/${backupFileName}`);
+      await this.app.vault.adapter.write(backupPath, JSON.stringify(data, null, 2));
+      await this.cleanupOldBackups();
+      this.log("INFO", "Backup created successfully", { fileName: backupFileName });
+      console.log(`[Media Layout] Backup created: ${backupFileName}`);
+    } catch (e) {
+      console.error("[Media Layout] Failed to create backup:", e);
+      this.error("Failed to create backup", { error: String(e) });
+    }
+  }
+  // Очистка старых бэкапов (оставляем только 4 последних)
+  async cleanupOldBackups() {
+    try {
+      const pluginDir = this.manifest.dir;
+      if (!pluginDir) return;
+      const files = await this.app.vault.adapter.list(pluginDir);
+      const backupFiles = files.files.filter((f) => f.endsWith("_data_backup.json")).map((f) => ({
+        path: f,
+        name: f.split("/").pop() || f
+      })).sort((a, b) => b.name.localeCompare(a.name));
+      if (backupFiles.length > 4) {
+        const toDelete = backupFiles.slice(4);
+        for (const file of toDelete) {
+          await this.app.vault.adapter.remove(file.path);
+          this.log("INFO", "Old backup removed", { fileName: file.name });
+          console.log(`[Media Layout] Old backup removed: ${file.name}`);
+        }
+      }
+    } catch (e) {
+      console.error("[Media Layout] Failed to cleanup old backups:", e);
+      this.error("Failed to cleanup old backups", { error: String(e) });
+    }
+  }
+  // Список доступных бэкапов
+  async listBackups() {
+    try {
+      const pluginDir = this.manifest.dir;
+      if (!pluginDir) return [];
+      const files = await this.app.vault.adapter.list(pluginDir);
+      const backupFiles = files.files.filter((f) => f.endsWith("_data_backup.json")).map((f) => {
+        const name = f.split("/").pop() || f;
+        const match = name.match(/^(\d{2})_(\d{2})_(\d{4})_(\d{2})꞉(\d{2})_data_backup\.json$/);
+        let date = /* @__PURE__ */ new Date();
+        if (match) {
+          const [, day, month, year, hour, minute] = match;
+          date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), parseInt(hour), parseInt(minute));
+        }
+        return { path: f, name, date };
+      }).sort((a, b) => b.date.getTime() - a.date.getTime());
+      return backupFiles;
+    } catch (e) {
+      console.error("[Media Layout] Failed to list backups:", e);
+      return [];
+    }
+  }
+  // Восстановление из бэкапа
+  async restoreFromBackup(backupPath) {
+    try {
+      const content = await this.app.vault.adapter.read(backupPath);
+      const data = JSON.parse(content);
+      this.notes = data.notes || {};
+      this.presets = data.presets || {};
+      this.userPresets = data.userPresets || [];
+      this.layoutPresets = data.layoutPresets || {};
+      this.layoutNames = data.layoutNames || {};
+      this.meBgColor = data.meBgColor || "#242424";
+      this.showHandlesOnHover = data.showHandlesOnHover ?? true;
+      this.hideDetachButton = data.hideDetachButton ?? true;
+      this.cloneNearFile = data.cloneNearFile ?? true;
+      this.cloneAnimation = data.cloneAnimation || "popup";
+      this.cloneBgOpacity = data.cloneBgOpacity ?? 1;
+      this.cloneControlsOpacity = data.cloneControlsOpacity ?? 0.35;
+      this.cloneHideDelay = data.cloneHideDelay ?? 2;
+      this.cloneShowAudioHandles = data.cloneShowAudioHandles ?? true;
+      this.cloneRestoreDelay = data.cloneRestoreDelay ?? 300;
+      this.noteRestoreDelay = data.noteRestoreDelay ?? 200;
+      this.enableModalAnimation = data.enableModalAnimation ?? true;
+      await this.persistAll();
+      const fileName = backupPath.split("/").pop() || backupPath;
+      new import_obsidian.Notice(`\u2714\uFE0F Data restored from: ${fileName}`);
+      this.log("INFO", "Backup restored successfully", { fileName });
+      this.scanActive();
+    } catch (e) {
+      console.error("[Media Layout] Failed to restore from backup:", e);
+      this.error("Failed to restore from backup", { error: String(e) });
+      new import_obsidian.Notice("\u274C Failed to restore from backup");
+    }
   }
   /* ========= scanning ========= */
   scanActive() {
@@ -1854,11 +2509,6 @@ var MediaSize = class extends import_obsidian.Plugin {
     });
     mo.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ["class", "src"] });
     this.observers.push(mo);
-    const attachRoot = this.getAttachRoot();
-    if (attachRoot) {
-      const layer = attachRoot.querySelector(":scope > .ms-float-layer");
-      layer?.querySelectorAll(".ms-note-host").forEach((el) => el.remove());
-    }
     this.restoreClonesFromStore(notePath);
     this.ensureNotesFromStore(notePath);
     const view = this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView);
@@ -1992,17 +2642,19 @@ var MediaSize = class extends import_obsidian.Plugin {
         }
         const cloneHost = this.createCleanCloneElement(originalHost);
         const cloneState = this.notes[notePath]?.clones?.[key];
-        const fileName = cloneState?.fileName;
-        this.createCloneHost(
-          root,
-          cloneHost,
-          key,
-          parentKey,
-          st.x ?? 0,
-          st.y ?? 0,
-          true,
-          fileName
-        );
+        const fileNameFromStore = cloneState?.fileName;
+        const fileNameFromPreset = st?.fileName;
+        let fileName = fileNameFromStore ?? fileNameFromPreset;
+        if (!fileName && parentKey) {
+          const originalHost2 = this.findHostByKey(parentKey);
+          const mediaEl = originalHost2?.querySelector("video, audio, img");
+          if (originalHost2 && mediaEl) {
+            const { base } = this.getSrcAndBase(originalHost2, mediaEl);
+            fileName = base || void 0;
+          }
+        }
+        this.createCloneHost(root, cloneHost, key, parentKey, st.x ?? 0, st.y ?? 0, true, fileName);
+        await this.saveState(notePath, key, st, false);
       }
     }
     const hosts = this.enumerateHostsInNote(notePath);
@@ -2022,20 +2674,27 @@ var MediaSize = class extends import_obsidian.Plugin {
         locked: st0.locked ?? host.dataset.msLocked === "1",
         x: st0.x ?? 0,
         y: st0.y ?? 0,
+        // Явно передаём цвета и прозрачность из пресета
+        bgColor: st0.bgColor,
+        headerColor: st0.headerColor,
+        transparent: st0.transparent,
+        // Для табличек также передаём текст и размер шрифта
+        txt: st0.txt,
+        fontSize: st0.fontSize,
+        textStrokeColor: st0.textStrokeColor,
+        textStroke: st0.textStroke,
+        textColor: st0.textColor,
         free: st0.free ?? prev.free ?? false,
         volume: st0.volume
         // <--- ИСПРАВЛЕНО: Передаём громкость из пресета
       };
       if (!key.includes("::clone::") && kind !== "note") continue;
       if (kind === "note") {
-        const body = host.querySelector(".ms-note-body");
-        if (body) {
-          if (st.txt !== void 0) body.textContent = st.txt;
-          if (st.fontSize !== void 0) body.style.fontSize = `${st.fontSize}px`;
-        }
+        host.classList.remove("ms-note-transparent");
+        if (st.bgColor || st.headerColor) st.transparent = false;
       }
-      const w = st.w ?? prev.w ?? (host.getBoundingClientRect().width || media.clientWidth || 0);
-      const h = st.h ?? prev.h ?? (host.getBoundingClientRect().height || media.clientHeight || 0);
+      const w = st.w ?? (host.getBoundingClientRect().width || media?.clientWidth || 0);
+      const h = st.h ?? (host.getBoundingClientRect().height || media?.clientHeight || 0);
       if (st.detached) {
         this.ensureParentAnchor(host);
         host.style.position = "absolute";
@@ -2080,6 +2739,12 @@ var MediaSize = class extends import_obsidian.Plugin {
           zIndex: st.zIndex,
           // <--- Добавлено
           opacity: st.opacity,
+          transparent: st.transparent,
+          bgColor: st.bgColor,
+          textStrokeColor: st.textStrokeColor,
+          textStroke: st.textStroke,
+          textColor: st.textColor,
+          headerColor: st.headerColor,
           locked: !!st.locked
         };
       }
@@ -2097,13 +2762,25 @@ var MediaSize = class extends import_obsidian.Plugin {
           if (key.startsWith("note::")) {
             const exists = layer.querySelector(`.ms-note-host[data-ms-key="${CSS.escape(key)}"]`);
             if (!exists) {
-              const x = st.x ?? 0, y = st.y ?? 0;
-              this.createNoteHost(attachRoot, key, x, y, {
+              const isTransparent = st.bgColor || st.headerColor ? false : st.transparent;
+              const host = this.createNoteHost(attachRoot, key, st.x ?? 0, st.y ?? 0, {
                 w: st.w,
                 h: st.h,
                 txt: st.txt ?? "",
-                fontSize: st.fontSize ?? 16
+                fontSize: st.fontSize ?? 16,
+                bgColor: st.bgColor,
+                headerColor: st.headerColor
               });
+              if (st.transparent) {
+                host.classList.add("ms-note-transparent");
+              }
+              if (isTransparent) {
+                host.querySelector(".ms-note-body").style.color = st.textColor;
+                host.classList.add("ms-note-transparent");
+              }
+              if (currentNotePath) {
+                await this.saveState(currentNotePath, key, st);
+              }
             }
           }
         }
@@ -2129,7 +2806,7 @@ var MediaSize = class extends import_obsidian.Plugin {
         this.applyTransform(host, tx + dx, ty + dy);
       }
     }
-    const stopAt = Date.now() + 600;
+    const stopAt = Date.now() + 1500;
     const realign = (host, x, y) => {
       const r = this.readAbsRect(host);
       const dx = x - (r.x || 0);
@@ -2156,9 +2833,15 @@ var MediaSize = class extends import_obsidian.Plugin {
       setTimeout(() => {
         if (Date.now() <= stopAt) realign(host, x, y);
       }, 200);
+      setTimeout(() => {
+        if (Date.now() <= stopAt) realign(host, x, y);
+      }, 500);
+      setTimeout(() => {
+        if (Date.now() <= stopAt) realign(host, x, y);
+      }, 1e3);
       requestAnimationFrame(() => realign(host, x, y));
     }
-    setTimeout(() => observers.forEach((o) => o.disconnect()), 650);
+    setTimeout(() => observers.forEach((o) => o.disconnect()), 1600);
   }
   async saveLayoutToState(notePath, layout) {
     for (const [key, st] of Object.entries(layout)) {
@@ -2200,6 +2883,9 @@ var MediaSize = class extends import_obsidian.Plugin {
     if ((isClone || st.detached) && typeof st.zIndex === "number") {
       host.style.zIndex = String(st.zIndex);
     }
+    if (isClone && kind === "image" && st.link) {
+      this.applyLinkOverlay(host, st.link);
+    }
     if (!isClone && typeof st.opacity === "number") {
       const opacityValue = String(st.opacity);
       Array.from(host.children).forEach((child) => {
@@ -2208,14 +2894,48 @@ var MediaSize = class extends import_obsidian.Plugin {
         }
       });
     }
+    if (kind === "note") {
+      const noteBody = host.querySelector(".ms-note");
+      const textBody = host.querySelector(".ms-note-body");
+      if (textBody) {
+        textBody.textContent = st.txt ?? "";
+        textBody.style.fontSize = `${Math.max(10, st.fontSize ?? 16)}px`;
+      }
+      const noteHeader = host.querySelector(".ms-note-top");
+      if (noteBody) {
+        noteBody.style.backgroundColor = st.bgColor || "";
+      }
+      const isTransparent = st.bgColor || st.headerColor ? false : st.transparent;
+      if (noteHeader) {
+        const headerColor = st.headerColor;
+        noteHeader.style.backgroundColor = headerColor || "";
+      }
+      if (isTransparent) {
+        host.classList.add("ms-note-transparent");
+      }
+      if (kind === "note") {
+        const noteBody2 = host.querySelector(".ms-note-body");
+        if (noteBody2) {
+          const hasStroke = !!st.textStroke;
+          noteBody2.style.color = st.textColor || "";
+          noteBody2.classList.toggle("ms-note-text-stroked", hasStroke);
+          if (hasStroke) {
+            noteBody2.style.setProperty("--note-stroke-color", st.textStrokeColor || st.textColor || "#FFFFFF");
+          }
+        }
+      }
+    }
   }
   applyBox(host, media, kind, w, h, freeImage = false) {
     if (kind === "video") {
       host.style.width = `${Math.round(w)}px`;
       host.style.maxWidth = `${Math.round(w)}px`;
-      host.style.aspectRatio = `16 / 9`;
-      if (host.dataset.msParentKey) {
-        host.style.height = `${Math.round(w / (16 / 9))}px`;
+      const isClone = !!host.dataset.msParentKey;
+      const hasME = this.isMediaExtendedActive(host);
+      const videoAR = isClone || hasME ? 16 / 9 : media ? this.getAR(kind, media) : 16 / 9;
+      host.style.aspectRatio = `${videoAR}`;
+      if (isClone) {
+        host.style.height = `${Math.round(w / videoAR)}px`;
       }
       if (media) media.style.width = "100%";
       if (media) media.style.height = "100%";
@@ -2255,30 +2975,23 @@ var MediaSize = class extends import_obsidian.Plugin {
     }
     host.style.display = "block";
   }
-  applyTransform(host, x, y) {
-    host.style.transform = `translate(${x}px, ${y}px)`;
-  }
-  // Абсолютные координаты host относительно якоря-родителя (padding-box родителя)
+  // ИСПРАВЛЕНО: Возвращаем старую логику. Эта функция читает ТЕКУЩИЙ transform, что критично для drag-n-drop.
+  // Она НЕ вычисляет визуальную позицию на экране.
   readAbsRect(host) {
-    const root = this.ensureParentAnchor(host);
-    const r = host.getBoundingClientRect();
-    if (!root) {
-      return { x: r.left, y: r.top, w: r.width, h: r.height };
+    const sizer = host.closest(".cm-sizer, .markdown-preview-sizer");
+    if (!sizer) {
+      console.warn("[Media Layout] readAbsRect: No sizer found for", host.dataset.msKey, "- returning zeros");
+      return { x: 0, y: 0, w: 0, h: 0 };
     }
-    const rp = root.getBoundingClientRect();
-    const cs = getComputedStyle(root);
-    const bl = parseFloat(cs.borderLeftWidth || "0") || 0;
-    const bt = parseFloat(cs.borderTopWidth || "0") || 0;
-    const originLeft = rp.left + bl;
-    const originTop = rp.top + bt;
-    return {
-      x: r.left - originLeft,
-      y: r.top - originTop,
-      w: r.width,
-      h: r.height
-    };
+    const hostRect = host.getBoundingClientRect();
+    const sizerRect = sizer.getBoundingClientRect();
+    const x = hostRect.left - sizerRect.left;
+    const y = hostRect.top - sizerRect.top;
+    const w = hostRect.width;
+    const h = hostRect.height;
+    return { x, y, w, h };
   }
-  readAppliedRect(host) {
+  readAbsOrig(host) {
     const st = getComputedStyle(host);
     const w = parseFloat(st.width) || void 0;
     const h = parseFloat(st.height) || void 0;
@@ -2295,8 +3008,36 @@ var MediaSize = class extends import_obsidian.Plugin {
     const free = host.dataset.msFree === "1";
     return { w, h, x, y, free };
   }
+  // НОВАЯ ФУНКЦИЯ: Вычисляет визуальные координаты относительно контейнера. Используется ТОЛЬКО для сохранения.
+  readVisualRectForSave(host) {
+    const root = this.getHostRoot(host);
+    const r = host.getBoundingClientRect();
+    if (!root) return { x: r.left, y: r.top, w: r.width, h: r.height };
+    const rp = root.getBoundingClientRect();
+    const cs = getComputedStyle(root);
+    const originLeft = rp.left + (parseFloat(cs.borderLeftWidth) || 0) - root.scrollLeft;
+    const originTop = rp.top + (parseFloat(cs.borderTopWidth) || 0) - root.scrollTop;
+    return { x: r.left - originLeft, y: r.top - originTop, w: r.width, h: r.height };
+  }
+  applyTransform(host, x, y) {
+    host.style.transform = `translate(${x}px, ${y}px)`;
+    if (this.enableDebugMode && host.dataset.msParentKey) {
+      const leafCount = this.app.workspace.getLeavesOfType("markdown").length;
+      this.debug("applyTransform to clone", {
+        cloneId: host.dataset.msKey,
+        x,
+        y,
+        leafCount
+      });
+    }
+  }
+  readAppliedRect(host) {
+    return this.readAbsRect(host);
+  }
   // Сохранить состояние media/клона в новую структуру notes{originals,clones}
-  async saveState(notePath, key, partial) {
+  // КРИТИЧНО: По умолчанию вызывает persistAll (для обратной совместимости)
+  // Передайте autoPersist=false если сохраняете много элементов в цикле
+  async saveState(notePath, key, partial, autoPersist = true) {
     if (!notePath) return;
     this.notes ||= {};
     this.notes[notePath] ||= { originals: {}, clones: {} };
@@ -2304,30 +3045,54 @@ var MediaSize = class extends import_obsidian.Plugin {
     const isCloneDom = !!this.getActiveContainerEl()?.querySelector(`[data-ms-key="${CSS.escape(key)}"][data-ms-parent-key]`);
     const isClone = isCloneKey || isCloneDom;
     const bucket = isClone ? this.notes[notePath].clones : this.notes[notePath].originals;
+    if (!bucket[key]) {
+      bucket[key] = {};
+    }
     bucket[key] = { ...bucket[key] || {}, ...partial };
-    await this.persistAll();
+    if (autoPersist) {
+      await this.persistAll();
+    }
   }
   // Единая запись на диск (оставь как есть, либо приведи к такому виду):
   async persistAll() {
-    const data = {
-      notes: this.notes ?? {},
-      presets: this.presets ?? {},
-      meBgColor: this.meBgColor ?? "#242424",
-      userPresets: this.userPresets ?? [],
-      layoutPresets: this.layoutPresets ?? {},
-      layoutNames: this.layoutNames ?? {},
-      cloneAnimation: this.cloneAnimation,
-      cloneBgOpacity: this.cloneBgOpacity,
-      cloneControlsOpacity: this.cloneControlsOpacity,
-      cloneHideDelay: this.cloneHideDelay,
-      noteRestoreDelay: this.noteRestoreDelay,
-      cloneRestoreDelay: this.cloneRestoreDelay,
-      cloneShowAudioHandles: this.cloneShowAudioHandles,
-      enableModalAnimation: this.enableModalAnimation,
-      hideDetachButton: this.hideDetachButton,
-      showHandlesOnHover: this.showHandlesOnHover
-    };
-    await this.saveData(data);
+    if (this.persistInProgress) {
+      if (this.persistQueue) {
+        await this.persistQueue;
+      }
+      return;
+    }
+    this.persistInProgress = true;
+    const currentPersist = (async () => {
+      try {
+        const data = {
+          notes: this.notes ?? {},
+          presets: this.presets ?? {},
+          meBgColor: this.meBgColor ?? "#242424",
+          userPresets: this.userPresets ?? [],
+          layoutPresets: this.layoutPresets ?? {},
+          layoutNames: this.layoutNames ?? {},
+          cloneAnimation: this.cloneAnimation,
+          cloneBgOpacity: this.cloneBgOpacity,
+          cloneControlsOpacity: this.cloneControlsOpacity,
+          cloneHideDelay: this.cloneHideDelay,
+          noteRestoreDelay: this.noteRestoreDelay,
+          cloneRestoreDelay: this.cloneRestoreDelay,
+          cloneShowAudioHandles: this.cloneShowAudioHandles,
+          enableModalAnimation: this.enableModalAnimation,
+          hideDetachButton: this.hideDetachButton,
+          cloneNearFile: this.cloneNearFile,
+          showHandlesOnHover: this.showHandlesOnHover
+        };
+        await this.saveData(data);
+      } catch (error) {
+        console.error("[Media Layout] Failed to persist data:", error);
+      } finally {
+        this.persistInProgress = false;
+        this.persistQueue = null;
+      }
+    })();
+    this.persistQueue = currentPersist;
+    await currentPersist;
   }
   addUserPreset(n) {
     this.userPresets = [n, ...this.userPresets.filter((v) => v !== n)].slice(0, MAX_WIDTH_PRESETS);
@@ -2359,6 +3124,15 @@ var MediaSize = class extends import_obsidian.Plugin {
     return void 0;
   }
   /* ========= helpers ========= */
+  // Проверка, включен ли Media Extended (создает контейнеры 16:9)
+  isMediaExtendedActive(host) {
+    const hasPlugin = this.app.plugins?.enabledPlugins?.has?.("media-extended") || this.app.plugins?.plugins?.["media-extended"];
+    if (host) {
+      const hasMEContainer = !!host.closest(".mx-media-embed, .media-embed");
+      return hasPlugin && hasMEContainer;
+    }
+    return !!hasPlugin;
+  }
   getAR(kind, media) {
     if (kind === "image") {
       const img = media;
@@ -2366,7 +3140,12 @@ var MediaSize = class extends import_obsidian.Plugin {
       const ih = img.naturalHeight || img.clientHeight || 1;
       return iw / Math.max(1, ih);
     }
-    if (kind === "video") return 16 / 9;
+    if (kind === "video") {
+      const vid = media;
+      const vw = vid.videoWidth || 1920;
+      const vh = vid.videoHeight || 1080;
+      return vw / Math.max(1, vh);
+    }
     return 9 / 1;
   }
   // Корневой элемент редактора/превью, внутри которого живёт контент
@@ -2377,6 +3156,20 @@ var MediaSize = class extends import_obsidian.Plugin {
     const read = view?.containerEl.querySelector(".markdown-reading-view");
     if (read) return read;
     return null;
+  }
+  // NEW: Возвращает root для конкретного host'а (leaf-scoped)
+  getHostRoot(host) {
+    const containerEl = host.closest(".workspace-leaf-content");
+    if (!containerEl) return null;
+    const src = containerEl.querySelector(".markdown-source-view .cm-scroller");
+    if (src) return src;
+    const read = containerEl.querySelector(".markdown-reading-view");
+    if (read) return read;
+    return null;
+  }
+  // NEW: Возвращает containerEl для конкретного host'а (leaf-scoped)
+  getHostContainerEl(host) {
+    return host.closest(".workspace-leaf-content");
   }
   isControlsTarget(el) {
     if (!el) return false;
@@ -2419,6 +3212,35 @@ var MediaSize = class extends import_obsidian.Plugin {
     const lastSlash = Math.max(s.lastIndexOf("/"), s.lastIndexOf("\\"));
     const base = s.substring(lastSlash + 1);
     return { src: s, base };
+  }
+  // ИСПРАВЛЕНИЕ: Коррекция координат клонов при переключении вкладок в сплите
+  realignClonesIfNeeded(notePath) {
+    const leaves = this.app.workspace.getLeavesOfType("markdown").filter((leaf) => {
+      const view = leaf.view;
+      return view.file?.path === notePath;
+    });
+    if (!leaves.length) return;
+    const noteData = this.notes[notePath];
+    if (!noteData?.clones) return;
+    leaves.forEach((leaf) => {
+      const view = leaf.view;
+      const containerEl = view.containerEl;
+      if (!containerEl) return;
+      for (const [key, st] of Object.entries(noteData.clones)) {
+        const host = containerEl.querySelector(`[data-ms-key="${CSS.escape(key)}"]`);
+        if (!host || !st.x || !st.y) continue;
+        const r = this.readAbsRect(host);
+        const dx = (st.x || 0) - (r.x || 0);
+        const dy = (st.y || 0) - (r.y || 0);
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+          const style = getComputedStyle(host);
+          const m = /matrix\(([^)]+)\)/.exec(style.transform || "");
+          const tx = m ? parseFloat(m[1].split(",")[4]) || 0 : 0;
+          const ty = m ? parseFloat(m[1].split(",")[5]) || 0 : 0;
+          this.applyTransform(host, tx + dx, ty + dy);
+        }
+      }
+    });
   }
   // Helper to find an original host by its key in the current document
   findHostByKey(key) {
@@ -2549,12 +3371,25 @@ var MediaSize = class extends import_obsidian.Plugin {
           const names = this.layoutNames[notePath] ??= [];
           const title = names[idx] ?? t(this.app, "layoutN", { n: idx + 1 });
           si.setTitle(title).onClick(async () => {
+            if (this.presetTimerId !== null) {
+              clearTimeout(this.presetTimerId);
+              this.pendingTimers.delete(this.presetTimerId);
+              this.presetTimerId = null;
+            }
             await this.applyLayout(notePath, layout);
-            await this.saveLayoutToState(notePath, layout);
-            this.schedule(() => {
-              this.applyCloneSettingsToAll();
-            }, 500);
             await this.persistAll();
+            this.presetTimerId = this.schedule(async () => {
+              const currentPath = this.getActiveNote()?.path;
+              if (currentPath !== notePath) {
+                console.log("[Media Layout] Preset application cancelled: file changed");
+                this.presetTimerId = null;
+                return;
+              }
+              await this.applyLayout(notePath, layout);
+              this.applyCloneSettingsToAll();
+              await this.persistAll();
+              this.presetTimerId = null;
+            }, 500);
           });
           const root = si.dom;
           root.classList.add("ms-preset-item");
@@ -2631,46 +3466,70 @@ var MediaSize = class extends import_obsidian.Plugin {
     if (!notePath) return;
     const clones = this.notes[notePath]?.clones;
     if (!clones || !Object.keys(clones).length) return;
-    const ATTEMPTS = 50;
-    let left = ATTEMPTS;
-    const tick = () => {
-      if ((this.getActiveNote()?.path ?? "") !== notePath) return;
-      const root = this.getAttachRoot();
-      if (!root) return;
-      const mount = this.ensureFloatLayer(root);
-      if ((mount.dataset.msNote || "") !== notePath) return;
-      this.schedule(() => {
-        const hosts = root.querySelectorAll(".ms-host[data-ms-key]");
-        if (!hosts.length) {
+    this.debug("restoreClonesFromStore started", { notePath, cloneCount: Object.keys(clones).length });
+    const leaves = this.app.workspace.getLeavesOfType("markdown").filter((leaf) => {
+      const view = leaf.view;
+      return view.file?.path === notePath;
+    });
+    if (!leaves.length) return;
+    leaves.forEach((leaf) => {
+      const view = leaf.view;
+      const containerEl = view.containerEl;
+      if (!containerEl) return;
+      const ATTEMPTS = 50;
+      let left = ATTEMPTS;
+      const tick = () => {
+        const src = containerEl.querySelector(".markdown-source-view .cm-scroller");
+        const read = containerEl.querySelector(".markdown-reading-view");
+        const root = src || read;
+        if (!root) {
           if (--left > 0) {
             this.schedule(tick, 200);
           }
           return;
         }
-        const anchorIndex = this.buildAnchorIndex(root);
-        for (const [cloneId, state] of Object.entries(clones)) {
-          if (mount.querySelector(`[data-ms-key="${CSS.escape(cloneId)}"]`)) continue;
-          const st = state;
-          let parentKey = st.parentKey;
-          const parentAnchor = st.parentAnchor;
-          if (!parentKey || !root.querySelector(`.ms-host[data-ms-key="${CSS.escape(parentKey)}"]`)) {
-            if (parentAnchor) {
-              const remap = anchorIndex.get(parentAnchor);
-              if (remap) {
-                parentKey = st.parentKey = remap;
+        const mount = this.ensureFloatLayer(root);
+        if ((mount.dataset.msNote || "") !== notePath) return;
+        this.debug("Layer ready, scheduling clone restore", { notePath });
+        this.schedule(() => {
+          const hosts = root.querySelectorAll(".ms-host[data-ms-key]");
+          if (!hosts.length) {
+            this.debug("No hosts found yet, retrying", { notePath, attemptsLeft: left });
+            if (--left > 0) {
+              this.schedule(tick, 200);
+            }
+            return;
+          }
+          this.debug("Found hosts, building anchor index", { notePath, hostCount: hosts.length });
+          const anchorIndex = this.buildAnchorIndex(root);
+          this.debug("Starting clone restoration loop", { notePath, totalClones: Object.keys(clones).length });
+          for (const [cloneId, state] of Object.entries(clones)) {
+            if (mount.querySelector(`[data-ms-key="${CSS.escape(cloneId)}"]`)) {
+              this.debug("Clone already exists, skipping", { cloneId });
+              continue;
+            }
+            const st = state;
+            let parentKey = st.parentKey;
+            const parentAnchor = st.parentAnchor;
+            if (!parentKey || !root.querySelector(`.ms-host[data-ms-key="${CSS.escape(parentKey)}"]`)) {
+              if (parentAnchor) {
+                const remap = anchorIndex.get(parentAnchor);
+                if (remap) {
+                  parentKey = st.parentKey = remap;
+                }
               }
             }
+            this.tryRestoreSingleClone(notePath, cloneId, st, root);
           }
-          this.tryRestoreSingleClone(notePath, cloneId, st);
-        }
-        this.schedule(() => this.applyCloneSettingsToAll(), 150);
-      }, this.cloneRestoreDelay);
-    };
-    this.schedule(tick, 200);
+          this.schedule(() => this.applyCloneSettingsToAll(), 150);
+        }, this.cloneRestoreDelay);
+      };
+      this.schedule(tick, 200);
+    });
   }
-  async tryRestoreSingleClone(notePath, cloneId, state) {
-    const root = this.getAttachRoot();
+  async tryRestoreSingleClone(notePath, cloneId, state, root) {
     if (!root) return;
+    this.debug("tryRestoreSingleClone started", { cloneId, parentKey: state.parentKey });
     const mount = this.ensureFloatLayer(root);
     if (mount.querySelector(`[data-ms-key="${CSS.escape(cloneId)}"]`)) return;
     let parentKey = state.parentKey;
@@ -2684,8 +3543,12 @@ var MediaSize = class extends import_obsidian.Plugin {
         }
       }
     }
-    if (!parentKey) return;
-    let originalHost = this.findHostByKey(state.parentKey);
+    if (!parentKey) {
+      this.warn("Parent not found for clone", { cloneId, originalParentKey: state.parentKey, parentAnchor: state.parentAnchor });
+      return;
+    }
+    this.debug("Parent found, creating clone", { cloneId, parentKey });
+    let originalHost = root.querySelector(`.ms-host[data-ms-key="${CSS.escape(state.parentKey)}"]`);
     let cloneHost = null;
     if (originalHost) {
       cloneHost = this.createCleanCloneElement(originalHost);
@@ -2715,7 +3578,8 @@ var MediaSize = class extends import_obsidian.Plugin {
     if (newClonedMedia) {
       const tag = (newClonedMedia.tagName || "").toUpperCase();
       const kind = tag === "IMG" ? "image" : tag === "AUDIO" ? "audio" : "video";
-      this.applyState(cloneHost, newClonedMedia, kind, state);
+      const fullState = { ...state, link: state.link };
+      this.applyState(cloneHost, newClonedMedia, kind, fullState);
     }
   }
   async createHostFromTFile(notePath, parentKey) {
@@ -2823,17 +3687,32 @@ var MediaSize = class extends import_obsidian.Plugin {
       const r = this.readAbsRect(it.host);
       const prev = isClone ? clones[it.key] ?? {} : originals[it.key] ?? {};
       if (isClone) {
+        let fileName = clones[it.key]?.fileName ?? it.host.dataset.msFileName;
+        if (!fileName) {
+          const mediaEl = it.host.querySelector("img,video,audio");
+          if (mediaEl) {
+            if (this.getSrcAndBase) {
+              const { base } = this.getSrcAndBase(it.host, mediaEl);
+              fileName = base || void 0;
+            } else {
+              const src = mediaEl.currentSrc || mediaEl.src || "";
+              fileName = src ? src.split("/").pop() : void 0;
+            }
+          }
+        }
         layout[it.key] = {
           ...prev,
           parentKey: it.host.dataset.msParentKey,
           w: r.w,
           h: r.h,
-          x: r.x,
-          y: r.y,
+          x: Math.round(r.x),
+          y: Math.round(r.y),
           locked: it.host.dataset.msLocked === "1",
           bgColor: clones[it.key]?.bgColor,
-          fileName: clones[it.key]?.fileName ?? it.host.dataset.msFileName
-          // <--- ИСПРАВЛЕНО: Сохраняем имя файла из state или dataset
+          fileName,
+          // <-- используем то, что посчитали
+          link: clones[it.key]?.link
+          // <-- добавляем ссылку
         };
       } else {
         layout[it.key] = {
@@ -2842,28 +3721,24 @@ var MediaSize = class extends import_obsidian.Plugin {
           h: r.h,
           x: r.x,
           y: r.y,
-          // ИСПРАВЛЕНО: Читаем реальное состояние detached из DOM
           detached: it.host.dataset.msDetached === "1",
           locked: it.host.dataset.msLocked === "1"
         };
       }
-      layout[it.key].zIndex = parseInt(it.host.style.zIndex, 10) || void 0;
-    }
-    for (const [key, originalState] of Object.entries(originals)) {
-      if (key.startsWith("note::") && !layout[key]) {
-        layout[key] = { ...originalState };
+      const zi = parseInt(it.host.style.zIndex || "", 10);
+      if (Number.isFinite(zi)) layout[it.key].zIndex = zi;
+      if (isNote && (layout[it.key].bgColor || layout[it.key].headerColor)) {
+        delete layout[it.key].transparent;
       }
     }
-    for (const [key, cloneState] of Object.entries(clones)) {
-      if (key.includes("::clone::") && !layout[key]) {
-        layout[key] = cloneState;
+    for (const [key, st] of Object.entries(originals)) {
+      if (key.startsWith("note::") && !layout[key]) {
+        layout[key] = { ...st };
       }
     }
     const currentClones = this.notes[notePath]?.clones ?? {};
-    for (const [key, cloneState] of Object.entries(currentClones)) {
-      if (!layout[key]) {
-        layout[key] = cloneState;
-      }
+    for (const [key, st] of Object.entries(currentClones)) {
+      if (!layout[key]) layout[key] = st;
     }
     return layout;
   }
@@ -3002,7 +3877,10 @@ var MediaSize = class extends import_obsidian.Plugin {
       host.style.display = "block";
     }
     if (kind === "video") {
-      host.style.aspectRatio = "16 / 9";
+      const isClone = !!host.dataset.msParentKey;
+      const hasME = this.isMediaExtendedActive(host);
+      const videoAR = isClone || hasME ? 16 / 9 : this.getAR(kind, media);
+      host.style.aspectRatio = `${videoAR}`;
       media.style.width = "100%";
       media.style.height = "100%";
       media.style.objectFit = "contain";
@@ -3179,7 +4057,20 @@ var MediaSize = class extends import_obsidian.Plugin {
 /* \u041F\u0440\u0438 locked=1 \u0445\u044D\u043D\u0434\u043B\u044B \u043D\u0435 \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u043C \u0438 \u043A\u0443\u0440\u0441\u043E\u0440 \u043E\u0431\u044B\u0447\u043D\u044B\u0439 */
 .ms-host[data-ms-locked="1"] .ms-handle { display: none !important; }
 .ms-host[data-ms-locked="1"] { cursor: default !important; }
-
+    /* --- \u0421\u0442\u0438\u043B\u0438 \u0434\u043B\u044F \u0432\u044B\u0434\u0435\u043B\u0435\u043D\u0438\u044F --- */
+    #ms-marquee {
+      position: fixed;
+      border: 1px dashed var(--interactive-accent);
+      background-color: rgba(128, 0, 128, 0.1);
+      pointer-events: none;
+      z-index: 9999;
+      display: none;
+    }
+    .ms-host.--selected {
+      outline: 2px solid var(--interactive-accent) !important;
+      outline-offset: 2px;
+      box-shadow: 0 0 12px rgba(128, 0, 128, 0.5);
+    }
 /* \u041A\u043E\u043D\u0442\u0435\u0439\u043D\u0435\u0440\u044B \u2014 \u043D\u0435 \u0442\u0440\u043E\u0433\u0430\u0435\u043C, \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u043C #1F1F1F \u043A\u0430\u043A \u043F\u0440\u043E\u0441\u0438\u043B\u0438 */
 .mx-media-embed,
 .media-extended,
@@ -3192,11 +4083,7 @@ var MediaSize = class extends import_obsidian.Plugin {
 .media-extended .media-controls {
   background: transparent !important;
 }
-/* AUDIO: \u0440\u0443\u0447\u043A\u0438 \u043D\u0435\u0432\u0438\u0434\u0438\u043C\u044B, \u043D\u043E \u043A\u043B\u0438\u043A\u0430\u0431\u0435\u043B\u044C\u043D\u044B */
-.ms-host[data-ms-kind="audio"] .ms-handle { 
-  opacity: 0 !important;        /* \u043F\u0440\u044F\u0447\u0435\u043C \u0442\u043E\u043B\u044C\u043A\u043E \u0432\u0438\u0434\u0438\u043C\u043E\u0441\u0442\u044C */
-  pointer-events: auto !important; /* \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u043C \u043A\u043B\u0438\u043A\u0438/drag */
-}
+
 
 /* (\u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u043C \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044E\u0449\u0435\u0435 \u043F\u0440\u0430\u0432\u0438\u043B\u043E \u0441\u043A\u0440\u044B\u0442\u0438\u044F \u043F\u0440\u0438 locked) */
 .ms-host[data-ms-locked="1"] .ms-handle { display: none !important; }
@@ -3347,19 +4234,47 @@ var MediaSize = class extends import_obsidian.Plugin {
     cloneHost.style.transform = "";
     cloneHost.style.willChange = "transform";
     cloneHost.style.pointerEvents = "auto";
+    this.debug("Clone host element created", { key, x, y });
     const mount = this.ensureFloatLayer(container);
     mount.appendChild(cloneHost);
+    if (this.enableDebugMode) {
+      const sizer = mount.parentElement;
+      const leafCount = this.app.workspace.getLeavesOfType("markdown").length;
+      if (!sizer) {
+        this.warn("createCloneHost: NO SIZER FOUND!", {
+          key,
+          x,
+          y,
+          leafCount,
+          containerClass: container.className
+        });
+      } else {
+        const sizerRect = sizer.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const mountRect = mount.getBoundingClientRect();
+        this.debug(`createCloneHost: sizer found`, {
+          key,
+          requestedCoords: { x, y },
+          leafCount,
+          sizerPos: { left: sizerRect.left, top: sizerRect.top, width: sizerRect.width, height: sizerRect.height },
+          containerPos: { left: containerRect.left, top: containerRect.top },
+          mountPos: { left: mountRect.left, top: mountRect.top }
+        });
+      }
+    }
     this.applyTransform(cloneHost, Math.round(x), Math.round(y));
     setTimeout(async () => {
-      const r = this.readAbsRect(cloneHost);
+      const rect = cloneHost.getBoundingClientRect();
       await this.saveState(notePath, key, {
         parentKey,
-        w: r.w,
-        h: r.h,
+        w: rect.width || 480,
+        h: rect.height || 270,
         fileName: cloneHost.dataset.msFileName,
-        // <-- Сохраняем имя файла
-        x: r.x,
-        y: r.y,
+        x,
+        // ← ИСПОЛЬЗУЕМ ПЕРЕДАННЫЕ координаты!
+        y,
+        // ← ИСПОЛЬЗУЕМ ПЕРЕДАННЫЕ координаты!
+        link: this.notes[notePath]?.clones?.[key]?.link,
         detached: true
       });
     }, 100);
@@ -3382,13 +4297,29 @@ var MediaSize = class extends import_obsidian.Plugin {
       media.style.objectFit = "contain";
       media.style.aspectRatio = "16 / 9";
       media.style.willChange = "transform";
-      let wasLockedBeforeFs = false;
       cloneHost.addEventListener("fullscreenchange", () => {
         if (document.fullscreenElement === cloneHost) {
-          wasLockedBeforeFs = cloneHost.dataset.msLocked === "1";
+          this.wasLockedBeforeFs = cloneHost.dataset.msLocked === "1";
           cloneHost.dataset.msLocked = "1";
         } else {
-          cloneHost.dataset.msLocked = wasLockedBeforeFs ? "1" : "0";
+          const restore = () => {
+            if (this.hScrollEl) this.hScrollEl.scrollLeft = this.scrollRatioX * (this.hScrollEl.scrollWidth - this.hScrollEl.clientWidth);
+            if (this.vScrollEl) this.vScrollEl.scrollTop = this.scrollRatioY * (this.vScrollEl.scrollHeight - this.vScrollEl.clientHeight);
+          };
+          let attempts = 0;
+          const maxAttempts = 10;
+          const interval = 20;
+          const tryRestore = () => {
+            restore();
+            attempts++;
+            if (attempts < maxAttempts) {
+              setTimeout(tryRestore, interval);
+            }
+          };
+          if (this.hScrollEl || this.vScrollEl) {
+            requestAnimationFrame(tryRestore);
+          }
+          cloneHost.dataset.msLocked = this.wasLockedBeforeFs ? "1" : "0";
         }
       });
     }
@@ -3475,51 +4406,110 @@ var MediaSize = class extends import_obsidian.Plugin {
   }
   // ===== Жёсткая зачистка при переключении страницы (клоны + таблички + стили) =====
   async hardCleanupForSwitch(prevNotePath) {
-    this.cancelScheduled();
-    const attachRoot = this.getAttachRoot();
-    if (attachRoot) {
-      const layer = attachRoot.querySelector(":scope > .ms-float-layer");
-      layer?.querySelectorAll(".ms-host[data-ms-parent-key], .ms-note-host").forEach((el) => el.remove());
+    this.debug("hardCleanupForSwitch started", { prevNotePath });
+    this.cancelScheduled?.();
+    try {
+      this.disconnectObservers?.();
+    } catch {
     }
-    const root = this.getActiveContainerEl();
-    if (root) {
-      root.querySelectorAll(".ms-host").forEach((host) => {
-        if (host.classList.contains("ms-note-host")) return;
-        this.reattach(host);
-        this.applyTransform(host, 0, 0);
-        host.classList.remove("ms-host");
-        host.removeAttribute("data-ms-detached");
-        host.removeAttribute("data-ms-locked");
-        host.removeAttribute("data-ms-free");
-        host.removeAttribute("data-ms-kind");
-        host.removeAttribute("data-ms-init");
-        host.removeAttribute("data-ms-key");
-        const overlay = host.querySelector(".ms-overlay");
-        overlay?.remove();
-        host.style.position = "";
-        host.style.left = "";
-        host.style.top = "";
-        host.style.transform = "";
-        host.style.width = "";
-        host.style.height = "";
-        host.style.maxWidth = "";
-        host.style.aspectRatio = "";
-        host.style.display = "";
-        const media = host.querySelector("video, img, audio");
-        if (media) {
-          media.style.width = "";
-          media.style.height = "";
-          media.style.objectFit = "";
-          media.style.objectPosition = "";
-          media.style.display = "";
-        }
+    if (prevNotePath) {
+      const leaves = this.app.workspace.getLeavesOfType("markdown").filter((leaf) => {
+        const view = leaf.view;
+        return view.file?.path === prevNotePath;
       });
+      if (leaves.length) {
+        const noteData = this.notes[prevNotePath] ??= { originals: {}, clones: {} };
+        leaves.forEach((leaf) => {
+          const view = leaf.view;
+          const containerEl = view.containerEl;
+          if (!containerEl) return;
+          const src = containerEl.querySelector(".markdown-source-view .cm-scroller");
+          const read = containerEl.querySelector(".markdown-reading-view");
+          const root = src || read;
+          if (!root) return;
+          const floatLayer = root.querySelector(".ms-float-layer");
+          if (floatLayer) {
+            floatLayer.querySelectorAll("[data-ms-key]").forEach((host) => {
+              const key = host.dataset.msKey;
+              if (!key) return;
+              const isClone = !!host.dataset.msParentKey;
+              const isNote = host.classList.contains("ms-note-host");
+              if (!isClone && !isNote) return;
+              try {
+                const r = this.readAbsRect(host);
+                if (!r.x && !r.y && !r.w && !r.h) {
+                  console.warn(`[MS] Skipping save for ${key}: invalid rect (no wrapper?)`, r);
+                  return;
+                }
+                const bucket = isClone ? noteData.clones : noteData.originals;
+                if (bucket[key]) {
+                  bucket[key].x = r.x ?? 0;
+                  bucket[key].y = r.y ?? 0;
+                  bucket[key].w = r.w ?? 0;
+                  bucket[key].h = r.h ?? 0;
+                  const leafCount = this.app.workspace.getLeavesOfType("markdown").length;
+                  if (leafCount > 1 && isClone) {
+                    console.log(`[Media Layout] SAVING coords (${leafCount} tabs):`, {
+                      file: prevNotePath,
+                      key,
+                      savedCoords: { x: r.x, y: r.y, w: r.w, h: r.h }
+                    });
+                  }
+                }
+              } catch (e) {
+                console.warn(`[MS] Failed to save coords for ${key}:`, e);
+              }
+            });
+          }
+          root.querySelectorAll('.ms-host[data-ms-detached="1"]').forEach((host) => {
+            const key = host.dataset.msKey;
+            if (!key) return;
+            const isClone = !!host.dataset.msParentKey;
+            const isNote = host.classList.contains("ms-note-host");
+            if (isClone || isNote) return;
+            try {
+              const r = this.readAbsRect(host);
+              const originals = noteData.originals;
+              if (originals[key]) {
+                originals[key].x = r.x ?? 0;
+                originals[key].y = r.y ?? 0;
+                originals[key].w = r.w ?? 0;
+                originals[key].h = r.h ?? 0;
+              }
+            } catch (e) {
+              console.warn(`[MS] Failed to save coords for detached original ${key}:`, e);
+            }
+          });
+          root.querySelectorAll('.ms-host:not([data-ms-detached="1"])').forEach((host) => {
+            const key = host.dataset.msKey;
+            if (!key) return;
+            const isClone = !!host.dataset.msParentKey;
+            const isNote = host.classList.contains("ms-note-host");
+            if (isClone || isNote) return;
+            try {
+              const r = host.getBoundingClientRect();
+              const originals = noteData.originals;
+              if (originals[key]) {
+                originals[key].w = r.width || originals[key].w || 0;
+                originals[key].h = r.height || originals[key].h || 0;
+                originals[key].free = host.dataset.msFree === "1";
+              }
+            } catch (e) {
+              console.warn(`[MS] Failed to save size for in-flow original ${key}:`, e);
+            }
+          });
+        });
+        await this.persistAll();
+      }
     }
+    const rootToClean = this.getAttachRoot?.();
+    rootToClean?.querySelector(".ms-float-layer")?.replaceChildren();
   }
   // Создать табличку под координатами (x, y) в контейнере viewRoot
   createNoteHost(container, key, x, y, st) {
     const host = document.createElement("div");
     host.className = "ms-note-host ms-host";
+    host.dataset.msDetached = "1";
     host.dataset.msKey = key;
     host.style.position = "absolute";
     host.style.left = "0px";
@@ -3539,6 +4529,13 @@ var MediaSize = class extends import_obsidian.Plugin {
     const body = document.createElement("div");
     body.className = "ms-note-body";
     body.setAttribute("contenteditable", "true");
+    const stateForColor = st ?? this.notes[this.getActiveNote()?.path ?? ""]?.originals?.[key];
+    if (stateForColor?.bgColor) {
+      note.style.backgroundColor = stateForColor.bgColor;
+    }
+    if (stateForColor?.headerColor) {
+      top.style.backgroundColor = stateForColor.headerColor;
+    }
     body.textContent = st?.txt ?? "";
     body.style.fontSize = `${Math.max(10, st?.fontSize ?? 16)}px`;
     let saveTimer = null;
@@ -3567,6 +4564,7 @@ var MediaSize = class extends import_obsidian.Plugin {
     this.ensureHandles(overlay);
     host.append(overlay);
     let sx = 0, sy = 0, ox = 0, oy = 0, dragging = false;
+    const dragController = new AbortController();
     top.addEventListener("pointerdown", (e) => {
       if (e.button !== 0) return;
       e.preventDefault();
@@ -3592,13 +4590,14 @@ var MediaSize = class extends import_obsidian.Plugin {
       const r = this.readAbsRect(host);
       await this.saveState(notePath, key, { w: r.w, h: r.h, x: r.x, y: r.y, txt: body.textContent ?? "", fontSize: parseFloat(body.style.fontSize) || 16 });
     };
-    window.addEventListener("pointermove", onMove, true);
-    window.addEventListener("pointerup", onUp, true);
+    window.addEventListener("pointermove", onMove, { capture: true, signal: dragController.signal });
+    window.addEventListener("pointerup", onUp, { capture: true, signal: dragController.signal });
     host.addEventListener("wheel", async (e) => {
-      if (!e.ctrlKey) return;
+      if (!e.ctrlKey && !e.shiftKey) return;
       e.preventDefault();
       const cur = parseFloat(body.style.fontSize) || 16;
-      const next = Math.max(8, Math.min(64, cur + (e.deltaY < 0 ? 1 : -1)));
+      const delta = e.shiftKey ? 1 : 10;
+      const next = Math.max(8, Math.min(300, cur + (e.deltaY < 0 ? delta : -delta)));
       body.style.fontSize = `${next}px`;
       const notePath = host.dataset.msNote || "";
       if (notePath) {
@@ -3609,32 +4608,169 @@ var MediaSize = class extends import_obsidian.Plugin {
     close.onclick = async (ev) => {
       ev.stopPropagation();
       const notePath = host.dataset.msNote || "";
+      dragController.abort();
       host.remove();
       if (notePath) {
         delete this.notes[notePath]?.originals?.[key];
         await this.persistAll();
       }
     };
-    setTimeout(() => body.focus(), 0);
+    const cleanupObserver = new MutationObserver(() => {
+      if (!document.contains(host)) {
+        dragController.abort();
+        cleanupObserver.disconnect();
+      }
+    });
+    if (host.parentElement) {
+      cleanupObserver.observe(host.parentElement, { childList: true });
+    }
+    host.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const key2 = host.dataset.msKey;
+      if (key2 && this.selectedKeys.has(key2) && this.selectedKeys.size > 1) {
+        const menu2 = new import_obsidian.Menu();
+        this.app.workspace.trigger("editor-menu", menu2, null, this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView));
+        menu2.showAtMouseEvent(e);
+        return;
+      }
+      const menu = new import_obsidian.Menu();
+      menu.addItem((mi) => {
+        mi.setTitle(t(this.app, "bgColor")).setIcon("palette");
+        mi.onClick(() => {
+          const tr = (k) => t(this.app, k);
+          const notePath = host.dataset.msNote;
+          if (!notePath || !key2) return;
+          const currentState = this.notes[notePath]?.originals?.[key2] ?? {};
+          const initialColor = currentState.bgColor || "#242424";
+          new BgColorModal(this.app, initialColor, async (result) => {
+            const { hex, removeBg, applyToHeader } = result;
+            const noteBody = host.querySelector(".ms-note");
+            const noteHeader = host.querySelector(".ms-note-top");
+            if (hex === "#262626" && !applyToHeader) {
+              if (noteHeader) noteHeader.style.backgroundColor = "";
+              await this.saveState(notePath, key2, { headerColor: void 0 });
+            }
+            if (removeBg) {
+              host.classList.add("ms-note-transparent");
+              await this.saveState(notePath, key2, { transparent: true, bgColor: void 0, headerColor: void 0 });
+            } else {
+              host.classList.remove("ms-note-transparent");
+              const stateUpdate = { transparent: false };
+              if (applyToHeader) {
+                if (noteHeader) noteHeader.style.backgroundColor = hex;
+                stateUpdate.headerColor = hex;
+              } else {
+                if (noteBody) noteBody.style.backgroundColor = hex;
+                stateUpdate.bgColor = hex;
+              }
+              await this.saveState(notePath, key2, stateUpdate);
+            }
+          }, tr, { isNoteBox: true }).open();
+        });
+      });
+      menu.addItem((mi) => {
+        mi.setTitle(t(this.app, "changeTextColor")).setIcon("highlighter");
+        mi.onClick(() => {
+          const tr = (k) => t(this.app, k);
+          const notePath = host.dataset.msNote;
+          if (!notePath || !key2) return;
+          const currentState = this.notes[notePath]?.originals?.[key2] ?? {};
+          const initialColor = currentState.textColor || "#FFFFFF";
+          const hasStroke = currentState.textStroke || false;
+          const colorToEdit = hasStroke ? currentState.textStrokeColor || initialColor : initialColor;
+          new BgColorModal(this.app, initialColor, async (result) => {
+            const { hex, addStroke } = result;
+            const currentFillColor = body.style.color || currentState.textColor || "#FFFFFF";
+            body.classList.toggle("ms-note-text-stroked", addStroke);
+            if (addStroke) {
+              body.style.setProperty("--note-stroke-color", hex);
+              await this.saveState(notePath, key2, { textStroke: true, textStrokeColor: hex, textColor: currentFillColor });
+            } else {
+              body.style.color = hex;
+              await this.saveState(notePath, key2, { textStroke: false, textColor: hex });
+            }
+          }, tr, { isTextColor: true, initialStrokeState: hasStroke }).open();
+        });
+      });
+      menu.addSeparator();
+      menu.addItem((item) => {
+        item.setTitle(t(this.app, "deleteNote")).setIcon("trash").onClick(async () => {
+          const notePath = host.dataset.msNote || "";
+          host.remove();
+          if (notePath && key2) {
+            delete this.notes[notePath]?.originals?.[key2];
+            await this.persistAll();
+          }
+        });
+      });
+      menu.showAtMouseEvent(e);
+    });
+    close.onclick = async (ev) => {
+      ev.stopPropagation();
+      const notePath = host.dataset.msNote || "";
+      host.remove();
+      if (notePath) {
+        delete this.notes[notePath]?.originals?.[key];
+        await this.persistAll();
+      }
+    };
+    if (st?.focus) {
+      setTimeout(() => body.focus(), 0);
+    }
     this.processRoot(this.getActiveContainerEl(), this.getActiveNote()?.path ?? "");
     return host;
+  }
+  // ИСПРАВЛЕНО: Новая функция для поиска реальных скролл-контейнеров
+  findScrollableParents(startEl) {
+    let hScroll = null;
+    let vScroll = null;
+    let el = startEl;
+    while (el && el !== document.body && (!hScroll || !vScroll)) {
+      const style = getComputedStyle(el);
+      if (!hScroll && (style.overflowX === "auto" || style.overflowX === "scroll") && el.scrollWidth > el.clientWidth) {
+        hScroll = el;
+      }
+      if (!vScroll && (style.overflowY === "auto" || style.overflowY === "scroll") && el.scrollHeight > el.clientHeight) {
+        vScroll = el;
+      }
+      el = el.parentElement;
+    }
+    return { hScroll: hScroll ?? this.getAttachRoot(), vScroll: vScroll ?? this.getAttachRoot() };
   }
   // ИСПРАВЛЕНО: Универсальный обработчик перетаскивания
   _attachDragMoveHandler(host, overlay, notePath, key, kind) {
     const startMove = (e) => {
+      const isClone = !!host.dataset.msParentKey;
+      const isNote = kind === "note";
+      if ((e.ctrlKey || e.metaKey) && (isClone || isNote)) {
+        this.handleSelectionClick(e, key);
+        return;
+      }
       const t2 = e.target;
       if (t2?.closest(".ms-clone-controls, .ms-cc-btn, .ms-cc-timeline, .ms-proxy-btn, .ms-proxy-ctrl, .ms-handle, .ms-note-body")) {
         return;
       }
       if (e.button !== 0) return;
-      const isClone = !!host.dataset.msParentKey;
       if (kind !== "note" && !isClone && host.dataset.msDetached !== "1") return;
       if (host.dataset.msLocked === "1") return;
       const sx = e.clientX ?? e.clientX ?? 0;
       const sy = e.clientY ?? e.clientY ?? 0;
       if (this.isControlsTarget(t2) || this.isControlsPoint(host, sx, sy) || this.isControlsProxyHost(host, sx, sy)) return;
+      const isMovingGroup = this.selectedKeys.has(key) && this.selectedKeys.size > 1;
+      const groupElements = [];
+      if (isMovingGroup) {
+        this.selectedKeys.forEach((selectedKey) => {
+          const el = this.findHostByKey(selectedKey);
+          if (el) {
+            const elCur = this.readAbsRect(el);
+            groupElements.push({ host: el, x0: elCur.x || 0, y0: elCur.y || 0 });
+          }
+        });
+      }
       let moved = false;
-      const cur = this.readAbsRect(host);
+      const isDetachedOriginal = !isClone && kind !== "note" && host.dataset.msDetached === "1";
+      const cur = isDetachedOriginal ? this.readAbsOrig(host) : this.readAbsRect(host);
       let x0 = cur.x || 0;
       let y0 = cur.y || 0;
       const controller = new AbortController();
@@ -3648,29 +4784,56 @@ var MediaSize = class extends import_obsidian.Plugin {
           document.body.classList.add("ms-noselect");
         }
         ev.preventDefault();
-        let nx = x0 + dx;
-        let ny = y0 + dy;
-        if (ev.shiftKey) {
-          nx = snap(nx, 20);
-          ny = snap(ny, 20);
+        if (isMovingGroup) {
+          groupElements.forEach((item) => {
+            let nx = item.x0 + dx, ny = item.y0 + dy;
+            if (ev.shiftKey) {
+              nx = snap(nx, 20);
+              ny = snap(ny, 20);
+            }
+            this.applyTransform(item.host, nx, ny);
+          });
+        } else {
+          let nx = x0 + dx, ny = y0 + dy;
+          if (ev.shiftKey) {
+            nx = snap(nx, 20);
+            ny = snap(ny, 20);
+          }
+          this.applyTransform(host, nx, ny);
         }
-        this.applyTransform(host, nx, ny);
       };
       const onUp = async () => {
         controller.abort();
         overlay.classList.remove("--drag", "--dragmove");
         document.body.classList.remove("ms-noselect");
         if (!moved) return;
-        const rect = this.readAbsRect(host);
-        await this.saveState(notePath, key, {
-          w: rect.w,
-          h: rect.h,
-          x: rect.x || 0,
-          y: rect.y || 0,
-          free: host.dataset.msFree === "1",
-          detached: host.dataset.msDetached === "1" || isClone,
-          locked: host.dataset.msLocked === "1"
-        });
+        if (isMovingGroup) {
+          for (const item of groupElements) {
+            const rect = this.readAbsRect(item.host);
+            const itemKey = item.host.dataset.msKey;
+            await this.saveState(notePath, itemKey, { x: rect.x || 0, y: rect.y || 0 });
+          }
+        } else {
+          const rect = this.readAbsRect(host);
+          const stateToSave = {
+            w: rect.w,
+            h: rect.h,
+            x: rect.x || 0,
+            y: rect.y || 0,
+            free: host.dataset.msFree === "1",
+            detached: host.dataset.msDetached === "1" || isClone,
+            locked: host.dataset.msLocked === "1"
+          };
+          if (kind === "note") {
+            const body = host.querySelector(".ms-note-body");
+            stateToSave.txt = body?.textContent ?? "";
+            stateToSave.fontSize = body ? parseFloat(body.style.fontSize) || 16 : 16;
+          }
+          if (isClone && (kind === "video" || kind === "audio")) {
+            stateToSave.fileName = host.dataset.msFileName;
+          }
+          await this.saveState(notePath, key, stateToSave);
+        }
       };
       window.addEventListener("pointermove", onMove, { capture: true, signal: controller.signal });
       window.addEventListener("pointerup", onUp, { capture: true, signal: controller.signal });
@@ -3680,6 +4843,9 @@ var MediaSize = class extends import_obsidian.Plugin {
   // ИСПРАВЛЕНО: Универсальный обработчик ресайза
   _attachResizeHandlers(host, overlay, handles, notePath, key, kind, media) {
     const map = { lt: { h: "left", v: "top" }, rt: { h: "right", v: "top" }, lb: { h: "left", v: "bottom" }, rb: { h: "right", v: "bottom" } };
+    if (this.selectedKeys.size > 1) {
+      return;
+    }
     ["lt", "rt", "lb", "rb"].forEach((keyH) => {
       const handle = handles[keyH];
       const startDrag = (e) => {
@@ -3690,14 +4856,16 @@ var MediaSize = class extends import_obsidian.Plugin {
         const startX = e.clientX;
         const startY = e.clientY;
         const r0 = host.getBoundingClientRect();
-        const cur = this.readAbsRect(host);
+        const isClone = !!host.dataset.msParentKey;
+        const isDetachedOriginal = !isClone && kind !== "note" && host.dataset.msDetached === "1";
+        const cur = isDetachedOriginal ? this.readAbsOrig(host) : this.readAbsRect(host);
         const startW = cur.w ?? r0.width;
         const startH = cur.h ?? r0.height;
         const startXoff = cur.x || 0;
         const startYoff = cur.y || 0;
         const from = map[keyH];
-        const isClone = !!host.dataset.msParentKey;
-        const baseAR = kind === "image" ? startW / Math.max(1, startH) : kind === "video" ? 16 / 9 : kind === "audio" ? 9 / 1 : 0;
+        const hasME = this.isMediaExtendedActive(host);
+        const baseAR = kind === "image" ? startW / Math.max(1, startH) : kind === "video" ? isClone || hasME ? 16 / 9 : media ? this.getAR(kind, media) : 16 / 9 : kind === "audio" ? 9 / 1 : 0;
         const controller = new AbortController();
         const onMove = (ev) => {
           ev.preventDefault();
@@ -3760,7 +4928,7 @@ var MediaSize = class extends import_obsidian.Plugin {
           overlay.classList.remove("--drag");
           document.body.classList.remove("ms-noselect");
           const rect = this.readAbsRect(host);
-          await this.saveState(notePath, key, {
+          const stateToSave = {
             w: rect.w,
             h: rect.h,
             x: rect.x || 0,
@@ -3768,7 +4936,16 @@ var MediaSize = class extends import_obsidian.Plugin {
             free: host.dataset.msFree === "1",
             detached: host.dataset.msDetached === "1" || isClone,
             locked: host.dataset.msLocked === "1"
-          });
+          };
+          if (kind === "note") {
+            const body = host.querySelector(".ms-note-body");
+            stateToSave.txt = body?.textContent ?? "";
+            stateToSave.fontSize = body ? parseFloat(body.style.fontSize) || 16 : 16;
+          }
+          if (isClone && (kind === "video" || kind === "audio")) {
+            stateToSave.fileName = host.dataset.msFileName;
+          }
+          await this.saveState(notePath, key, stateToSave);
         };
         if ("pointerId" in e && typeof handle.setPointerCapture === "function") {
           handle.setPointerCapture(e.pointerId);
@@ -3788,6 +4965,148 @@ var MediaSize = class extends import_obsidian.Plugin {
     if (notePath && key && host.dataset.msParentKey) {
       this.saveState(notePath, key, { zIndex: newZ });
     }
+  }
+  // --- НОВОЕ: Логика выделения ---
+  // --- НОВОЕ: Логика выделения ---  
+  handleMarqueeStart(e) {
+    const attachRoot = this.getAttachRoot();
+    if (!attachRoot?.contains(e.target) || e.target.closest(".ms-handle")) {
+      return;
+    }
+    const host = e.target.closest(".ms-host");
+    if (host && host.dataset.msKey) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const onMove = (moveEvent) => {
+      this.isMarqueeSelecting = true;
+      if (!this.marqueeStart) {
+        this.marqueeStart = { x: startX, y: startY };
+      }
+      this.ensureMarquee();
+      if (this.isMarqueeSelecting) {
+        this.updateMarquee(moveEvent.clientX, moveEvent.clientY);
+      }
+    };
+    const onUp = (upEvent) => {
+      window.removeEventListener("pointermove", onMove, true);
+      window.removeEventListener("pointerup", onUp, true);
+      if (this.isMarqueeSelecting) {
+        this.applyMarqueeSelection();
+        this.removeMarquee();
+        this.isMarqueeSelecting = false;
+        this.marqueeStart = null;
+      }
+      this.updateSelectionVisuals();
+    };
+    window.addEventListener("pointermove", onMove, true);
+    window.addEventListener("pointerup", onUp, true);
+  }
+  handleSelectionClick(e, key) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggleSelection(key);
+    this.updateSelectionVisuals();
+  }
+  toggleSelection(key) {
+    if (this.selectedKeys.has(key)) {
+      this.selectedKeys.delete(key);
+    } else {
+      this.selectedKeys.add(key);
+    }
+  }
+  updateSelectionVisuals() {
+    this.getActiveContainerEl()?.querySelectorAll(".ms-host").forEach((el) => {
+      const host = el;
+      const key = host.dataset.msKey;
+      if (key && this.selectedKeys.has(key)) {
+        host.classList.add("--selected");
+      } else {
+        host.classList.remove("--selected");
+      }
+    });
+    this.getActiveContainerEl()?.querySelectorAll(".ms-overlay").forEach((overlay) => {
+      const handles = overlay.querySelectorAll(".ms-handle");
+      const display = this.selectedKeys.size > 1 ? "none" : "";
+      handles.forEach((h) => h.style.display = display);
+    });
+  }
+  handleDeselectClick = (e) => {
+    if (e.button !== 0) return;
+    if (e.target.closest(".ms-host, .menu")) return;
+    if (this.selectedKeys.size > 0) {
+      this.selectedKeys.clear();
+      this.updateSelectionVisuals();
+    }
+  };
+  ensureMarquee() {
+    let marquee = document.getElementById("ms-marquee");
+    if (!marquee) {
+      marquee = document.createElement("div");
+      marquee.id = "ms-marquee";
+      document.body.appendChild(marquee);
+    }
+    return marquee;
+  }
+  updateMarquee(endX, endY) {
+    const marquee = this.ensureMarquee();
+    if (!this.marqueeStart) return;
+    const x = Math.min(this.marqueeStart.x, endX);
+    const y = Math.min(this.marqueeStart.y, endY);
+    const width = Math.abs(this.marqueeStart.x - endX);
+    const height = Math.abs(this.marqueeStart.y - endY);
+    Object.assign(marquee.style, {
+      left: `${x}px`,
+      top: `${y}px`,
+      width: `${width}px`,
+      height: `${height}px`,
+      display: "block"
+    });
+  }
+  applyMarqueeSelection() {
+    const marquee = document.getElementById("ms-marquee");
+    if (!marquee) return;
+    const marqueeRect = marquee.getBoundingClientRect();
+    const hosts = this.getActiveContainerEl()?.querySelectorAll(".ms-host");
+    hosts?.forEach((host) => {
+      const isClone = !!host.dataset.msParentKey;
+      const isNote = host.classList.contains("ms-note-host");
+      if (isClone || isNote) {
+        const hostRect = host.getBoundingClientRect();
+        if (hostRect.left < marqueeRect.right && hostRect.right > marqueeRect.left && hostRect.top < marqueeRect.bottom && hostRect.bottom > marqueeRect.top) {
+          const key = host.dataset.msKey;
+          if (key) this.toggleSelection(key);
+        }
+      }
+    });
+  }
+  // --- ИСПРАВЛЕНО: Контекстное меню для группы теперь содержит только одну кнопку "Удалить" ---
+  async buildGroupContextMenu(menu, host, key, kind, notePath) {
+    menu.addItem((item) => {
+      item.setTitle(t(this.app, "deleteSelected", { n: this.selectedKeys.size })).setIcon("trash").onClick(async () => {
+        const noteData = this.notes[notePath];
+        if (!noteData) return;
+        const keysToDelete = new Set(this.selectedKeys);
+        for (const selectedKey of keysToDelete) {
+          const el = this.findHostByKey(selectedKey);
+          if (!el) continue;
+          const isClone = !!el.dataset.msParentKey;
+          const isNote = el.classList.contains("ms-note-host");
+          el.remove();
+          if (isClone) delete noteData.clones?.[selectedKey];
+          if (isNote) delete noteData.originals?.[selectedKey];
+        }
+        this.selectedKeys.clear();
+        this.updateSelectionVisuals();
+        await this.persistAll();
+      });
+    });
+  }
+  removeMarquee() {
+    document.getElementById("ms-marquee")?.remove();
   }
   // ВЫЗОВАЙ ЭТУ ФУНКЦИЮ вместо прямого mountControlsProxy(...)
   mountControlsForHost(host, mediaEl) {
@@ -4131,8 +5450,21 @@ var MediaSize = class extends import_obsidian.Plugin {
     rightGroup.style.alignItems = "center";
     rightGroup.style.marginLeft = "auto";
     if (isVideo) {
+      let wasLockedBeforeFs = false;
+      let scrollRatioX = 0, scrollRatioY = 0, hScrollEl = null, vScrollEl = null;
       const btnFs = makeBtn(ICONS.fullscreen, "Fullscreen");
       btnFs.addEventListener("mousedown", (e) => smartClickHandler(e, () => {
+        if (!document.fullscreenElement) {
+          const { hScroll, vScroll } = this.findScrollableParents(host.parentElement);
+          this.hScrollEl = hScroll;
+          this.vScrollEl = vScroll;
+          if (this.hScrollEl && this.hScrollEl.scrollWidth > this.hScrollEl.clientWidth) {
+            this.scrollRatioX = this.hScrollEl.scrollLeft / (this.hScrollEl.scrollWidth - this.hScrollEl.clientWidth);
+          }
+          if (this.vScrollEl && this.vScrollEl.scrollHeight > this.vScrollEl.clientHeight) {
+            this.scrollRatioY = this.vScrollEl.scrollTop / (this.vScrollEl.scrollHeight - this.vScrollEl.clientHeight);
+          }
+        }
         if (!document.fullscreenElement) host.requestFullscreen().catch(() => {
         });
         else document.exitFullscreen().catch(() => {
@@ -4339,6 +5671,41 @@ var MediaSize = class extends import_obsidian.Plugin {
     };
     host.addEventListener("mousedown", onMouseDown, false);
   }
+  applyLinkOverlay(host, link) {
+    let overlay = host.querySelector(".ms-link-overlay");
+    if (!link) {
+      overlay?.remove();
+      return;
+    }
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.className = "ms-link-overlay";
+      Object.assign(overlay.style, {
+        position: "absolute",
+        inset: "3px",
+        zIndex: "2500",
+        // Above media, below handles
+        cursor: "pointer",
+        pointerEvents: "auto"
+      });
+      host.appendChild(overlay);
+    }
+    overlay.__ms_clickHandler?.();
+    const onMouseDown = (e) => {
+      if (e.button !== 0) return;
+      const onMouseUp = (upEvent) => {
+        window.removeEventListener("mouseup", onMouseUp, true);
+        const dx = upEvent.clientX - e.clientX;
+        const dy = upEvent.clientY - e.clientY;
+        if (Math.hypot(dx, dy) < 4) {
+          window.open(link, "_blank");
+        }
+      };
+      window.addEventListener("mouseup", onMouseUp, true);
+    };
+    overlay.addEventListener("mousedown", onMouseDown);
+    overlay.__ms_clickHandler = () => overlay.removeEventListener("mousedown", onMouseDown);
+  }
   applyCloneSettingsToAll() {
     const root = this.getActiveContainerEl();
     if (!root) return;
@@ -4393,7 +5760,8 @@ var MediaSize = class extends import_obsidian.Plugin {
       }
       .modal:has(.ms-clone-settings-modal),
       .modal:has(.ms-bgcolor-modal-content),
-      .modal:has(.ms-layout-settings-modal) {
+      .modal:has(.ms-layout-settings-modal),
+      .modal:has(.ms-rename-modal) {
         animation: ms-modal-scale-in 0.15s cubic-bezier(0.25, 0.1, 0.25, 1.0);
       }
     `;
@@ -4418,13 +5786,18 @@ var MediaSize = class extends import_obsidian.Plugin {
 
     .ms-host { position:relative; display:block; will-change:transform; }
     .ms-float-layer {
-      position: absolute; inset: 0;
+      position: absolute; 
+      inset: 0;
       padding: 0; margin: 0; border: 0;
       pointer-events: none; /* \u043A\u043B\u0438\u043A\u0430\u0435\u043C \u0442\u043E\u043B\u044C\u043A\u043E \u043F\u043E \u0434\u0435\u0442\u044F\u043C */
       z-index: 2000;
       transform: none;
     }
-
+    .markdown-preview-sizer, .cm-sizer {
+      /* \u041A\u0420\u0418\u0422\u0418\u0427\u041D\u041E: Sizer \u0434\u043E\u043B\u0436\u0435\u043D \u0431\u044B\u0442\u044C \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u043E\u043C \u043F\u043E\u0437\u0438\u0446\u0438\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F \u0434\u043B\u044F float-layer */
+      position: relative;
+      display: block !important;
+    }
 
     .ms-dock {
       position: absolute; z-index: 2001;
@@ -4446,6 +5819,10 @@ var MediaSize = class extends import_obsidian.Plugin {
     .ms-overlay .ms-handle { pointer-events: auto; }
 
     /* \u041F\u0440\u044F\u0447\u0435\u043C \xAB\u043C\u0435\u0440\u0442\u0432\u044B\u0435\xBB \u043F\u0430\u043D\u0435\u043B\u0438 \u0443 \u041A\u041B\u041E\u041D\u041E\u0412 ( \u0432\u0438\u0437\u0443\u0430\u043B \u043E\u0442 ME/plyr/vjs ) */
+        .ms-link-overlay {
+      /* This is the clickable overlay for image clone links */
+      /* It's visually transparent but captures clicks */
+    }
     .ms-host[data-ms-parent-key] .mejs__controls,
     .ms-host[data-ms-parent-key] .plyr__controls,
     .ms-host[data-ms-parent-key] .vjs-control-bar {
@@ -4537,9 +5914,14 @@ var MediaSize = class extends import_obsidian.Plugin {
   width: 100%;
   box-sizing: border-box;
 }
+  .ms-width-preset-modal-content .modal-button-container { /* <-- \u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0435\u043C \u0443\u043D\u0438\u043A\u0430\u043B\u044C\u043D\u044B\u0439 \u043A\u043B\u0430\u0441\u0441 */
+  position: relative;
+  right: 20px;
+}
 .ms-rename-modal .ms-rename-actions {
   display: flex;
   gap: 8px;
+  margin-top: 20px; /* \u0421\u0434\u0432\u0438\u0433\u0430\u0435\u043C \u043A\u043D\u043E\u043F\u043A\u0438 \u0432\u043D\u0438\u0437 */
 }
 /* \u0424\u0438\u043A\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u0430\u044F \u0448\u0438\u0440\u0438\u043D\u0430 \u0434\u043B\u044F \u043C\u0435\u0442\u043A\u0438 \u043F\u0440\u043E\u0446\u0435\u043D\u0442\u043E\u0432 \u0432 \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430\u0445 \u043A\u043B\u043E\u043D\u043E\u0432 */
 .ms-clone-settings-modal .setting-item-control span {
@@ -4563,11 +5945,7 @@ var MediaSize = class extends import_obsidian.Plugin {
     .ms-handle--rb, .ms-handle--lt { cursor: nwse-resize; }
     .ms-handle--lb, .ms-handle--rt { cursor: nesw-resize; }
 
-    /* \u0410\u0443\u0434\u0438\u043E: \u0445\u044D\u043D\u0434\u043B\u044B \u0432\u0441\u0435\u0433\u0434\u0430 \u043D\u0435\u0432\u0438\u0434\u0438\u043C\u044B */
-    .ms-host[data-ms-kind="audio"] .ms-handle {
-      display: block !important; /* \u0412\u0441\u0435\u0433\u0434\u0430 \u0430\u043A\u0442\u0438\u0432\u043D\u044B */
-      opacity: 0 !important;     /* \u041D\u043E \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E \u043D\u0435\u0432\u0438\u0434\u0438\u043C\u044B */
-    }
+
     /* \u041A\u043E\u0433\u0434\u0430 \u0433\u0430\u043B\u043E\u0447\u043A\u0430 \u0441\u0442\u043E\u0438\u0442, \u0440\u0443\u0447\u043A\u0438 \u0432\u0435\u0434\u0443\u0442 \u0441\u0435\u0431\u044F \u043A\u0430\u043A \u043E\u0431\u044B\u0447\u043D\u043E (\u043F\u043E\u044F\u0432\u043B\u044F\u044E\u0442\u0441\u044F \u043F\u0440\u0438 \u043D\u0430\u0432\u0435\u0434\u0435\u043D\u0438\u0438) */
     .ms-host[data-ms-kind="audio"][data-ms-show-handles="true"]:hover .ms-handle { opacity:1 !important; }
     
@@ -4601,6 +5979,8 @@ var MediaSize = class extends import_obsidian.Plugin {
 }
 .ms-note-top { height:24px; display:flex; align-items:center; justify-content:flex-end;
   padding:0 6px; cursor:grab; background: var(--background-modifier-hover);
+  border-top-left-radius: 5px; /* \u0421\u043A\u0440\u0443\u0433\u043B\u0435\u043D\u0438\u0435 \u0432\u0435\u0440\u0445\u043D\u0438\u0445 \u0443\u0433\u043B\u043E\u0432 */
+  border-top-right-radius: 5px;
 }
 .ms-note-top:active { cursor:grabbing; }
 .ms-note-close { width:18px; height:18px; border-radius:4px;
@@ -4610,9 +5990,39 @@ var MediaSize = class extends import_obsidian.Plugin {
 .ms-note-close:hover { opacity:1; background: var(--background-modifier-hover); }
 .ms-note-close::before { content: "\xD7"; font-weight:700; font-size:14px; line-height:1; }
 
-.ms-note-body { flex:1; padding:8px; overflow:auto; white-space:pre-wrap; outline:none; }
+.ms-note-body { flex:1; padding:8px; overflow:auto; white-space:pre-wrap; outline:none; 
+  --note-stroke: 1px;
+  --note-stroke-color: #000000;
 
+
+}
+.ms-note-host.ms-note-transparent .ms-note {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.ms-note-host.ms-note-transparent .ms-note-top {
+  background: transparent !important;
+}
+.ms-note-host.ms-note-transparent .ms-note-close {
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.ms-note-host.ms-note-transparent:hover .ms-note {
+  border-color: var(--background-modifier-border) !important;
+}
+.ms-note-host.ms-note-transparent:hover .ms-note-close {
+  opacity: 0.75;
+}
+  .ms-note-body.ms-note-text-stroked {
+  filter:
+    drop-shadow(calc(-1*var(--note-stroke) * .7071) calc(var(--note-stroke) * .7071)  0 var(--note-stroke-color))
+    drop-shadow(calc(var(--note-stroke) * .7071)   calc(-1*var(--note-stroke) * .7071) 0 var(--note-stroke-color))
+    drop-shadow(var(--note-stroke) 0       0 var(--note-stroke-color))
+    drop-shadow(0 var(--note-stroke)       0 var(--note-stroke-color));
+}
 /* \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C \u0440\u0443\u0447\u043A\u0438 \u043A\u0430\u043A \u0443 \u043A\u0430\u0440\u0442\u0438\u043D\u043E\u043A */
+
 .workspace-leaf.mod-active .markdown-source-view .ms-note-host:hover .ms-handle { display:block; opacity:1; }
 .ms-note-host .ms-overlay { pointer-events:none; }
 .ms-note-host .ms-handle { opacity: 0 !important; pointer-events: auto; }
