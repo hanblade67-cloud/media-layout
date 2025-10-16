@@ -1431,20 +1431,20 @@ var MediaLayoutSettingsModal = class extends import_obsidian.Modal {
     const cloneRestoreDelayRow = form.createDiv({ cls: "setting-item" });
     cloneRestoreDelayRow.createEl("div", { text: t(this.app, "cloneRestoreDelayLabel"), cls: "setting-item-name" });
     const cloneRestoreDelayControls = cloneRestoreDelayRow.createDiv({ cls: "setting-item-control" });
-    const cloneRestoreDelaySlider = cloneRestoreDelayControls.createEl("input", { type: "range", attr: { min: 0, max: 1e4, step: 100 } });
+    const cloneRestoreDelaySlider = cloneRestoreDelayControls.createEl("input", { type: "range", attr: { min: 0, max: 1e3, step: 10 } });
     cloneRestoreDelaySlider.value = String(this.plugin.cloneRestoreDelay);
-    const cloneRestoreDelayLabel = cloneRestoreDelayControls.createEl("span", { text: `${(Number(cloneRestoreDelaySlider.value) / 1e3).toFixed(1)}s` });
+    const cloneRestoreDelayLabel = cloneRestoreDelayControls.createEl("span", { text: `${Number(cloneRestoreDelaySlider.value)}ms` });
     cloneRestoreDelaySlider.addEventListener("input", () => {
-      cloneRestoreDelayLabel.textContent = `${(Number(cloneRestoreDelaySlider.value) / 1e3).toFixed(1)}s`;
+      cloneRestoreDelayLabel.textContent = `${Number(cloneRestoreDelaySlider.value)}ms`;
     });
     const noteRestoreDelayRow = form.createDiv({ cls: "setting-item" });
     noteRestoreDelayRow.createEl("div", { text: t(this.app, "noteRestoreDelayLabel"), cls: "setting-item-name" });
     const noteRestoreDelayControls = noteRestoreDelayRow.createDiv({ cls: "setting-item-control" });
-    const noteRestoreDelaySlider = noteRestoreDelayControls.createEl("input", { type: "range", attr: { min: 0, max: 1e4, step: 100 } });
+    const noteRestoreDelaySlider = noteRestoreDelayControls.createEl("input", { type: "range", attr: { min: 0, max: 1e3, step: 10 } });
     noteRestoreDelaySlider.value = String(this.plugin.noteRestoreDelay);
-    const noteRestoreDelayLabel = noteRestoreDelayControls.createEl("span", { text: `${(Number(noteRestoreDelaySlider.value) / 1e3).toFixed(1)}s` });
+    const noteRestoreDelayLabel = noteRestoreDelayControls.createEl("span", { text: `${Number(noteRestoreDelaySlider.value)}ms` });
     noteRestoreDelaySlider.addEventListener("input", () => {
-      noteRestoreDelayLabel.textContent = `${(Number(noteRestoreDelaySlider.value) / 1e3).toFixed(1)}s`;
+      noteRestoreDelayLabel.textContent = `${Number(noteRestoreDelaySlider.value)}ms`;
     });
     const buttons = contentEl.createDiv({ cls: "modal-button-container" });
     const okBtn = buttons.createEl("button", { text: t(this.app, "ok"), cls: "mod-cta" });
@@ -1474,17 +1474,17 @@ var MediaLayoutSettingsModal = class extends import_obsidian.Modal {
       hideDetachCheckbox.checked = true;
       cloneNearFileCheckbox.checked = true;
       modalAnimationCheckbox.checked = true;
-      cloneRestoreDelaySlider.value = "300";
-      cloneRestoreDelayLabel.textContent = "0.3s";
-      noteRestoreDelaySlider.value = "200";
-      noteRestoreDelayLabel.textContent = "0.2s";
+      cloneRestoreDelaySlider.value = "50";
+      cloneRestoreDelayLabel.textContent = "50ms";
+      noteRestoreDelaySlider.value = "50";
+      noteRestoreDelayLabel.textContent = "50ms";
       this.plugin.showHandlesOnHover = true;
       this.plugin.cloneNearFile = true;
       this.plugin.cloneShowAudioHandles = true;
       this.plugin.hideDetachButton = true;
       this.plugin.enableModalAnimation = true;
-      this.plugin.cloneRestoreDelay = 300;
-      this.plugin.noteRestoreDelay = 200;
+      this.plugin.cloneRestoreDelay = 50;
+      this.plugin.noteRestoreDelay = 50;
       await this.plugin.persistAll();
       this.plugin.applyAllHandleStyles();
       this.plugin.applyModalAnimationStyles();
@@ -1511,8 +1511,8 @@ var MediaSize = class extends import_obsidian.Plugin {
   cloneBgOpacity = 1;
   cloneControlsOpacity = 0.35;
   cloneHideDelay = 2;
-  noteRestoreDelay = 200;
-  cloneRestoreDelay = 300;
+  noteRestoreDelay = 50;
+  cloneRestoreDelay = 50;
   enableModalAnimation = true;
   hideDetachButton = true;
   showHandlesOnHover = true;
@@ -1530,6 +1530,8 @@ var MediaSize = class extends import_obsidian.Plugin {
   selectedKeys = /* @__PURE__ */ new Set();
   isMarqueeSelecting = false;
   marqueeStart = null;
+  marqueeWithCtrl = false;
+  // Флаг для отслеживания зажатого Ctrl при marquee
   // ИСПРАВЛЕНО: Переменные для скролла вынесены в свойства класса, чтобы быть доступными везде
   scrollRatioX = 0;
   scrollRatioY = 0;
@@ -1751,20 +1753,6 @@ var MediaSize = class extends import_obsidian.Plugin {
         if (isTargetSelected && this.selectedKeys.size > 1) {
           this.buildGroupContextMenu(menu, host, key, kind, notePath);
           return;
-        }
-        if (isClone && kind === "image") {
-          menu.addItem(
-            (i) => i.setTitle(t(this.app, "addLink")).setIcon("link").onClick(async () => {
-              const currentState = this.notes[notePath]?.clones?.[key];
-              const initialLink = currentState?.link || "";
-              new LinkModal(this.app, initialLink, async (link) => {
-                if (link !== null) {
-                  await this.saveState(notePath, key, { link });
-                  this.applyLinkOverlay(host, link);
-                }
-              }).open();
-            })
-          );
         }
         if (isClone) {
           if (kind !== "note") {
@@ -2618,7 +2606,16 @@ ${JSON.stringify(entry.data, null, 2)}
       for (const [key, st] of Object.entries(layout)) {
         if (!key.includes("::clone::")) continue;
         const existingClone = root.querySelector(`[data-ms-key="${CSS.escape(key)}"]`);
-        if (existingClone) continue;
+        if (existingClone) {
+          const media = existingClone.querySelector("video, img, audio");
+          const tag = media?.tagName?.toUpperCase();
+          const kind = tag === "IMG" ? "image" : tag === "AUDIO" ? "audio" : "video";
+          if (media) {
+            this.applyState(existingClone, media, kind, st);
+            await this.saveState(notePath, key, st, false);
+          }
+          continue;
+        }
         let parentKey = st.parentKey;
         const parentAnchor = st.parentAnchor;
         let originalHost = parentKey ? this.findHostByKey(parentKey) : null;
@@ -2653,8 +2650,8 @@ ${JSON.stringify(entry.data, null, 2)}
             fileName = base || void 0;
           }
         }
-        this.createCloneHost(root, cloneHost, key, parentKey, st.x ?? 0, st.y ?? 0, true, fileName);
         await this.saveState(notePath, key, st, false);
+        this.createCloneHost(root, cloneHost, key, parentKey, st.x ?? 0, st.y ?? 0, true, fileName);
       }
     }
     const hosts = this.enumerateHostsInNote(notePath);
@@ -2750,6 +2747,13 @@ ${JSON.stringify(entry.data, null, 2)}
       }
       toMove.push({ host, x: st.x || 0, y: st.y || 0 });
       this.applyState(host, media, kind, st);
+      this.debug("applyLayout: z-index applied", {
+        key,
+        zIndexInState: st.zIndex,
+        zIndexInDOM: host.style.zIndex,
+        isClone: !!host.dataset.msParentKey
+      });
+      await this.saveState(notePath, key, st, false);
     }
     await new Promise((r) => requestAnimationFrame(() => r()));
     for (const { host, x, y } of toMove) this.applyTransform(host, x, y);
@@ -2806,7 +2810,7 @@ ${JSON.stringify(entry.data, null, 2)}
         this.applyTransform(host, tx + dx, ty + dy);
       }
     }
-    const stopAt = Date.now() + 1500;
+    const stopAt = Date.now() + 500;
     const realign = (host, x, y) => {
       const r = this.readAbsRect(host);
       const dx = x - (r.x || 0);
@@ -2829,19 +2833,16 @@ ${JSON.stringify(entry.data, null, 2)}
       observers.push(ro);
       setTimeout(() => {
         if (Date.now() <= stopAt) realign(host, x, y);
-      }, 50);
+      }, 10);
       setTimeout(() => {
         if (Date.now() <= stopAt) realign(host, x, y);
-      }, 200);
+      }, 100);
       setTimeout(() => {
         if (Date.now() <= stopAt) realign(host, x, y);
-      }, 500);
-      setTimeout(() => {
-        if (Date.now() <= stopAt) realign(host, x, y);
-      }, 1e3);
+      }, 300);
       requestAnimationFrame(() => realign(host, x, y));
     }
-    setTimeout(() => observers.forEach((o) => o.disconnect()), 1600);
+    setTimeout(() => observers.forEach((o) => o.disconnect()), 600);
   }
   async saveLayoutToState(notePath, layout) {
     for (const [key, st] of Object.entries(layout)) {
@@ -2853,6 +2854,15 @@ ${JSON.stringify(entry.data, null, 2)}
     host.dataset.msKind = kind;
     const w = st.w ?? (host.getBoundingClientRect().width || media?.clientWidth || 0);
     const h = st.h ?? (host.getBoundingClientRect().height || media?.clientHeight || 0);
+    if (isClone && (typeof st.w !== "number" || typeof st.h !== "number")) {
+      this.debug("applyState: Clone has missing size in state, using fallback", {
+        key: host.dataset.msKey,
+        hasW: typeof st.w === "number",
+        hasH: typeof st.h === "number",
+        fallbackW: w,
+        fallbackH: h
+      });
+    }
     this.applyBox(host, media, kind, w, h, st.free === true);
     if (st.detached || isClone || kind === "note") {
       this.ensureParentAnchor(host);
@@ -3476,7 +3486,7 @@ ${JSON.stringify(entry.data, null, 2)}
       const view = leaf.view;
       const containerEl = view.containerEl;
       if (!containerEl) return;
-      const ATTEMPTS = 50;
+      const ATTEMPTS = 20;
       let left = ATTEMPTS;
       const tick = () => {
         const src = containerEl.querySelector(".markdown-source-view .cm-scroller");
@@ -3484,25 +3494,26 @@ ${JSON.stringify(entry.data, null, 2)}
         const root = src || read;
         if (!root) {
           if (--left > 0) {
-            this.schedule(tick, 200);
+            this.schedule(tick, 50);
           }
           return;
         }
         const mount = this.ensureFloatLayer(root);
         if ((mount.dataset.msNote || "") !== notePath) return;
         this.debug("Layer ready, scheduling clone restore", { notePath });
-        this.schedule(() => {
+        this.schedule(async () => {
           const hosts = root.querySelectorAll(".ms-host[data-ms-key]");
           if (!hosts.length) {
             this.debug("No hosts found yet, retrying", { notePath, attemptsLeft: left });
             if (--left > 0) {
-              this.schedule(tick, 200);
+              this.schedule(tick, 50);
             }
             return;
           }
           this.debug("Found hosts, building anchor index", { notePath, hostCount: hosts.length });
           const anchorIndex = this.buildAnchorIndex(root);
-          this.debug("Starting clone restoration loop", { notePath, totalClones: Object.keys(clones).length });
+          this.debug("Starting PARALLEL clone restoration", { notePath, totalClones: Object.keys(clones).length });
+          const clonePromises = [];
           for (const [cloneId, state] of Object.entries(clones)) {
             if (mount.querySelector(`[data-ms-key="${CSS.escape(cloneId)}"]`)) {
               this.debug("Clone already exists, skipping", { cloneId });
@@ -3519,19 +3530,21 @@ ${JSON.stringify(entry.data, null, 2)}
                 }
               }
             }
-            this.tryRestoreSingleClone(notePath, cloneId, st, root);
+            clonePromises.push(this.tryRestoreSingleClone(notePath, cloneId, st, root));
           }
+          await Promise.all(clonePromises);
+          this.debug("All clones restored in parallel", { notePath, count: clonePromises.length });
           this.schedule(() => this.applyCloneSettingsToAll(), 150);
         }, this.cloneRestoreDelay);
       };
-      this.schedule(tick, 200);
+      this.schedule(tick, 50);
     });
   }
   async tryRestoreSingleClone(notePath, cloneId, state, root) {
-    if (!root) return;
+    if (!root) return Promise.resolve();
     this.debug("tryRestoreSingleClone started", { cloneId, parentKey: state.parentKey });
     const mount = this.ensureFloatLayer(root);
-    if (mount.querySelector(`[data-ms-key="${CSS.escape(cloneId)}"]`)) return;
+    if (mount.querySelector(`[data-ms-key="${CSS.escape(cloneId)}"]`)) return Promise.resolve();
     let parentKey = state.parentKey;
     if (!parentKey || !root.querySelector(`.ms-host[data-ms-key="${CSS.escape(parentKey)}"]`)) {
       const a = state.parentAnchor;
@@ -3545,42 +3558,49 @@ ${JSON.stringify(entry.data, null, 2)}
     }
     if (!parentKey) {
       this.warn("Parent not found for clone", { cloneId, originalParentKey: state.parentKey, parentAnchor: state.parentAnchor });
-      return;
+      return Promise.resolve();
     }
-    this.debug("Parent found, creating clone", { cloneId, parentKey });
-    let originalHost = root.querySelector(`.ms-host[data-ms-key="${CSS.escape(state.parentKey)}"]`);
+    this.debug("Parent found, creating clone from TFile", { cloneId, parentKey });
     let cloneHost = null;
-    if (originalHost) {
-      cloneHost = this.createCleanCloneElement(originalHost);
-    } else {
-      const newHost = await this.createHostFromTFile(notePath, state.parentKey);
-      if (newHost) {
-        cloneHost = newHost;
-        originalHost = newHost;
-      }
+    let originalHost = null;
+    const newHost = await this.createHostFromTFile(notePath, state.parentKey);
+    if (newHost) {
+      cloneHost = newHost;
+      originalHost = newHost;
     }
-    if (!cloneHost || !originalHost) {
-      console.warn(`[MS] Failed to create clone ${cloneId}: original host or TFile not found.`);
-      return;
-    }
-    const clonedMedia = cloneHost.querySelector("video, img, audio");
-    const originalMedia = originalHost.querySelector("video, img, audio");
-    if (clonedMedia && originalMedia && (clonedMedia.tagName === "VIDEO" || clonedMedia.tagName === "AUDIO")) {
-      const src = originalMedia.currentSrc || originalMedia.src;
-      if (src && (src.startsWith("app://") || src.startsWith("blob:"))) {
-        clonedMedia.src = src;
-        clonedMedia.load();
-      } else {
-      }
+    if (!cloneHost) {
+      console.warn(`[MS] Failed to create clone ${cloneId}: TFile not found for ${state.parentKey}`);
+      return Promise.resolve();
     }
     this.createCloneHost(root, cloneHost, cloneId, state.parentKey, state.x, state.y, true);
     const newClonedMedia = cloneHost.querySelector("video, img, audio");
     if (newClonedMedia) {
       const tag = (newClonedMedia.tagName || "").toUpperCase();
       const kind = tag === "IMG" ? "image" : tag === "AUDIO" ? "audio" : "video";
-      const fullState = { ...state, link: state.link };
+      const fullState = { ...state, link: state.link, zIndex: state.zIndex };
+      this.debug("tryRestoreSingleClone: applying state", {
+        cloneId,
+        hasW: typeof fullState.w === "number",
+        hasH: typeof fullState.h === "number",
+        hasZIndex: typeof fullState.zIndex === "number",
+        w: fullState.w,
+        h: fullState.h,
+        zIndex: fullState.zIndex,
+        zIndexFromCloneHost: cloneHost.style.zIndex
+      });
       this.applyState(cloneHost, newClonedMedia, kind, fullState);
+      const actualZIndex = parseInt(cloneHost.style.zIndex || "", 10);
+      if (typeof state.zIndex === "number" && actualZIndex !== state.zIndex) {
+        this.warn("tryRestoreSingleClone: z-index mismatch, forcing correct value", {
+          cloneId,
+          expectedZIndex: state.zIndex,
+          actualZIndex,
+          fixing: true
+        });
+        cloneHost.style.zIndex = String(state.zIndex);
+      }
     }
+    return Promise.resolve();
   }
   async createHostFromTFile(notePath, parentKey) {
     const basename = this.extractBaseFromKey(parentKey);
@@ -4195,6 +4215,7 @@ ${JSON.stringify(entry.data, null, 2)}
     ["msInit", "msKind", "msFree", "msLocked", "msDetached", "msKey", "data-mx-id"].forEach((a) => delete cloneHost.dataset[a]);
     cloneHost.removeAttribute("id");
     cloneHost.querySelectorAll("[id]").forEach((el) => el.removeAttribute("id"));
+    cloneHost.style.zIndex = "";
     return cloneHost;
   }
   // Создать клон медиа-элемента
@@ -4230,7 +4251,13 @@ ${JSON.stringify(entry.data, null, 2)}
     cloneHost.style.position = "absolute";
     cloneHost.style.left = "0px";
     cloneHost.style.top = "0px";
-    cloneHost.style.zIndex = "2900";
+    const existingZIndex = this.notes[notePath]?.clones?.[key]?.zIndex;
+    cloneHost.style.zIndex = typeof existingZIndex === "number" ? String(existingZIndex) : "2900";
+    this.debug("createCloneHost: z-index set", {
+      key,
+      hasExistingZIndex: typeof existingZIndex === "number",
+      zIndex: cloneHost.style.zIndex
+    });
     cloneHost.style.transform = "";
     cloneHost.style.willChange = "transform";
     cloneHost.style.pointerEvents = "auto";
@@ -4264,17 +4291,31 @@ ${JSON.stringify(entry.data, null, 2)}
     }
     this.applyTransform(cloneHost, Math.round(x), Math.round(y));
     setTimeout(async () => {
+      const existingState = this.notes[notePath]?.clones?.[key];
+      const hasValidSize = existingState && typeof existingState.w === "number" && typeof existingState.h === "number";
       const rect = cloneHost.getBoundingClientRect();
+      const currentZIndex = parseInt(cloneHost.style.zIndex || "", 10);
+      const zIndexToSave = Number.isFinite(currentZIndex) ? currentZIndex : existingState?.zIndex;
+      this.debug("createCloneHost setTimeout: saving z-index", {
+        key,
+        currentZIndexFromDOM: currentZIndex,
+        existingZIndexFromState: existingState?.zIndex,
+        zIndexToSave
+      });
       await this.saveState(notePath, key, {
+        ...existingState || {},
+        // Сохраняем все существующие свойства
         parentKey,
-        w: rect.width || 480,
-        h: rect.height || 270,
-        fileName: cloneHost.dataset.msFileName,
+        w: hasValidSize ? existingState.w : rect.width || 480,
+        h: hasValidSize ? existingState.h : rect.height || 270,
+        fileName: cloneHost.dataset.msFileName || existingState?.fileName,
         x,
         // ← ИСПОЛЬЗУЕМ ПЕРЕДАННЫЕ координаты!
         y,
         // ← ИСПОЛЬЗУЕМ ПЕРЕДАННЫЕ координаты!
-        link: this.notes[notePath]?.clones?.[key]?.link,
+        link: existingState?.link,
+        zIndex: zIndexToSave,
+        // ← ЯВНО сохраняем актуальный z-index
         detached: true
       });
     }, 100);
@@ -4979,6 +5020,7 @@ ${JSON.stringify(entry.data, null, 2)}
     }
     e.preventDefault();
     e.stopPropagation();
+    this.marqueeWithCtrl = e.ctrlKey || e.metaKey;
     const startX = e.clientX;
     const startY = e.clientY;
     const onMove = (moveEvent) => {
@@ -4999,6 +5041,7 @@ ${JSON.stringify(entry.data, null, 2)}
         this.removeMarquee();
         this.isMarqueeSelecting = false;
         this.marqueeStart = null;
+        this.marqueeWithCtrl = false;
       }
       this.updateSelectionVisuals();
     };
@@ -5036,6 +5079,7 @@ ${JSON.stringify(entry.data, null, 2)}
   }
   handleDeselectClick = (e) => {
     if (e.button !== 0) return;
+    if (e.ctrlKey || e.metaKey) return;
     if (e.target.closest(".ms-host, .menu")) return;
     if (this.selectedKeys.size > 0) {
       this.selectedKeys.clear();
@@ -5070,6 +5114,9 @@ ${JSON.stringify(entry.data, null, 2)}
     const marquee = document.getElementById("ms-marquee");
     if (!marquee) return;
     const marqueeRect = marquee.getBoundingClientRect();
+    if (!this.marqueeWithCtrl) {
+      this.selectedKeys.clear();
+    }
     const hosts = this.getActiveContainerEl()?.querySelectorAll(".ms-host");
     hosts?.forEach((host) => {
       const isClone = !!host.dataset.msParentKey;
@@ -5078,7 +5125,13 @@ ${JSON.stringify(entry.data, null, 2)}
         const hostRect = host.getBoundingClientRect();
         if (hostRect.left < marqueeRect.right && hostRect.right > marqueeRect.left && hostRect.top < marqueeRect.bottom && hostRect.bottom > marqueeRect.top) {
           const key = host.dataset.msKey;
-          if (key) this.toggleSelection(key);
+          if (key) {
+            if (this.marqueeWithCtrl) {
+              this.toggleSelection(key);
+            } else {
+              this.selectedKeys.add(key);
+            }
+          }
         }
       }
     });
