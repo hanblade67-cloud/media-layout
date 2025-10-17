@@ -4,6 +4,7 @@
   "version": "5.4.0",
   "minAppVersion": "1.5.0",
   "author": "Hanblade",
-   "description":"Page editor for media layout: drag, detach/lock, resize images, video, audio; floating notes; presets; safe reset",
+   "description":"Page editor for media layout: drag, detach/lock, resize images, video, audio; floating notes; presets; safe reset.",
   "isDesktopOnly": true
 }
+
