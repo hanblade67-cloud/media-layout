@@ -999,10 +999,19 @@ function t(app, key, vars) {
   return s;
 }
 function findContentSizer(root) {
-  const readingSizer = root.querySelector(".markdown-preview-view .markdown-preview-sizer");
+  if (!root) return null;
+  let readingSizer = root.querySelector(":scope > .markdown-preview-sizer");
   if (readingSizer) return readingSizer;
-  const editorSizer = root.querySelector(".markdown-source-view .cm-sizer");
+  readingSizer = root.querySelector(".markdown-preview-view > .markdown-preview-sizer");
+  if (readingSizer) return readingSizer;
+  readingSizer = root.querySelector(".markdown-preview-sizer");
+  if (readingSizer) return readingSizer;
+  const editorSizer = root.querySelector(".cm-sizer");
   if (editorSizer) return editorSizer;
+  if (root.classList.contains("markdown-preview-sizer") || root.classList.contains("cm-sizer")) {
+    return root;
+  }
+  console.warn("[Media Layout] Could not find content sizer in root:", root);
   return null;
 }
 var MAX_WIDTH_PRESETS = 15;
@@ -1526,6 +1535,16 @@ var MediaSize = class extends import_obsidian.Plugin {
   // КРИТИЧНО: Флаг и очередь для защиты от одновременных вызовов persistAll
   persistInProgress = false;
   persistQueue = null;
+  // УСИЛЕНИЕ СОХРАНЕНИЯ: Debounce таймер для отложенного сохранения
+  persistDebounceTimer = null;
+  persistDebounceDelay = 150;
+  // мс, оптимальный баланс (снижен с 250ms для безопасности)
+  maxPersistDelay = 3e3;
+  // мс, максимальная задержка - принудительное сохранение (если есть изменения)
+  lastPersistTime = 0;
+  // timestamp последнего сохранения
+  hasPendingChanges = false;
+  // флаг несохранённых изменений (как у бэкапов)
   // --- НОВОЕ: Управление выделением ---
   selectedKeys = /* @__PURE__ */ new Set();
   isMarqueeSelecting = false;
@@ -1590,13 +1609,36 @@ var MediaSize = class extends import_obsidian.Plugin {
   }
   // Единый абсолютный слой поверх редактора для всех плавающих хостов
   ensureFloatLayer(root) {
+    const isReading = !!root.closest(".markdown-reading-view, .markdown-preview-view");
+    this.debug("ensureFloatLayer called", {
+      isReading,
+      rootClass: root.className,
+      rootTag: root.tagName
+    });
     let sizer = findContentSizer(root.closest(".markdown-source-view, .markdown-reading-view"));
-    if (!sizer) sizer = root;
+    this.debug("Found sizer", {
+      found: !!sizer,
+      sizerClass: sizer?.className,
+      sizerTag: sizer?.tagName
+    });
+    if (!sizer) {
+      this.warn("No sizer found, using root as fallback", {});
+      sizer = root;
+    }
     let layer = sizer.querySelector(":scope > .ms-float-layer");
     if (!layer) {
+      this.debug("Creating new float-layer in sizer", {});
       layer = document.createElement("div");
       layer.className = "ms-float-layer";
+      layer.style.display = "block";
+      layer.style.visibility = "visible";
       sizer.appendChild(layer);
+      this.debug("Float-layer created and appended", {
+        parent: sizer.className,
+        layerInDOM: document.contains(layer)
+      });
+    } else {
+      this.debug("Float-layer already exists", {});
     }
     const path = this.getActiveNote()?.path ?? "";
     if (path) {
@@ -1606,6 +1648,10 @@ var MediaSize = class extends import_obsidian.Plugin {
         if (n && n !== path) el.remove();
       });
     }
+    this.debug("Float-layer ready", {
+      childCount: layer.children.length,
+      path
+    });
     return layer;
   }
   lastCtxEvt = null;
@@ -1683,15 +1729,34 @@ var MediaSize = class extends import_obsidian.Plugin {
       }, 500);
     });
     let switchDebounceTimer = null;
+    let switchInProgress = false;
+    let lastSwitchPath = null;
     const scheduleSwitch = (file) => {
       if (switchDebounceTimer) clearTimeout(switchDebounceTimer);
       switchDebounceTimer = window.setTimeout(() => handleFileSwitch(file), 0);
     };
     const handleFileSwitch = async (file) => {
-      this.cancelScheduled?.();
-      await this.hardCleanupForSwitch(this.currentNotePath ?? this.getActiveNote()?.path ?? void 0);
-      this.currentNotePath = file?.path ?? this.getActiveNote()?.path ?? null;
-      this.scanActive();
+      const newPath = file?.path ?? this.getActiveNote()?.path ?? null;
+      if (switchInProgress) {
+        console.warn("[Media Layout] Switch already in progress, ignoring duplicate call");
+        return;
+      }
+      if (newPath === lastSwitchPath && Date.now() - this.lastSwitchTime < 100) {
+        console.warn("[Media Layout] Duplicate switch to same file, ignoring");
+        return;
+      }
+      switchInProgress = true;
+      this.lastSwitchTime = Date.now();
+      lastSwitchPath = newPath;
+      try {
+        this.cancelScheduled?.();
+        await this.flushPersist();
+        await this.hardCleanupForSwitch(this.currentNotePath ?? this.getActiveNote()?.path ?? void 0);
+        this.currentNotePath = newPath;
+        this.scanActive();
+      } finally {
+        switchInProgress = false;
+      }
     };
     this.registerEvent(this.app.workspace.on("file-open", (file) => scheduleSwitch(file)));
     this.registerEvent(this.app.workspace.on("active-leaf-change", () => {
@@ -1709,11 +1774,61 @@ var MediaSize = class extends import_obsidian.Plugin {
         leaves.forEach((leaf) => {
           const file = leaf.view?.file;
           if (file?.path) {
+            this.restoreClonesFromStore(file.path);
             this.realignClonesIfNeeded(file.path);
           }
         });
       }, 150);
     }));
+    this.registerDomEvent(window, "resize", () => {
+      this.schedule(() => {
+        const notePath = this.getActiveNote()?.path;
+        if (!notePath) return;
+        const view = this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView);
+        if (!view) return;
+        const containerEl = view.containerEl;
+        const read = containerEl.querySelector(".markdown-reading-view");
+        const isReadingMode = read && getComputedStyle(read).display !== "none";
+        if (isReadingMode) {
+          this.restoreClonesFromStore(notePath);
+          this.ensureNotesFromStore(notePath);
+        }
+      }, 50);
+    });
+    let scrollTimeout = null;
+    this.registerDomEvent(document, "scroll", (e) => {
+      const target = e.target;
+      if (!target || !target.closest || !target.closest(".markdown-reading-view")) return;
+      if (scrollTimeout !== null) {
+        clearTimeout(scrollTimeout);
+      }
+      scrollTimeout = window.setTimeout(() => {
+        const notePath = this.getActiveNote()?.path;
+        if (!notePath) return;
+        const view = this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView);
+        if (!view) return;
+        const containerEl = view.containerEl;
+        const read = containerEl.querySelector(".markdown-reading-view");
+        const isReadingMode = read && getComputedStyle(read).display !== "none";
+        if (isReadingMode) {
+          const root = this.getAttachRoot();
+          if (!root) return;
+          const layer = root.querySelector(".ms-float-layer");
+          const noteData = this.notes[notePath];
+          const hasStoredClones = noteData?.clones && Object.keys(noteData.clones).length > 0;
+          const hasStoredNotes = noteData?.originals && Object.values(noteData.originals).some((o) => o.txt !== void 0);
+          const hasDomClones = layer?.querySelector("[data-ms-parent-key]");
+          const hasDomNotes = layer?.querySelector(".ms-note-host");
+          if (hasStoredClones && !hasDomClones) {
+            this.restoreClonesFromStore(notePath);
+          }
+          if (hasStoredNotes && !hasDomNotes) {
+            this.ensureNotesFromStore(notePath);
+          }
+        }
+        scrollTimeout = null;
+      }, 100);
+    }, true);
     this.registerEvent(
       this.app.workspace.on("editor-menu", (menu, _editor, view) => {
         const ev = this.lastCtxEvt;
@@ -2177,7 +2292,21 @@ Current data will be overwritten.`
       this.createBackup();
     }, 10 * 60 * 1e3);
     this.schedule(() => this.createBackup(), 1e4);
+    this.register(() => {
+      window.removeEventListener("beforeunload", this.emergencyFlush);
+    });
+    window.addEventListener("beforeunload", this.emergencyFlush);
   }
+  // УСИЛЕНИЕ СОХРАНЕНИЯ: Экстренное сохранение при закрытии окна
+  emergencyFlush = () => {
+    if (this.persistDebounceTimer !== null) {
+      clearTimeout(this.persistDebounceTimer);
+      this.persistDebounceTimer = null;
+    }
+    this.persistAll().catch((err) => {
+      console.error("[Media Layout] Emergency flush failed:", err);
+    });
+  };
   async onunload() {
     if (this.enableDebugMode && this.debugLog.length > 0) {
       await this.saveDebugLog();
@@ -2189,6 +2318,7 @@ Current data will be overwritten.`
       clearInterval(this.backupTimer);
       this.backupTimer = null;
     }
+    await this.flushPersist();
     await this.persistAll();
     this.observers.forEach((o) => o.disconnect());
     this.observers.length = 0;
@@ -2483,13 +2613,17 @@ ${JSON.stringify(entry.data, null, 2)}
     const root = this.getActiveContainerEl();
     if (!root) return;
     const notePath = this.getActiveNote()?.path ?? "";
+    this.currentNotePath = notePath;
     this.processRoot(root, notePath);
     const mo = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === "childList") {
           mutation.addedNodes.forEach((node) => {
             if (node instanceof HTMLElement) {
-              this.processRoot(node, notePath);
+              const currentPath = this.getActiveNote()?.path ?? "";
+              if (currentPath) {
+                this.processRoot(node, currentPath);
+              }
             }
           });
         }
@@ -2554,6 +2688,15 @@ ${JSON.stringify(entry.data, null, 2)}
       }
       this.applyKindBaseStyles(host, media, kind);
       const saved = this.loadStateWithFallback(notePath, key, base);
+      if (kind === "image" && saved) {
+        console.log(`\u{1F7E2} [RESTORE] Applying saved state for image:`, {
+          key,
+          savedW: saved.w,
+          savedH: saved.h,
+          domW: host.getBoundingClientRect().width,
+          domH: host.getBoundingClientRect().height
+        });
+      }
       if (saved) this.applyState(host, media, kind, saved);
       else {
         if (kind !== "image" && kind !== "note") {
@@ -2937,6 +3080,15 @@ ${JSON.stringify(entry.data, null, 2)}
     }
   }
   applyBox(host, media, kind, w, h, freeImage = false) {
+    if (kind === "image") {
+      console.log(`\u{1F7E1} [APPLY BOX] Setting image size:`, {
+        key: host.dataset.msKey,
+        applyW: w,
+        applyH: h,
+        currentDomW: host.getBoundingClientRect().width,
+        free: freeImage
+      });
+    }
     if (kind === "video") {
       host.style.width = `${Math.round(w)}px`;
       host.style.maxWidth = `${Math.round(w)}px`;
@@ -3030,13 +3182,25 @@ ${JSON.stringify(entry.data, null, 2)}
     return { x: r.left - originLeft, y: r.top - originTop, w: r.width, h: r.height };
   }
   applyTransform(host, x, y) {
-    host.style.transform = `translate(${x}px, ${y}px)`;
+    const isInFloatLayer = !!host.closest(".ms-float-layer");
+    const isReadingMode = !!host.closest(".markdown-reading-view, .markdown-preview-view");
+    let finalX = x;
+    let finalY = y;
+    if (isInFloatLayer && isReadingMode) {
+      finalX = x + 29;
+      finalY = y - 53;
+    }
+    host.style.transform = `translate(${finalX}px, ${finalY}px)`;
     if (this.enableDebugMode && host.dataset.msParentKey) {
       const leafCount = this.app.workspace.getLeavesOfType("markdown").length;
       this.debug("applyTransform to clone", {
         cloneId: host.dataset.msKey,
-        x,
-        y,
+        x: finalX,
+        y: finalY,
+        isReadingMode,
+        isInFloatLayer,
+        originalX: x,
+        originalY: y,
         leafCount
       });
     }
@@ -3045,8 +3209,9 @@ ${JSON.stringify(entry.data, null, 2)}
     return this.readAbsRect(host);
   }
   // Сохранить состояние media/клона в новую структуру notes{originals,clones}
-  // КРИТИЧНО: По умолчанию вызывает persistAll (для обратной совместимости)
+  // УСИЛЕНИЕ СОХРАНЕНИЯ: По умолчанию использует debounced persist для лучшей производительности
   // Передайте autoPersist=false если сохраняете много элементов в цикле
+  // Передайте autoPersist="immediate" для немедленного сохранения (критичные операции)
   async saveState(notePath, key, partial, autoPersist = true) {
     if (!notePath) return;
     this.notes ||= {};
@@ -3059,8 +3224,24 @@ ${JSON.stringify(entry.data, null, 2)}
       bucket[key] = {};
     }
     bucket[key] = { ...bucket[key] || {}, ...partial };
-    if (autoPersist) {
+    if (partial.w !== void 0 || partial.h !== void 0) {
+      const hostEl = this.getActiveContainerEl()?.querySelector(`[data-ms-key="${CSS.escape(key)}"]`);
+      const kind = hostEl?.dataset.msKind;
+      if (kind === "image") {
+        console.log(`\u{1F535} [SAVE] Image size change:`, {
+          key,
+          newW: partial.w,
+          newH: partial.h,
+          currentInMemory: { w: bucket[key].w, h: bucket[key].h },
+          stackTrace: new Error().stack?.split("\n").slice(2, 4).join("\n")
+        });
+      }
+    }
+    this.hasPendingChanges = true;
+    if (autoPersist === "immediate") {
       await this.persistAll();
+    } else if (autoPersist === true) {
+      this.persistAllDebounced();
     }
   }
   // Единая запись на диск (оставь как есть, либо приведи к такому виду):
@@ -3094,6 +3275,8 @@ ${JSON.stringify(entry.data, null, 2)}
           showHandlesOnHover: this.showHandlesOnHover
         };
         await this.saveData(data);
+        this.lastPersistTime = Date.now();
+        this.hasPendingChanges = false;
       } catch (error) {
         console.error("[Media Layout] Failed to persist data:", error);
       } finally {
@@ -3103,6 +3286,43 @@ ${JSON.stringify(entry.data, null, 2)}
     })();
     this.persistQueue = currentPersist;
     await currentPersist;
+  }
+  // УСИЛЕНИЕ СОХРАНЕНИЯ: Debounced версия для частых операций (resize, drag)
+  persistAllDebounced() {
+    if (!this.hasPendingChanges) {
+      return;
+    }
+    const now = Date.now();
+    const timeSinceLastPersist = now - this.lastPersistTime;
+    if (timeSinceLastPersist >= this.maxPersistDelay) {
+      if (this.persistDebounceTimer !== null) {
+        clearTimeout(this.persistDebounceTimer);
+        this.persistDebounceTimer = null;
+      }
+      this.persistAll().catch((err) => {
+        console.error("[Media Layout] Force persist failed:", err);
+      });
+      return;
+    }
+    if (this.persistDebounceTimer !== null) {
+      clearTimeout(this.persistDebounceTimer);
+    }
+    this.persistDebounceTimer = window.setTimeout(() => {
+      this.persistDebounceTimer = null;
+      if (this.hasPendingChanges) {
+        this.persistAll().catch((err) => {
+          console.error("[Media Layout] Debounced persist failed:", err);
+        });
+      }
+    }, this.persistDebounceDelay);
+  }
+  // УСИЛЕНИЕ СОХРАНЕНИЯ: Принудительное сохранение (flush pending debounce)
+  async flushPersist() {
+    if (this.persistDebounceTimer !== null) {
+      clearTimeout(this.persistDebounceTimer);
+      this.persistDebounceTimer = null;
+    }
+    await this.persistAll();
   }
   addUserPreset(n) {
     this.userPresets = [n, ...this.userPresets.filter((v) => v !== n)].slice(0, MAX_WIDTH_PRESETS);
@@ -3161,11 +3381,11 @@ ${JSON.stringify(entry.data, null, 2)}
   // Корневой элемент редактора/превью, внутри которого живёт контент
   getAttachRoot() {
     const view = this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView);
-    const src = view?.containerEl.querySelector(".markdown-source-view .cm-scroller");
-    if (src) return src;
-    const read = view?.containerEl.querySelector(".markdown-reading-view");
-    if (read) return read;
-    return null;
+    if (!view) return null;
+    const src = view.containerEl.querySelector(".markdown-source-view .cm-scroller");
+    const read = view.containerEl.querySelector(".markdown-reading-view");
+    const readVisible = read ? getComputedStyle(read).display !== "none" : false;
+    return readVisible ? read || src : src || read;
   }
   // NEW: Возвращает root для конкретного host'а (leaf-scoped)
   getHostRoot(host) {
@@ -3476,10 +3696,18 @@ ${JSON.stringify(entry.data, null, 2)}
     if (!notePath) return;
     const clones = this.notes[notePath]?.clones;
     if (!clones || !Object.keys(clones).length) return;
-    this.debug("restoreClonesFromStore started", { notePath, cloneCount: Object.keys(clones).length });
+    this.debug("restoreClonesFromStore started", {
+      notePath,
+      cloneCount: Object.keys(clones).length,
+      cloneKeys: Object.keys(clones)
+    });
     const leaves = this.app.workspace.getLeavesOfType("markdown").filter((leaf) => {
       const view = leaf.view;
       return view.file?.path === notePath;
+    });
+    this.debug("Found leaves for note", {
+      notePath,
+      leafCount: leaves.length
     });
     if (!leaves.length) return;
     leaves.forEach((leaf) => {
@@ -3491,13 +3719,32 @@ ${JSON.stringify(entry.data, null, 2)}
       const tick = () => {
         const src = containerEl.querySelector(".markdown-source-view .cm-scroller");
         const read = containerEl.querySelector(".markdown-reading-view");
-        const root = src || read;
+        const srcVisible = src ? getComputedStyle(src.parentElement).display !== "none" : false;
+        const readVisible = read ? getComputedStyle(read).display !== "none" : false;
+        const root = readVisible ? read || src : src || read;
+        const isReadingModeActive = readVisible;
+        this.debug("tick - searching for root", {
+          notePath,
+          hasSrc: !!src,
+          hasRead: !!read,
+          hasRoot: !!root,
+          srcVisible,
+          readVisible,
+          isReadingModeActive,
+          selectedRootClass: root?.className,
+          attemptsLeft: left
+        });
         if (!root) {
           if (--left > 0) {
             this.schedule(tick, 50);
           }
           return;
         }
+        this.debug("Root found, calling ensureFloatLayer", {
+          notePath,
+          rootClass: root.className,
+          isReadingModeActive
+        });
         const mount = this.ensureFloatLayer(root);
         if ((mount.dataset.msNote || "") !== notePath) return;
         this.debug("Layer ready, scheduling clone restore", { notePath });
@@ -3767,13 +4014,34 @@ ${JSON.stringify(entry.data, null, 2)}
     this.schedule(() => {
       if (!notePath) return;
       const attachRoot = this.getAttachRoot();
-      if (!attachRoot) return;
+      if (!attachRoot) {
+        this.warn("ensureNotesFromStore: no attachRoot found", {});
+        return;
+      }
+      this.debug("ensureNotesFromStore starting", {
+        notePath,
+        attachRootClass: attachRoot.className
+      });
       const layer = this.ensureFloatLayer(attachRoot);
       const saved = this.notes[notePath]?.originals ?? {};
+      const noteKeys = Object.keys(saved).filter((k) => k.startsWith("note::"));
+      this.debug("Found notes to restore", {
+        notePath,
+        noteCount: noteKeys.length,
+        noteKeys
+      });
       for (const [key, st] of Object.entries(saved)) {
         if (!key.startsWith("note::")) continue;
         const exists = layer.querySelector(`.ms-note-host[data-ms-key="${CSS.escape(key)}"]`);
-        if (exists) continue;
+        if (exists) {
+          this.debug("Note already exists, skipping", { key });
+          continue;
+        }
+        this.debug("Creating note host", {
+          key,
+          x: st.x,
+          y: st.y
+        });
         const x = st.x ?? 0, y = st.y ?? 0;
         const host = this.createNoteHost(attachRoot, key, x, y, {
           w: st.w,
@@ -3862,6 +4130,15 @@ ${JSON.stringify(entry.data, null, 2)}
     const view = this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView);
     return view?.containerEl ?? null;
   }
+  // Проверка, находимся ли мы в режиме чтения
+  isInReadingMode(el) {
+    if (el) {
+      return !!el.closest(".markdown-reading-view, .markdown-preview-view");
+    }
+    const view = this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView);
+    if (!view) return false;
+    return !!view.containerEl.querySelector(".markdown-reading-view");
+  }
   ensureOverlay(host) {
     const overlay = host.querySelector(".ms-overlay") ?? (() => {
       const d = document.createElement("div");
@@ -3914,6 +4191,9 @@ ${JSON.stringify(entry.data, null, 2)}
     } else if (kind === "image") {
       host.style.aspectRatio = "auto";
       media.style.display = "block";
+      media.style.width = "100%";
+      media.style.height = "100%";
+      media.style.objectFit = "fill";
       host.classList.add("cm-ignore");
       host.setAttribute("contenteditable", "false");
       host.tabIndex = -1;
@@ -4528,15 +4808,20 @@ ${JSON.stringify(entry.data, null, 2)}
             const isNote = host.classList.contains("ms-note-host");
             if (isClone || isNote) return;
             try {
-              const r = host.getBoundingClientRect();
               const originals = noteData.originals;
               if (originals[key]) {
-                originals[key].w = r.width || originals[key].w || 0;
-                originals[key].h = r.height || originals[key].h || 0;
                 originals[key].free = host.dataset.msFree === "1";
+                if (!originals[key].w || !originals[key].h || originals[key].w < 1 || originals[key].h < 1) {
+                  const domRect = host.getBoundingClientRect();
+                  if (domRect.width > 0 && domRect.height > 0) {
+                    originals[key].w = domRect.width;
+                    originals[key].h = domRect.height;
+                    console.warn(`[Media Layout] Restored invalid size for ${key} from DOM`);
+                  }
+                }
               }
             } catch (e) {
-              console.warn(`[MS] Failed to save size for in-flow original ${key}:`, e);
+              console.warn(`[MS] Failed to process in-flow original ${key}:`, e);
             }
           });
         });
@@ -4569,7 +4854,11 @@ ${JSON.stringify(entry.data, null, 2)}
     top.appendChild(close);
     const body = document.createElement("div");
     body.className = "ms-note-body";
-    body.setAttribute("contenteditable", "true");
+    const isReadingMode = this.isInReadingMode(container);
+    body.setAttribute("contenteditable", isReadingMode ? "false" : "true");
+    if (isReadingMode) {
+      body.style.cursor = "default";
+    }
     const stateForColor = st ?? this.notes[this.getActiveNote()?.path ?? ""]?.originals?.[key];
     if (stateForColor?.bgColor) {
       note.style.backgroundColor = stateForColor.bgColor;
@@ -4592,11 +4881,13 @@ ${JSON.stringify(entry.data, null, 2)}
       clearTimeout(saveTimer);
       saveTimer = setTimeout(flushText, 300);
     };
-    body.addEventListener("input", scheduleTextSave);
-    body.addEventListener("blur", () => {
-      clearTimeout(saveTimer);
-      flushText();
-    });
+    if (!isReadingMode) {
+      body.addEventListener("input", scheduleTextSave);
+      body.addEventListener("blur", () => {
+        clearTimeout(saveTimer);
+        flushText();
+      });
+    }
     note.append(top, body);
     host.appendChild(note);
     const mount = this.ensureFloatLayer(container);
@@ -4606,56 +4897,64 @@ ${JSON.stringify(entry.data, null, 2)}
     host.append(overlay);
     let sx = 0, sy = 0, ox = 0, oy = 0, dragging = false;
     const dragController = new AbortController();
-    top.addEventListener("pointerdown", (e) => {
-      if (e.button !== 0) return;
-      e.preventDefault();
-      e.stopPropagation();
-      dragging = true;
-      const currentRect = this.readAppliedRect(host);
-      ox = currentRect.x || 0;
-      oy = currentRect.y || 0;
-      sx = e.clientX;
-      sy = e.clientY;
-    });
-    const onMove = (e) => {
-      if (!dragging) return;
-      const nx = ox + (e.clientX - sx);
-      const ny = oy + (e.clientY - sy);
-      this.applyTransform(host, nx, ny);
-    };
-    const onUp = async () => {
-      if (!dragging) return;
-      dragging = false;
-      const notePath = host.dataset.msNote || "";
-      if (!notePath) return;
-      const r = this.readAbsRect(host);
-      await this.saveState(notePath, key, { w: r.w, h: r.h, x: r.x, y: r.y, txt: body.textContent ?? "", fontSize: parseFloat(body.style.fontSize) || 16 });
-    };
-    window.addEventListener("pointermove", onMove, { capture: true, signal: dragController.signal });
-    window.addEventListener("pointerup", onUp, { capture: true, signal: dragController.signal });
-    host.addEventListener("wheel", async (e) => {
-      if (!e.ctrlKey && !e.shiftKey) return;
-      e.preventDefault();
-      const cur = parseFloat(body.style.fontSize) || 16;
-      const delta = e.shiftKey ? 1 : 10;
-      const next = Math.max(8, Math.min(300, cur + (e.deltaY < 0 ? delta : -delta)));
-      body.style.fontSize = `${next}px`;
-      const notePath = host.dataset.msNote || "";
-      if (notePath) {
+    if (!isReadingMode) {
+      top.addEventListener("pointerdown", (e) => {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        e.stopPropagation();
+        dragging = true;
+        const currentRect = this.readAppliedRect(host);
+        ox = currentRect.x || 0;
+        oy = currentRect.y || 0;
+        sx = e.clientX;
+        sy = e.clientY;
+      });
+      const onMove = (e) => {
+        if (!dragging) return;
+        const nx = ox + (e.clientX - sx);
+        const ny = oy + (e.clientY - sy);
+        this.applyTransform(host, nx, ny);
+      };
+      const onUp = async () => {
+        if (!dragging) return;
+        dragging = false;
+        const notePath = host.dataset.msNote || "";
+        if (!notePath) return;
         const r = this.readAbsRect(host);
-        await this.saveState(notePath, key, { w: r.w, h: r.h, x: r.x, y: r.y, txt: body.textContent ?? "", fontSize: next });
-      }
-    }, { passive: false });
-    close.onclick = async (ev) => {
-      ev.stopPropagation();
-      const notePath = host.dataset.msNote || "";
-      dragController.abort();
-      host.remove();
-      if (notePath) {
-        delete this.notes[notePath]?.originals?.[key];
-        await this.persistAll();
-      }
-    };
+        await this.saveState(notePath, key, { w: r.w, h: r.h, x: r.x, y: r.y, txt: body.textContent ?? "", fontSize: parseFloat(body.style.fontSize) || 16 });
+      };
+      window.addEventListener("pointermove", onMove, { capture: true, signal: dragController.signal });
+      window.addEventListener("pointerup", onUp, { capture: true, signal: dragController.signal });
+    }
+    if (!isReadingMode) {
+      host.addEventListener("wheel", async (e) => {
+        if (!e.ctrlKey && !e.shiftKey) return;
+        e.preventDefault();
+        const cur = parseFloat(body.style.fontSize) || 16;
+        const delta = e.shiftKey ? 1 : 10;
+        const next = Math.max(8, Math.min(300, cur + (e.deltaY < 0 ? delta : -delta)));
+        body.style.fontSize = `${next}px`;
+        const notePath = host.dataset.msNote || "";
+        if (notePath) {
+          const r = this.readAbsRect(host);
+          await this.saveState(notePath, key, { w: r.w, h: r.h, x: r.x, y: r.y, txt: body.textContent ?? "", fontSize: next });
+        }
+      }, { passive: false });
+    }
+    if (isReadingMode) {
+      close.style.display = "none";
+    } else {
+      close.onclick = async (ev) => {
+        ev.stopPropagation();
+        const notePath = host.dataset.msNote || "";
+        dragController.abort();
+        host.remove();
+        if (notePath) {
+          delete this.notes[notePath]?.originals?.[key];
+          await this.persistAll();
+        }
+      };
+    }
     const cleanupObserver = new MutationObserver(() => {
       if (!document.contains(host)) {
         dragController.abort();
@@ -4665,98 +4964,91 @@ ${JSON.stringify(entry.data, null, 2)}
     if (host.parentElement) {
       cleanupObserver.observe(host.parentElement, { childList: true });
     }
-    host.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const key2 = host.dataset.msKey;
-      if (key2 && this.selectedKeys.has(key2) && this.selectedKeys.size > 1) {
-        const menu2 = new import_obsidian.Menu();
-        this.app.workspace.trigger("editor-menu", menu2, null, this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView));
-        menu2.showAtMouseEvent(e);
-        return;
-      }
-      const menu = new import_obsidian.Menu();
-      menu.addItem((mi) => {
-        mi.setTitle(t(this.app, "bgColor")).setIcon("palette");
-        mi.onClick(() => {
-          const tr = (k) => t(this.app, k);
-          const notePath = host.dataset.msNote;
-          if (!notePath || !key2) return;
-          const currentState = this.notes[notePath]?.originals?.[key2] ?? {};
-          const initialColor = currentState.bgColor || "#242424";
-          new BgColorModal(this.app, initialColor, async (result) => {
-            const { hex, removeBg, applyToHeader } = result;
-            const noteBody = host.querySelector(".ms-note");
-            const noteHeader = host.querySelector(".ms-note-top");
-            if (hex === "#262626" && !applyToHeader) {
-              if (noteHeader) noteHeader.style.backgroundColor = "";
-              await this.saveState(notePath, key2, { headerColor: void 0 });
-            }
-            if (removeBg) {
-              host.classList.add("ms-note-transparent");
-              await this.saveState(notePath, key2, { transparent: true, bgColor: void 0, headerColor: void 0 });
-            } else {
-              host.classList.remove("ms-note-transparent");
-              const stateUpdate = { transparent: false };
-              if (applyToHeader) {
-                if (noteHeader) noteHeader.style.backgroundColor = hex;
-                stateUpdate.headerColor = hex;
-              } else {
-                if (noteBody) noteBody.style.backgroundColor = hex;
-                stateUpdate.bgColor = hex;
+    if (!isReadingMode) {
+      host.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const key2 = host.dataset.msKey;
+        if (key2 && this.selectedKeys.has(key2) && this.selectedKeys.size > 1) {
+          const menu2 = new import_obsidian.Menu();
+          this.app.workspace.trigger("editor-menu", menu2, null, this.app.workspace.getActiveViewOfType(import_obsidian.MarkdownView));
+          menu2.showAtMouseEvent(e);
+          return;
+        }
+        const menu = new import_obsidian.Menu();
+        menu.addItem((mi) => {
+          mi.setTitle(t(this.app, "bgColor")).setIcon("palette");
+          mi.onClick(() => {
+            const tr = (k) => t(this.app, k);
+            const notePath = host.dataset.msNote;
+            if (!notePath || !key2) return;
+            const currentState = this.notes[notePath]?.originals?.[key2] ?? {};
+            const initialColor = currentState.bgColor || "#242424";
+            new BgColorModal(this.app, initialColor, async (result) => {
+              const { hex, removeBg, applyToHeader } = result;
+              const noteBody = host.querySelector(".ms-note");
+              const noteHeader = host.querySelector(".ms-note-top");
+              if (hex === "#262626" && !applyToHeader) {
+                if (noteHeader) noteHeader.style.backgroundColor = "";
+                await this.saveState(notePath, key2, { headerColor: void 0 });
               }
-              await this.saveState(notePath, key2, stateUpdate);
+              if (removeBg) {
+                host.classList.add("ms-note-transparent");
+                await this.saveState(notePath, key2, { transparent: true, bgColor: void 0, headerColor: void 0 });
+              } else {
+                host.classList.remove("ms-note-transparent");
+                const stateUpdate = { transparent: false };
+                if (applyToHeader) {
+                  if (noteHeader) noteHeader.style.backgroundColor = hex;
+                  stateUpdate.headerColor = hex;
+                } else {
+                  if (noteBody) noteBody.style.backgroundColor = hex;
+                  stateUpdate.bgColor = hex;
+                }
+                await this.saveState(notePath, key2, stateUpdate);
+              }
+            }, tr, { isNoteBox: true }).open();
+          });
+        });
+        menu.addItem((mi) => {
+          mi.setTitle(t(this.app, "changeTextColor")).setIcon("highlighter");
+          mi.onClick(() => {
+            const tr = (k) => t(this.app, k);
+            const notePath = host.dataset.msNote;
+            if (!notePath || !key2) return;
+            const currentState = this.notes[notePath]?.originals?.[key2] ?? {};
+            const initialColor = currentState.textColor || "#FFFFFF";
+            const hasStroke = currentState.textStroke || false;
+            const colorToEdit = hasStroke ? currentState.textStrokeColor || initialColor : initialColor;
+            new BgColorModal(this.app, initialColor, async (result) => {
+              const { hex, addStroke } = result;
+              const currentFillColor = body.style.color || currentState.textColor || "#FFFFFF";
+              body.classList.toggle("ms-note-text-stroked", addStroke);
+              if (addStroke) {
+                body.style.setProperty("--note-stroke-color", hex);
+                await this.saveState(notePath, key2, { textStroke: true, textStrokeColor: hex, textColor: currentFillColor });
+              } else {
+                body.style.color = hex;
+                await this.saveState(notePath, key2, { textStroke: false, textColor: hex });
+              }
+            }, tr, { isTextColor: true, initialStrokeState: hasStroke }).open();
+          });
+        });
+        menu.addSeparator();
+        menu.addItem((item) => {
+          item.setTitle(t(this.app, "deleteNote")).setIcon("trash").onClick(async () => {
+            const notePath = host.dataset.msNote || "";
+            host.remove();
+            if (notePath && key2) {
+              delete this.notes[notePath]?.originals?.[key2];
+              await this.persistAll();
             }
-          }, tr, { isNoteBox: true }).open();
+          });
         });
+        menu.showAtMouseEvent(e);
       });
-      menu.addItem((mi) => {
-        mi.setTitle(t(this.app, "changeTextColor")).setIcon("highlighter");
-        mi.onClick(() => {
-          const tr = (k) => t(this.app, k);
-          const notePath = host.dataset.msNote;
-          if (!notePath || !key2) return;
-          const currentState = this.notes[notePath]?.originals?.[key2] ?? {};
-          const initialColor = currentState.textColor || "#FFFFFF";
-          const hasStroke = currentState.textStroke || false;
-          const colorToEdit = hasStroke ? currentState.textStrokeColor || initialColor : initialColor;
-          new BgColorModal(this.app, initialColor, async (result) => {
-            const { hex, addStroke } = result;
-            const currentFillColor = body.style.color || currentState.textColor || "#FFFFFF";
-            body.classList.toggle("ms-note-text-stroked", addStroke);
-            if (addStroke) {
-              body.style.setProperty("--note-stroke-color", hex);
-              await this.saveState(notePath, key2, { textStroke: true, textStrokeColor: hex, textColor: currentFillColor });
-            } else {
-              body.style.color = hex;
-              await this.saveState(notePath, key2, { textStroke: false, textColor: hex });
-            }
-          }, tr, { isTextColor: true, initialStrokeState: hasStroke }).open();
-        });
-      });
-      menu.addSeparator();
-      menu.addItem((item) => {
-        item.setTitle(t(this.app, "deleteNote")).setIcon("trash").onClick(async () => {
-          const notePath = host.dataset.msNote || "";
-          host.remove();
-          if (notePath && key2) {
-            delete this.notes[notePath]?.originals?.[key2];
-            await this.persistAll();
-          }
-        });
-      });
-      menu.showAtMouseEvent(e);
-    });
-    close.onclick = async (ev) => {
-      ev.stopPropagation();
-      const notePath = host.dataset.msNote || "";
-      host.remove();
-      if (notePath) {
-        delete this.notes[notePath]?.originals?.[key];
-        await this.persistAll();
-      }
-    };
-    if (st?.focus) {
+    }
+    if (st?.focus && !isReadingMode) {
       setTimeout(() => body.focus(), 0);
     }
     this.processRoot(this.getActiveContainerEl(), this.getActiveNote()?.path ?? "");
@@ -4782,6 +5074,9 @@ ${JSON.stringify(entry.data, null, 2)}
   // ИСПРАВЛЕНО: Универсальный обработчик перетаскивания
   _attachDragMoveHandler(host, overlay, notePath, key, kind) {
     const startMove = (e) => {
+      if (this.isInReadingMode(host)) {
+        return;
+      }
       const isClone = !!host.dataset.msParentKey;
       const isNote = kind === "note";
       if ((e.ctrlKey || e.metaKey) && (isClone || isNote)) {
@@ -4883,6 +5178,9 @@ ${JSON.stringify(entry.data, null, 2)}
   }
   // ИСПРАВЛЕНО: Универсальный обработчик ресайза
   _attachResizeHandlers(host, overlay, handles, notePath, key, kind, media) {
+    if (this.isInReadingMode(host)) {
+      return;
+    }
     const map = { lt: { h: "left", v: "top" }, rt: { h: "right", v: "top" }, lb: { h: "left", v: "bottom" }, rb: { h: "right", v: "bottom" } };
     if (this.selectedKeys.size > 1) {
       return;
@@ -5845,7 +6143,17 @@ ${JSON.stringify(entry.data, null, 2)}
       pointer-events: none; /* \u043A\u043B\u0438\u043A\u0430\u0435\u043C \u0442\u043E\u043B\u044C\u043A\u043E \u043F\u043E \u0434\u0435\u0442\u044F\u043C */
       z-index: 2000;
       transform: none;
+      display: block !important;
+      visibility: visible !important;
     }
+    
+    /* \u041A\u0420\u0418\u0422\u0418\u0427\u041D\u041E: \u0412 reading mode \u0434\u0435\u043B\u0430\u0435\u043C cm-sizer \u0432\u0438\u0434\u0438\u043C\u044B\u043C \u0434\u043B\u044F float-layer */
+    .workspace-leaf.is-readable .cm-sizer {
+      visibility: visible !important;
+      display: block !important;
+      position: relative;
+    }
+    
     .markdown-preview-sizer, .cm-sizer {
       /* \u041A\u0420\u0418\u0422\u0418\u0427\u041D\u041E: Sizer \u0434\u043E\u043B\u0436\u0435\u043D \u0431\u044B\u0442\u044C \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u043E\u043C \u043F\u043E\u0437\u0438\u0446\u0438\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F \u0434\u043B\u044F float-layer */
       position: relative;
@@ -5993,7 +6301,24 @@ ${JSON.stringify(entry.data, null, 2)}
     .ms-handle--lt { left:0px; top:0px; }
 
     .workspace-leaf.mod-active .markdown-source-view .ms-host:hover .ms-handle { display:block; opacity:1; }
-    .markdown-reading-view .ms-handle { display:block; opacity:0; } /* \u043D\u0435\u0432\u0438\u0434\u0438\u043C\u044B, \u043D\u043E \u0430\u043A\u0442\u0438\u0432\u043D\u044B */
+    .markdown-reading-view .ms-handle { display:none !important; } /* \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E \u0441\u043A\u0440\u044B\u0432\u0430\u0435\u043C \u0432 \u0440\u0435\u0436\u0438\u043C\u0435 \u0447\u0442\u0435\u043D\u0438\u044F */
+
+    /* \u0411\u043B\u043E\u043A\u0438\u0440\u0443\u0435\u043C \u0438\u043D\u0442\u0435\u0440\u0430\u043A\u0442\u0438\u0432\u043D\u043E\u0441\u0442\u044C \u0434\u043B\u044F \u043A\u043B\u043E\u043D\u043E\u0432 \u0438 \u0442\u0430\u0431\u043B\u0438\u0447\u0435\u043A \u0432 \u0440\u0435\u0436\u0438\u043C\u0435 \u0447\u0442\u0435\u043D\u0438\u044F */
+    .markdown-reading-view .ms-float-layer .ms-host {
+      pointer-events: none !important; /* \u0431\u043B\u043E\u043A\u0438\u0440\u0443\u0435\u043C \u043F\u0435\u0440\u0435\u0442\u0430\u0441\u043A\u0438\u0432\u0430\u043D\u0438\u0435 */
+      cursor: default !important;
+    }
+    
+    /* \u0411\u043B\u043E\u043A\u0438\u0440\u0443\u0435\u043C \u0440\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u0442\u0435\u043A\u0441\u0442\u0430 \u0432 \u0442\u0430\u0431\u043B\u0438\u0447\u043A\u0430\u0445 \u0432 \u0440\u0435\u0436\u0438\u043C\u0435 \u0447\u0442\u0435\u043D\u0438\u044F */
+    .markdown-reading-view .ms-note-host .ms-note {
+      pointer-events: none !important;
+      user-select: none !important;
+    }
+
+    /* \u0421\u043A\u0440\u044B\u0432\u0430\u0435\u043C \u043E\u0432\u0435\u0440\u043B\u0435\u0438 \u0432 \u0440\u0435\u0436\u0438\u043C\u0435 \u0447\u0442\u0435\u043D\u0438\u044F */
+    .markdown-reading-view .ms-overlay {
+      display: none !important;
+    }
 
     .ms-handle--rb, .ms-handle--lt { cursor: nwse-resize; }
     .ms-handle--lb, .ms-handle--rt { cursor: nesw-resize; }
