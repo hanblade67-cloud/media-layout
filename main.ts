@@ -9,6 +9,8 @@ import {
   Modal,
   normalizePath,
   requestUrl,
+  Setting,
+  ButtonComponent,
 } from "obsidian";
 
 type Dict = Record<string, string>;
@@ -1093,17 +1095,9 @@ sendLayerDown: "下移圖層",
   urlMediaUnknownError: "未知錯誤",
 },
 };
-function getLocale(app: App): string {
-  const raw =
-    (app as any)?.i18n?.locale ??
-    (app as any)?.locale ??
-    (app.vault as any)?.getConfig?.("locale") ??
-    window.localStorage.getItem("language") ??
-    "en";
-  return String(raw).toLowerCase();
-}
 function t(app: App, key: keyof typeof I18N.en, vars?: Record<string, string | number>): string {
-  const loc = getLocale(app);
+  const locale = (app as any).getLanguage?.() ?? "en";
+  const loc = String(locale).toLowerCase();
   const dict = I18N[loc] ?? I18N[loc.split("-")[0]] ?? I18N.en;
   let s = dict[key] ?? I18N.en[key];
   if (vars) for (const k in vars) s = s.replace(new RegExp(`\\{${k}\\}`, "g"), String(vars[k]));
@@ -1234,7 +1228,7 @@ class WidthPresetModal extends Modal {
   onOpen() {
     const { contentEl } = this;
 
-    this.modalEl.style.width = "355px";
+    this.modalEl.addClass("ms-modal-width-355");
     contentEl.addClass("ms-bgcolor-modal-content");
     contentEl.addClass("ms-width-preset-modal-content");
     contentEl.empty();
@@ -1245,10 +1239,8 @@ class WidthPresetModal extends Modal {
       type: "number",
       placeholder: t(this.app, "placeholder"),
       attr: { min: "64", max: "8192", step: "1" },
+      cls: "ms-input-width-300",
     });
-    input.style.width = "300px";
-    input.style.maxWidth = "100%";
-    input.style.minWidth = "260px";
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") this.closeWithValue();
     });
@@ -1459,11 +1451,10 @@ class BgColorModal extends Modal {
     const optionsContainer = contentEl.createDiv({ attr: { style: "display: flex; flex-direction: column; align-items: flex-start;" } });
 
     const createCheckbox = (text: string): [label: HTMLLabelElement, input: HTMLInputElement] => {
-      const row = optionsContainer.createEl("label", { cls: "ms-row", attr: { style: "display: flex; align-items: center; cursor: pointer; margin-bottom: 8px;" } });
-      const cb = row.createEl("input", { type: "checkbox", attr: { style: "margin-right: 6px;" } });
-      const span = row.createEl("span", { text });
-      span.style.position = 'relative';
-      span.style.bottom = '0px';
+      const row = optionsContainer.createEl("label", { cls: "ms-row ms-flex-align-center ms-margin-bottom-8" });
+      row.style.cursor = "pointer";
+      const cb = row.createEl("input", { type: "checkbox", cls: "ms-margin-right-6" });
+      const span = row.createEl("span", { text, cls: "ms-position-relative-bottom-0" });
       return [row, cb];
     };
 
@@ -1486,7 +1477,7 @@ class BgColorModal extends Modal {
     }
 
     if (optionsContainer.hasChildNodes()) {
-      optionsContainer.style.marginBottom = "12px";
+      optionsContainer.addClass("ms-margin-bottom-12");
     }
 
     const actions = contentEl.createDiv({ cls: "modal-button-container" });
@@ -1513,14 +1504,6 @@ class BgColorModal extends Modal {
       this.close();
     });
     cancelBtn.addEventListener("click", () => this.close());
-
-    const st = document.createElement("style");
-    st.textContent = `
-      .ms-bgcolor-wrap{ display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:center; margin:6px 0 12px; }
-      .ms-bgcolor-wrap input[type="color"]{ width:64px; height:64px; border:0; padding:0; background:transparent; }
-      .ms-bgcolor-wrap input[type="text"]{ width:120px; }
-    `;
-    contentEl.appendChild(st);
   }
 
   private coerceHex(v: string): string {
@@ -1547,84 +1530,77 @@ class CloneSettingsModal extends Modal {
     contentEl.empty();
     contentEl.addClass("ms-clone-settings-modal");
 
-    const header = contentEl.createDiv({ cls: "modal-header" });
-    header.createEl("h3", { text: t(this.app, "cloneSettingsTitle") });
-    const closeBtn = header.createDiv({ cls: "modal-close-button" });
-    closeBtn.addEventListener("click", () => this.close());
+    contentEl.createEl("h3", { text: t(this.app, "cloneSettingsTitle") });
 
-    const form = contentEl.createDiv({ cls: "modal-form" });
+    new Setting(contentEl)
+      .setName(t(this.app, "animation"))
+      .addButton(btn => {
+        btn.setButtonText(this.initial.animation === 'popup' ? t(this.app, "animationPopup") : t(this.app, "animationFade"))
+          .onClick(() => {
+            this.initial.animation = this.initial.animation === 'popup' ? 'fade' : 'popup';
+            btn.setButtonText(this.initial.animation === 'popup' ? t(this.app, "animationPopup") : t(this.app, "animationFade"));
+          });
+      });
 
-    const animRow = form.createDiv({ cls: "setting-item" });
-    animRow.createEl("div", { text: t(this.app, "animation"), cls: "setting-item-name" });
-    const animControls = animRow.createDiv({ cls: "setting-item-control" });
-    const animBtn = animControls.createEl("button", {
-      text: this.initial.animation === 'popup' ? t(this.app, "animationPopup") : t(this.app, "animationFade")
-    });
-    animBtn.addEventListener("click", () => {
-      this.initial.animation = this.initial.animation === 'popup' ? 'fade' : 'popup';
-      animBtn.textContent = this.initial.animation === 'popup' ? t(this.app, "animationPopup") : t(this.app, "animationFade");
-    });
+    new Setting(contentEl)
+      .setName(t(this.app, "backgroundOpacity"))
+      .addSlider(slider => slider
+        .setLimits(0, 100, 1)
+        .setValue(this.initial.bgOpacity * 100)
+        .setDynamicTooltip()
+        .onChange(value => {
+          this.initial.bgOpacity = value / 100;
+        }));
 
-    const opacityRow = form.createDiv({ cls: "setting-item" });
-    opacityRow.createEl("div", { text: t(this.app, "backgroundOpacity"), cls: "setting-item-name" });
-    const opacityControls = opacityRow.createDiv({ cls: "setting-item-control" });
-    const opacitySlider = opacityControls.createEl("input", { type: "range", attr: { min: 0, max: 100, step: 1 } });
-    opacitySlider.value = String(this.initial.bgOpacity * 100);
-    const opacityLabel = opacityControls.createEl("span", { text: `${opacitySlider.value}%` });
-    opacitySlider.addEventListener("input", () => {
-      this.initial.bgOpacity = Number(opacitySlider.value) / 100;
-      opacityLabel.textContent = `${opacitySlider.value}%`;
-    });
+    new Setting(contentEl)
+      .setName(t(this.app, "controlsOpacity"))
+      .addSlider(slider => slider
+        .setLimits(0, 100, 1)
+        .setValue(this.initial.controlsOpacity * 100)
+        .setDynamicTooltip()
+        .onChange(value => {
+          this.initial.controlsOpacity = value / 100;
+        }));
 
-    const controlsOpacityRow = form.createDiv({ cls: "setting-item" });
-    controlsOpacityRow.createEl("div", { text: t(this.app, "controlsOpacity"), cls: "setting-item-name" });
-    const controlsOpacityControls = controlsOpacityRow.createDiv({ cls: "setting-item-control" });
-    const controlsOpacitySlider = controlsOpacityControls.createEl("input", { type: "range", attr: { min: 0, max: 100, step: 1 } });
-    controlsOpacitySlider.value = String(this.initial.controlsOpacity * 100);
-    const controlsOpacityLabel = controlsOpacityControls.createEl("span", { text: `${controlsOpacitySlider.value}%` });
-    controlsOpacitySlider.addEventListener("input", () => {
-      this.initial.controlsOpacity = Number(controlsOpacitySlider.value) / 100;
-      controlsOpacityLabel.textContent = `${controlsOpacitySlider.value}%`;
-    });
-
-    const hideDelayRow = form.createDiv({ cls: "setting-item" });
-    hideDelayRow.createEl("div", { text: t(this.app, "hideDelayLabel"), cls: "setting-item-name" });
-    const hideDelayControls = hideDelayRow.createDiv({ cls: "setting-item-control" });
-    const hideDelaySlider = hideDelayControls.createEl("input", { type: "range", attr: { min: 0, max: 100, step: 1 } });
-    hideDelaySlider.value = String(this.initial.hideDelay * 10);
-    const hideDelayLabel = hideDelayControls.createEl("span", { text: `${(Number(hideDelaySlider.value) / 10).toFixed(1)}s` });
-    hideDelaySlider.addEventListener("input", () => {
-      const seconds = Number(hideDelaySlider.value) / 10;
-      this.initial.hideDelay = seconds;
-      hideDelayLabel.textContent = `${seconds.toFixed(1)}s`;
-    });
+    new Setting(contentEl)
+      .setName(t(this.app, "hideDelayLabel"))
+      .addSlider(slider => slider
+        .setLimits(0, 100, 1)
+        .setValue(this.initial.hideDelay * 10)
+        .setDynamicTooltip()
+        .onChange(value => {
+          this.initial.hideDelay = value / 10;
+        }));
 
     const buttons = contentEl.createDiv({ cls: "modal-button-container" });
-    const okBtn = buttons.createEl("button", { text: t(this.app, "ok"), cls: "mod-cta" });
-    const resetBtn = buttons.createEl("button", { text: t(this.app, "reset") });
-    const cancelBtn = buttons.createEl("button", { text: t(this.app, "cancel") });
+    
+    new ButtonComponent(buttons)
+      .setButtonText(t(this.app, "ok"))
+      .setCta()
+      .onClick(() => {
+        this.onSubmit(this.initial);
+        this.close();
+      });
 
-    okBtn.addEventListener("click", () => {
-      this.onSubmit(this.initial);
-      this.close();
-    });
+    new ButtonComponent(buttons)
+      .setButtonText(t(this.app, "reset"))
+      .onClick(() => {
+        this.initial = { animation: 'popup', bgOpacity: 1.0, controlsOpacity: 0.35, hideDelay: 2.0, showAudioHandles: true };
+        this.close();
+        const newModal = new CloneSettingsModal(
+          this.app,
+          this.initial,
+          this.onSubmit
+        );
+        newModal.open();
+      });
 
-    cancelBtn.addEventListener("click", () => {
-      this.onSubmit(null);
-      this.close();
-    });
-
-    resetBtn.addEventListener("click", () => {
-
-      this.initial = { animation: 'popup', bgOpacity: 1.0, controlsOpacity: 0.35, hideDelay: 2.0, showAudioHandles: true };
-      animBtn.textContent = t(this.app, "animationPopup");
-      opacitySlider.value = "100";
-      opacityLabel.textContent = "100%";
-      controlsOpacitySlider.value = "35";
-      controlsOpacityLabel.textContent = "35%";
-      hideDelaySlider.value = "20";
-      hideDelayLabel.textContent = "2.0s";
-    });
+    new ButtonComponent(buttons)
+      .setButtonText(t(this.app, "cancel"))
+      .onClick(() => {
+        this.onSubmit(null);
+        this.close();
+      });
   }
 
   onClose() {
@@ -1643,102 +1619,110 @@ class MediaLayoutSettingsModal extends Modal {
     contentEl.empty();
     contentEl.addClass("ms-layout-settings-modal");
 
-    contentEl.createEl("h3", { text: "𝐌𝐞𝐝𝐢𝐚 𝐋𝐚𝐲𝐨𝐮𝐭 𝐒𝐞𝐭𝐭𝐢𝐧𝐠𝐬" });
-
     const form = contentEl.createDiv({ cls: "modal-form" });
 
-    const handlesOnHoverRow = form.createDiv({ cls: "setting-item" });
-    handlesOnHoverRow.createEl("div", { text: t(this.app, "showHandlesOnHoverLabel"), cls: "setting-item-name" });
-    const handlesOnHoverControls = handlesOnHoverRow.createDiv({ cls: "setting-item-control" });
-    const handlesOnHoverCheckbox = handlesOnHoverControls.createEl("input", { type: "checkbox" });
-    handlesOnHoverCheckbox.checked = this.plugin.showHandlesOnHover;
+    let handlesOnHoverValue = this.plugin.showHandlesOnHover;
+    let hideDetachValue = this.plugin.hideDetachButton;
+    let modalAnimationValue = this.plugin.enableModalAnimation;
+    let cloneNearFileValue = this.plugin.cloneNearFile;
+    let cloneRestoreDelayValue = this.plugin.cloneRestoreDelay;
+    let noteRestoreDelayValue = this.plugin.noteRestoreDelay;
 
-    const hideDetachRow = form.createDiv({ cls: "setting-item" });
-    hideDetachRow.createEl("div", { text: t(this.app, "hideDetachButtonLabel"), cls: "setting-item-name" });
-    const hideDetachControls = hideDetachRow.createDiv({ cls: "setting-item-control" });
-    const hideDetachCheckbox = hideDetachControls.createEl("input", { type: "checkbox" });
-    hideDetachCheckbox.checked = this.plugin.hideDetachButton;
+    new Setting(contentEl)
+      .setName(t(this.app, "showHandlesOnHoverLabel"))
+      .addToggle(toggle => toggle
+        .setValue(handlesOnHoverValue)
+        .onChange(value => {
+          handlesOnHoverValue = value;
+        }));
 
-    const modalAnimationRow = form.createDiv({ cls: "setting-item" });
-    modalAnimationRow.createEl("div", { text: t(this.app, "modalAnimationLabel"), cls: "setting-item-name" });
-    const modalAnimationControls = modalAnimationRow.createDiv({ cls: "setting-item-control" });
-    const modalAnimationCheckbox = modalAnimationControls.createEl("input", { type: "checkbox" });
-    modalAnimationCheckbox.checked = this.plugin.enableModalAnimation;
+    new Setting(contentEl)
+      .setName(t(this.app, "hideDetachButtonLabel"))
+      .addToggle(toggle => toggle
+        .setValue(hideDetachValue)
+        .onChange(value => {
+          hideDetachValue = value;
+        }));
 
-        const cloneNearFileRow = form.createDiv({ cls: "setting-item" });
-    cloneNearFileRow.createEl("div", { text: t(this.app, "cloneNearFile"), cls: "setting-item-name" });
-    const cloneNearFileControls = cloneNearFileRow.createDiv({ cls: "setting-item-control" });
-    const cloneNearFileCheckbox = cloneNearFileControls.createEl("input", { type: "checkbox" });
-    cloneNearFileCheckbox.checked = this.plugin.cloneNearFile;
+    new Setting(contentEl)
+      .setName(t(this.app, "modalAnimationLabel"))
+      .addToggle(toggle => toggle
+        .setValue(modalAnimationValue)
+        .onChange(value => {
+          modalAnimationValue = value;
+        }));
 
-    const cloneRestoreDelayRow = form.createDiv({ cls: "setting-item" });
-    cloneRestoreDelayRow.createEl("div", { text: t(this.app, "cloneRestoreDelayLabel"), cls: "setting-item-name" });
-    const cloneRestoreDelayControls = cloneRestoreDelayRow.createDiv({ cls: "setting-item-control" });
-    const cloneRestoreDelaySlider = cloneRestoreDelayControls.createEl("input", { type: "range", attr: { min: 0, max: 1000, step: 10 } });
-    cloneRestoreDelaySlider.value = String(this.plugin.cloneRestoreDelay);
-    const cloneRestoreDelayLabel = cloneRestoreDelayControls.createEl("span", { text: `${Number(cloneRestoreDelaySlider.value)}ms` });
-    cloneRestoreDelaySlider.addEventListener("input", () => {
-      cloneRestoreDelayLabel.textContent = `${Number(cloneRestoreDelaySlider.value)}ms`;
-    });
+    new Setting(contentEl)
+      .setName(t(this.app, "cloneNearFile"))
+      .addToggle(toggle => toggle
+        .setValue(cloneNearFileValue)
+        .onChange(value => {
+          cloneNearFileValue = value;
+        }));
 
-    const noteRestoreDelayRow = form.createDiv({ cls: "setting-item" });
-    noteRestoreDelayRow.createEl("div", { text: t(this.app, "noteRestoreDelayLabel"), cls: "setting-item-name" });
-    const noteRestoreDelayControls = noteRestoreDelayRow.createDiv({ cls: "setting-item-control" });
-    const noteRestoreDelaySlider = noteRestoreDelayControls.createEl("input", { type: "range", attr: { min: 0, max: 1000, step: 10 } });
-    noteRestoreDelaySlider.value = String(this.plugin.noteRestoreDelay);
-    const noteRestoreDelayLabel = noteRestoreDelayControls.createEl("span", { text: `${Number(noteRestoreDelaySlider.value)}ms` });
-    noteRestoreDelaySlider.addEventListener("input", () => {
-      noteRestoreDelayLabel.textContent = `${Number(noteRestoreDelaySlider.value)}ms`;
-    });
+    new Setting(contentEl)
+      .setName(t(this.app, "cloneRestoreDelayLabel"))
+      .addSlider(slider => slider
+        .setLimits(0, 1000, 10)
+        .setValue(cloneRestoreDelayValue)
+        .setDynamicTooltip()
+        .onChange(value => {
+          cloneRestoreDelayValue = value;
+        }));
+
+    new Setting(contentEl)
+      .setName(t(this.app, "noteRestoreDelayLabel"))
+      .addSlider(slider => slider
+        .setLimits(0, 1000, 10)
+        .setValue(noteRestoreDelayValue)
+        .setDynamicTooltip()
+        .onChange(value => {
+          noteRestoreDelayValue = value;
+        }));
 
     const buttons = contentEl.createDiv({ cls: "modal-button-container" });
-    const okBtn = buttons.createEl("button", { text: t(this.app, "ok"), cls: "mod-cta" });
-    const resetBtn = buttons.createEl("button", { text: t(this.app, "reset") });
-    const cancelBtn = buttons.createEl("button", { text: t(this.app, "cancel") });
+    
+    new ButtonComponent(buttons)
+      .setButtonText(t(this.app, "ok"))
+      .setCta()
+      .onClick(async () => {
+        this.plugin.showHandlesOnHover = handlesOnHoverValue;
 
-    okBtn.addEventListener("click", async () => {
-const showHandles = handlesOnHoverCheckbox.checked;
-      this.plugin.showHandlesOnHover = showHandles;
+        if (!handlesOnHoverValue) {
+          this.plugin.cloneShowAudioHandles = false;
+        }
+        this.plugin.hideDetachButton = hideDetachValue;
+        this.plugin.enableModalAnimation = modalAnimationValue;
+        this.plugin.cloneRestoreDelay = cloneRestoreDelayValue;
+        this.plugin.cloneNearFile = cloneNearFileValue;
+        this.plugin.noteRestoreDelay = noteRestoreDelayValue;
+        await this.plugin.persistAll();
+        this.plugin.applyCssVariables();
+        this.close();
+      });
 
-      if (!showHandles) {
-        this.plugin.cloneShowAudioHandles = false;
-      }
-      this.plugin.hideDetachButton = hideDetachCheckbox.checked;
-      this.plugin.enableModalAnimation = modalAnimationCheckbox.checked;
-      this.plugin.cloneRestoreDelay = Number(cloneRestoreDelaySlider.value);
-      this.plugin.cloneNearFile = cloneNearFileCheckbox.checked;
-      this.plugin.noteRestoreDelay = Number(noteRestoreDelaySlider.value);
-      await this.plugin.persistAll();
-      this.plugin.applyAllHandleStyles();
-      this.plugin.applyModalAnimationStyles();
-      this.close();
-    });
+    new ButtonComponent(buttons)
+      .setButtonText(t(this.app, "reset"))
+      .onClick(async () => {
+        this.plugin.showHandlesOnHover = true;
+        this.plugin.cloneNearFile = true;
+        this.plugin.cloneShowAudioHandles = true;
+        this.plugin.hideDetachButton = true;
+        this.plugin.enableModalAnimation = true;
+        this.plugin.cloneRestoreDelay = 50;
+        this.plugin.noteRestoreDelay = 50;
+        await this.plugin.persistAll();
+        this.plugin.applyCssVariables();
+        new Notice("✔⟲");
+        this.close();
+        new MediaLayoutSettingsModal(this.app, this.plugin).open();
+      });
 
-    cancelBtn.addEventListener("click", () => {
-      this.close();
-    });
-
-    resetBtn.addEventListener("click", async () => {
-      handlesOnHoverCheckbox.checked = true;
-      hideDetachCheckbox.checked = true;
-      cloneNearFileCheckbox.checked = true;
-      modalAnimationCheckbox.checked = true;
-            cloneRestoreDelaySlider.value = "50";
-      cloneRestoreDelayLabel.textContent = "50ms";
-            noteRestoreDelaySlider.value = "50";
-      noteRestoreDelayLabel.textContent = "50ms";
-      this.plugin.showHandlesOnHover = true;
-      this.plugin.cloneNearFile = true;
-      this.plugin.cloneShowAudioHandles = true;
-      this.plugin.hideDetachButton = true;
-      this.plugin.enableModalAnimation = true;
-      this.plugin.cloneRestoreDelay = 50;
-      this.plugin.noteRestoreDelay = 50;
-      await this.plugin.persistAll();
-      this.plugin.applyAllHandleStyles();
-      this.plugin.applyModalAnimationStyles();
-      new Notice("✔⟲");
-    });
+    new ButtonComponent(buttons)
+      .setButtonText(t(this.app, "cancel"))
+      .onClick(() => {
+        this.close();
+      });
   }
 
   onClose() {
@@ -1752,9 +1736,6 @@ export default class MediaSize extends Plugin {
   private store: Store = {};
   private userPresets: number[] = [];
   private observers: MutationObserver[] = [];
-  private STYLE_ID = "ms-inline-style";
-    private readonly ME_BG_STYLE_ID = "ms-me-bg-style";
-  private readonly CLONE_DELAY_STYLE_ID = "ms-clone-delay-style";
   private meBgColor: string = "#242424";
   private cloneAnimation: "popup" | "fade" = "popup";
   private cloneBgOpacity: number = 1.0;
@@ -1988,12 +1969,7 @@ private ensureFloatLayer(root: HTMLElement): HTMLElement {
       this.notes = {};
       this.presets = {};
     }
-    this.applyCloneHideDelayCss(this.cloneHideDelay);
-    this.applyMediaBgCss(this.meBgColor);
-
-    this.applyAllHandleStyles();
-    this.applyModalAnimationStyles();
-    this.injectCss();
+    this.applyCssVariables();
 
     const ctxHandler = (e: Event) => (this.lastCtxEvt = e as MouseEvent);
     document.addEventListener("contextmenu", ctxHandler, true);
@@ -2565,12 +2541,12 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     );
 
     this.addCommand({
-      id: "ms-ping",
+      id: "ping",
       name: t(this.app, "cmdPing"),
       callback: () => new Notice(t(this.app, "pingOk")),
     });
     this.addCommand({
-      id: "ms-open-settings",
+      id: "open-settings",
       name: "Settings",
       callback: () => {
         new MediaLayoutSettingsModal(this.app, this).open();
@@ -2578,7 +2554,7 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     });
 
     this.addCommand({
-      id: "ms-export-logs",
+      id: "export-logs",
       name: "📋 Export debug logs to note",
       callback: async () => {
         await this.exportLogsToNote();
@@ -2586,7 +2562,7 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     });
 
     this.addCommand({
-      id: "ms-save-logs",
+      id: "save-logs",
       name: "💾 Save debug logs to file",
       callback: async () => {
         const path = await this.saveDebugLog();
@@ -2595,7 +2571,7 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     });
 
     this.addCommand({
-      id: "ms-clear-logs",
+      id: "clear-logs",
       name: "🗑️ Clear debug logs",
       callback: () => {
         this.clearDebugLog();
@@ -2603,7 +2579,7 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     });
 
     this.addCommand({
-      id: "ms-toggle-debug",
+      id: "toggle-debug",
       name: "🔍 Toggle debug mode",
       callback: () => {
         this.enableDebugMode = !this.enableDebugMode;
@@ -2611,18 +2587,18 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
         this.info('Debug mode toggled', { enabled: this.enableDebugMode });
 
         if (this.enableDebugMode) {
-          this.autoSaveLogTimer = window.setInterval(() => {
+          this.autoSaveLogTimer = this.registerInterval(window.setInterval(() => {
             this.saveDebugLog();
-          }, 30000);
-        } else if (this.autoSaveLogTimer) {
-          clearInterval(this.autoSaveLogTimer);
+          }, 30000));
+        } else if (this.autoSaveLogTimer !== null) {
+          window.clearInterval(this.autoSaveLogTimer);
           this.autoSaveLogTimer = null;
         }
       },
     });
 
     this.addCommand({
-      id: "ms-create-backup",
+      id: "create-backup",
       name: "💾 Create backup now",
       callback: async () => {
         await this.createBackup();
@@ -2631,7 +2607,7 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     });
 
     this.addCommand({
-      id: "ms-restore-backup",
+      id: "restore-backup",
       name: "♻️ Restore from backup",
       callback: async () => {
         const backups = await this.listBackups();
@@ -2683,7 +2659,7 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     });
 
     this.addCommand({
-      id: "ms-list-backups",
+      id: "list-backups",
       name: "📋 List all backups",
       callback: async () => {
         const backups = await this.listBackups();
@@ -2707,9 +2683,9 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     sb.setAttr("title", t(this.app, "sbTitle"));
     sb.addEventListener("click", () => this.scanActive());
 
-    this.backupTimer = window.setInterval(() => {
+    this.backupTimer = this.registerInterval(window.setInterval(() => {
       this.createBackup();
-    }, 10 * 60 * 1000);
+    }, 10 * 60 * 1000));
 
     this.schedule(() => this.createBackup(), 10000);
 
@@ -2750,9 +2726,6 @@ if (kind !== "note" && host.dataset.msDetached === "1") {
     await this.persistAll();
     this.observers.forEach((o) => o.disconnect());
     this.observers.length = 0;
-    document.getElementById(this.STYLE_ID)?.remove();
-    document.getElementById("ms-global-handle-style")?.remove();
-    document.getElementById("ms-modal-animation-style")?.remove();
   }
 
   private log(level: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR', message: string, data?: any) {
@@ -4222,8 +4195,8 @@ private isControlsPoint(host: HTMLElement, x: number, y: number): boolean {
   private realignClonesIfNeeded(notePath: string) {
 
     const leaves = this.app.workspace.getLeavesOfType("markdown").filter(leaf => {
-      const view = leaf.view as MarkdownView;
-      return view.file?.path === notePath;
+      const view = leaf.view;
+      return view instanceof MarkdownView && view.file?.path === notePath;
     });
 
     if (!leaves.length) return;
@@ -4232,7 +4205,8 @@ private isControlsPoint(host: HTMLElement, x: number, y: number): boolean {
     if (!noteData?.clones) return;
 
     leaves.forEach(leaf => {
-      const view = leaf.view as MarkdownView;
+      const view = leaf.view;
+      if (!(view instanceof MarkdownView)) return;
       const containerEl = view.containerEl;
       if (!containerEl) return;
 
@@ -4540,8 +4514,8 @@ private restoreClonesFromStore(notePath: string) {
   });
 
   const leaves = this.app.workspace.getLeavesOfType("markdown").filter(leaf => {
-    const view = leaf.view as MarkdownView;
-    return view.file?.path === notePath;
+    const view = leaf.view;
+    return view instanceof MarkdownView && view.file?.path === notePath;
   });
 
   this.debug('Found leaves for note', {
@@ -4552,7 +4526,8 @@ private restoreClonesFromStore(notePath: string) {
   if (!leaves.length) return;
 
   leaves.forEach(leaf => {
-    const view = leaf.view as MarkdownView;
+    const view = leaf.view;
+    if (!(view instanceof MarkdownView)) return;
     const containerEl = view.containerEl;
     if (!containerEl) return;
 
@@ -5422,105 +5397,31 @@ private ensureMediaBg(host: HTMLElement): HTMLElement {
     return mediaBg;
 }
 
-private applyMediaBgCss(hex: string) {
-
-  const color = /^#([0-9a-f]{6})$/i.test(hex) ? hex : "#242424";
-
-  const css = `
-
-.mx-media-embed .bg-slate-900,
-.media-extended .bg-slate-900,
-.media-embed .bg-slate-900,
-.ms-host[data-ms-kind="audio"] .ms-media-bg,
-.ms-host[data-ms-kind="video"][data-ms-parent-key] .ms-media-bg {
-  background-color: ${color} !important;
-
-}
-
-.ms-host[data-ms-locked="1"] .ms-handle { display: none !important; }
-.ms-host[data-ms-locked="1"] { cursor: default !important; }
-
-    #ms-marquee {
-      position: fixed;
-      border: 1px dashed var(--interactive-accent);
-      background-color: rgba(128, 0, 128, 0.1);
-      pointer-events: none;
-      z-index: 9999;
-      display: none;
-    }
-    .ms-host.--selected {
-      outline: 2px solid var(--interactive-accent) !important;
-      outline-offset: 2px;
-      box-shadow: 0 0 12px rgba(128, 0, 128, 0.5);
-    }
-
-.mx-media-embed,
-.media-extended,
-.media-embed {
-  background-color: #0000 !important;
-}
-
-.mx-media-embed .media-controls,
-.media-extended .media-controls {
-  background: transparent !important;
-}
-
-.ms-host[data-ms-locked="1"] .ms-handle { display: none !important; }
-
-.media-embed video,
-.mx-media-embed video,
-.media-extended video {
-  background: transparent !important;
-}
-`.trim();
-
-  let el = document.getElementById(this.ME_BG_STYLE_ID) as HTMLStyleElement | null;
-  if (!el) {
-    el = document.createElement("style");
-    el.id = this.ME_BG_STYLE_ID;
-    document.head.appendChild(el);
-  }
-  el.textContent = css;
+public applyCssVariables() {
+  const root = document.documentElement;
+  const color = /^#([0-9a-f]{6})$/i.test(this.meBgColor) ? this.meBgColor : "#242424";
+  const delay = Math.max(0, this.cloneHideDelay).toFixed(2);
+  
+  root.style.setProperty('--ms-media-bg-color', color);
+  root.style.setProperty('--ms-clone-hide-delay', `${delay}s`);
+  root.style.setProperty('--ms-handles-opacity', this.showHandlesOnHover ? '1' : '0');
+  root.style.setProperty('--ms-modal-animation', this.enableModalAnimation ? 'enabled' : 'disabled');
 }
 
 private async setMediaBgColor(hex: string, isLocal: boolean, host?: HTMLElement, notePath?: string, key?: string) {
     if (!isLocal) {
-
         this.meBgColor = /^#([0-9a-f]{6})$/i.test(hex) ? hex.toUpperCase() : "#242424";
-        this.applyMediaBgCss(this.meBgColor);
+        this.applyCssVariables();
         await this.persistAll();
 
         if (host) {
             this.ensureMediaBg(host);
         }
     } else if (host && notePath && key) {
-
         const localBg = this.ensureLocalBg(host);
         localBg.style.backgroundColor = hex;
         await this.saveState(notePath, key, { bgColor: hex });
     }
-}
-
-private applyCloneHideDelayCss(delayInSeconds: number) {
-  const delay = Math.max(0, delayInSeconds).toFixed(2);
-  const css = `
-
-    .ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="popup"] .ms-clone-controls {
-      transition: transform 0.2s ease-out ${delay}s, opacity 0.2s ease-out ${delay}s;
-    }
-
-    .ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="fade"] .ms-clone-controls {
-      transition: opacity 0.2s ease-out ${delay}s;
-    }
-  `.trim();
-
-  let el = document.getElementById(this.CLONE_DELAY_STYLE_ID) as HTMLStyleElement | null;
-  if (!el) {
-    el = document.createElement("style");
-    el.id = this.CLONE_DELAY_STYLE_ID;
-    document.head.appendChild(el);
-  }
-  el.textContent = css;
 }
 
 private async maybeDetach(notePath: string, key: string, host: HTMLElement) {
@@ -5883,15 +5784,16 @@ private async hardCleanupForSwitch(prevNotePath?: string) {
   if (prevNotePath) {
 
     const leaves = this.app.workspace.getLeavesOfType("markdown").filter(leaf => {
-      const view = leaf.view as MarkdownView;
-      return view.file?.path === prevNotePath;
+      const view = leaf.view;
+      return view instanceof MarkdownView && view.file?.path === prevNotePath;
     });
 
     if (leaves.length) {
       const noteData = (this.notes[prevNotePath] ??= { originals: {}, clones: {} });
 
       leaves.forEach(leaf => {
-        const view = leaf.view as MarkdownView;
+        const view = leaf.view;
+        if (!(view instanceof MarkdownView)) return;
         const containerEl = view.containerEl;
         if (!containerEl) return;
 
@@ -7633,417 +7535,12 @@ private applyCloneSettingsToAll() {
     if (controls) {
       controls.style.backgroundColor = `rgba(0,0,0,${this.cloneControlsOpacity})`;
     }
-    this.applyCloneHideDelayCss(this.cloneHideDelay);
 
     if (cloneHost.dataset.msKind === 'audio') {
       cloneHost.dataset.msShowHandles = this.cloneShowAudioHandles ? 'true' : 'false';
     }
-    this.applyAudioHandlesToAll();
   });
 }
-
-  public applyAllHandleStyles() {
-    this.applyGlobalHandleStyles();
-    this.applyAudioHandlesToAll();
-  }
-    public applyModalAnimationStyles() {
-    const STYLE_ID = "ms-modal-animation-style";
-    let styleEl = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
-
-    if (!this.enableModalAnimation) {
-      styleEl?.remove();
-      return;
-    }
-
-    if (!styleEl) {
-      styleEl = document.createElement("style");
-      styleEl.id = STYLE_ID;
-      document.head.appendChild(styleEl);
-    }
-
-    styleEl.textContent = `
-      @keyframes ms-modal-bg-fade-in {
-        from { opacity: 0; }
-        to { opacity: 0.85; }
-      }
-      .modal-bg {
-        animation: ms-modal-bg-fade-in 0.5s ease forwards !important;
-      }
-      @keyframes ms-modal-scale-in {
-        from { opacity: 0; transform: scale(0.9); }
-        to { opacity: 1; transform: scale(1); }
-      }
-      .modal:has(.ms-clone-settings-modal),
-      .modal:has(.ms-bgcolor-modal-content),
-      .modal:has(.ms-layout-settings-modal),
-      .modal:has(.ms-rename-modal) {
-        animation: ms-modal-scale-in 0.15s cubic-bezier(0.25, 0.1, 0.25, 1.0);
-      }
-    `;
-  }
-  public applyGlobalHandleStyles() {
-    const STYLE_ID = "ms-global-handle-style";
-    let styleEl = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!styleEl) {
-      styleEl = document.createElement("style");
-      styleEl.id = STYLE_ID;
-      document.head.appendChild(styleEl);
-    }
-
-    if (this.showHandlesOnHover) {
-      styleEl.textContent = ``;
-    } else {
-
-      styleEl.textContent = `.ms-handle { opacity: 0 !important; }`;
-    }
-  }
-
-  private injectCss() {
-    if (document.getElementById(this.STYLE_ID)) return;
-    const css = `
-
-    .ms-host { position:relative; display:block; will-change:transform; }
-    .ms-float-layer {
-      position: absolute;
-      inset: 0;
-      padding: 0; margin: 0; border: 0;
-      pointer-events: none;
-      z-index: 2000;
-      transform: none;
-      display: block !important;
-      visibility: visible !important;
-    }
-
-    .workspace-leaf.is-readable .cm-sizer {
-      visibility: visible !important;
-      display: block !important;
-      position: relative;
-    }
-
-    .markdown-preview-sizer, .cm-sizer {
-
-      position: relative;
-      display: block !important;
-    }
-
-    .ms-dock {
-      position: absolute; z-index: 2001;
-      top: 0; bottom: 0;
-      width: 320px;
-      pointer-events: none;
-    }
-    .ms-dock .ms-host { pointer-events: auto; }
-
-    .ms-dock.ms-dock--right { right: 0; }
-    .ms-dock.ms-dock--left  { left: 0; }
-    .ms-dock.ms-dock--top   { left: 0; right: 0; height: 220px; width: auto; }
-
-    .ms-overlay { position:absolute; inset:0; pointer-events:none; z-index: 2100; }
-    .ms-overlay.--drag, .ms-overlay.--dragmove { pointer-events: all; }
-    .ms-noselect { user-select: none !important; }
-
-    .ms-overlay { pointer-events: none; }
-    .ms-overlay .ms-handle { pointer-events: auto; }
-
-        .ms-link-overlay {
-
-    }
-    .ms-host[data-ms-parent-key] .mejs__controls,
-    .ms-host[data-ms-parent-key] .plyr__controls,
-    .ms-host[data-ms-parent-key] .vjs-control-bar {
-      display: none !important;
-    }
-
-    .ms-host:fullscreen .ms-handle {
-      display: none !important;
-    }
-
-    .ms-host[data-ms-kind="video"][data-ms-parent-key],
-    .ms-host[data-ms-kind="audio"][data-ms-parent-key] {
-
-      border-radius: 8px;
-    }
-
-    .ms-host[data-ms-parent-key] > video,
-    .ms-host[data-ms-parent-key] > audio,
-    .ms-host[data-ms-parent-key] .ms-clone-controls {
-        clip-path: inset(0 0 0 0 round 8px);
-    }
-
-    .ms-host[data-ms-kind="audio"][data-ms-parent-key] {
-      height: 70px;
-      padding-bottom: 0 !important;
-    }
-
-    .ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="popup"] .ms-clone-controls {
-
-      opacity: 0;
-      transform: translateY(5px) scaleY(0.1);
-      transform-origin: bottom;
-      will-change: transform, opacity;
-    }
-    .ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="popup"]:hover .ms-clone-controls {
-
-      opacity: 1;
-      transform: translateY(0) scaleY(1);
-      transition-delay: 0s;
-    }
-
-    .ms-host[data-ms-kind="video"][data-ms-parent-key]:hover .ms-clone-controls:hover {
-        opacity: 1;
-        transition-delay: 0s;
-    }
-
-    .ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="fade"] .ms-clone-controls {
-      opacity: 0;
-    }
-    .ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="fade"]:hover .ms-clone-controls {
-      opacity: 1;
-      transition-delay: 0s;
-    }
-
-    .ms-host[data-ms-kind="video"][data-ms-parent-key]:fullscreen.ms-fs-inactive .ms-clone-controls {
-      opacity: 0;
-      transition-delay: 0.5s;
-    }
-    .ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="popup"]:fullscreen.ms-fs-inactive .ms-clone-controls {
-        transform: translateY(100%);
-    }
-
-    .ms-host[data-ms-kind="audio"][data-ms-parent-key] .ms-clone-controls {
-      opacity: 1;
-    }
-
-    .ms-clone-controls.ms-cc-compact .ms-cc-hide-compact {
-      display: none !important;
-    }
-
-.ms-proxy-ctrl{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:2147483647;
-}
-.ms-proxy-btn{ position:absolute; pointer-events:auto; }
-
-.ms-rename-modal .ms-rename-form { margin-top: 8px; }
-.ms-rename-modal .ms-rename-form input {
-  width: 100%;
-  box-sizing: border-box;
-}
-  .ms-width-preset-modal-content .modal-button-container {
-  position: relative;
-  right: 20px;
-}
-.ms-rename-modal .ms-rename-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 20px;
 }
 
-.ms-clone-settings-modal .setting-item-control span {
-  display: inline-block;
-  width: 3.5em;
-  text-align: right;
-}
 
-    .ms-handle { position:absolute; width:8px; height:8px; border-radius:2.5px;
-      background:var(--interactive-accent); box-shadow:0 0 0 2px rgba(0,0,0,.25);
-      display:none; pointer-events:auto; cursor:nwse-resize; touch-action:none;
-    }
-    .ms-handle--rb { right:0px; bottom:0px; }
-    .ms-handle--lb { left:0px; bottom:0px; }
-    .ms-handle--rt { right:0px; top:0px; }
-    .ms-handle--lt { left:0px; top:0px; }
-
-     .ms-handle--t { top:0px; left:50%; transform:translateX(-50%); opacity:0 !important; }
-     .ms-handle--b { bottom:0px; left:50%; transform:translateX(-50%); opacity:0 !important; }
-     .ms-handle--l { left:0px; top:50%; transform:translateY(-50%); opacity:0 !important; }
-     .ms-handle--r { right:0px; top:50%; transform:translateY(-50%); opacity:0 !important; }
-
-    .ms-handle--t::before,
-    .ms-handle--b::before,
-    .ms-handle--l::before,
-    .ms-handle--r::before {
-
-    }
-
-    .ms-host[data-ms-parent-key] .ms-handle--t::before,
-    .ms-host[data-ms-parent-key] .ms-handle--b::before,
-    .ms-host[data-ms-parent-key] .ms-handle--l::before,
-    .ms-host[data-ms-parent-key] .ms-handle--r::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      left: -20px;
-      right: -20px;
-      bottom: -20px;
-
-    }
-
-    .ms-note-host .ms-handle--t::before,
-    .ms-note-host .ms-handle--b::before,
-    .ms-note-host .ms-handle--l::before,
-    .ms-note-host .ms-handle--r::before {
-      content: '';
-      position: absolute;
-      top: -5px;
-      left: -5px;
-      right: -5px;
-      bottom: -5px;
-
-    }
-
-    .workspace-leaf.mod-active .markdown-source-view .ms-host:hover .ms-handle { display:block; opacity:1; }
-    .markdown-reading-view .ms-handle { display:none !important; }
-
-    .markdown-reading-view .ms-float-layer .ms-host {
-      pointer-events: none !important;
-      cursor: default !important;
-    }
-
-    .markdown-reading-view .ms-note-host .ms-note {
-      pointer-events: none !important;
-      user-select: none !important;
-    }
-
-    .markdown-reading-view .ms-overlay {
-      display: none !important;
-    }
-
-    .ms-handle--rb, .ms-handle--lt { cursor: nwse-resize; }
-    .ms-handle--lb, .ms-handle--rt { cursor: nesw-resize; }
-
-    .ms-handle--t, .ms-handle--b, .ms-handle--l, .ms-handle--r { cursor: grab !important; }
-    .ms-handle--t::before, .ms-handle--b::before, .ms-handle--l::before, .ms-handle--r::before { cursor: inherit; }
-
-    .ms-host[data-ms-kind="audio"][data-ms-show-handles="true"]:hover .ms-handle:not(.ms-handle--t):not(.ms-handle--b):not(.ms-handle--l):not(.ms-handle--r) { opacity:1 !important; }
-
-    .ms-host[data-ms-kind="audio"] .ms-handle--t,
-    .ms-host[data-ms-kind="audio"] .ms-handle--b,
-    .ms-host[data-ms-kind="audio"] .ms-handle--l,
-    .ms-host[data-ms-kind="audio"] .ms-handle--r { opacity:0 !important; }
-
-    .ms-host[data-ms-kind="audio"][data-ms-locked="1"] .ms-handle {
-      display: none !important;
-    }
-
-    .menu .menu-item.ms-preset-item { position: relative; padding-right: 30px; }
-    .menu .menu-item.ms-preset-item .ms-preset-del {
-      position:absolute; right:6px; top:50%; transform:translateY(-50%);
-      width:20px; height:20px; border-radius:6px; display:flex; align-items:center; justify-content:center;
-      opacity:.6; pointer-events:auto; cursor:pointer;
-    }
-    .menu .menu-item.ms-preset-item .ms-preset-del:hover { opacity:1; background:var(--background-modifier-hover); }
-    .menu .menu-item.ms-preset-item .ms-preset-del::before { content:"×"; font-size:14px; line-height:1; }
-
-.menu .menu-item.ms-preset-item { padding-right: 54px; }
-
-.ms-note-host { position:relative; z-index:3000; display:block; }
-.ms-note { width:100%; height:100%; display:flex; flex-direction:column;
-  background: var(--background-secondary);
-  border: 1px solid var(--background-modifier-border);
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-.ms-note-top { height:24px; display:flex; align-items:center; justify-content:flex-end;
-  padding:0 6px; cursor:grab; background: var(--background-modifier-hover);
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-.ms-note-top:active { cursor:grabbing; }
-.ms-note-close { width:18px; height:18px; border-radius:4px;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; opacity:.75;
-}
-.ms-note-close:hover { opacity:1; background: var(--background-modifier-hover); }
-.ms-note-close::before { content: "×"; font-weight:700; font-size:14px; line-height:1; }
-
-.ms-note-body { flex:1; padding:8px; overflow:auto; white-space:pre-wrap; outline:none;
-  --note-stroke: 1px;
-  --note-stroke-color: #000000;
-
-}
-.ms-note-host.ms-note-transparent .ms-note {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-}
-.ms-note-host.ms-note-transparent .ms-note-top {
-  background: transparent !important;
-}
-.ms-note-host.ms-note-transparent .ms-note-close {
-  opacity: 0;
-  transition: opacity 0.2s ease-out;
-}
-.ms-note-host.ms-note-transparent:hover .ms-note {
-  border-color: var(--background-modifier-border) !important;
-}
-.ms-note-host.ms-note-transparent:hover .ms-note-close {
-  opacity: 0.75;
-}
-  .ms-note-body.ms-note-text-stroked {
-  filter:
-    drop-shadow(calc(-1*var(--note-stroke) * .7071) calc(var(--note-stroke) * .7071)  0 var(--note-stroke-color))
-    drop-shadow(calc(var(--note-stroke) * .7071)   calc(-1*var(--note-stroke) * .7071) 0 var(--note-stroke-color))
-    drop-shadow(var(--note-stroke) 0       0 var(--note-stroke-color))
-    drop-shadow(0 var(--note-stroke)       0 var(--note-stroke-color));
-}
-
-.workspace-leaf.mod-active .markdown-source-view .ms-note-host:hover .ms-handle { display:block; opacity:1; }
-.ms-note-host .ms-overlay { pointer-events:none; }
-.ms-note-host .ms-handle { opacity: 0 !important; pointer-events: auto; }
-
-.markdown-source-view,
-.cm-scroller,
-.markdown-reading-view { position: relative; }
-
-.ms-float-layer .ms-host { pointer-events: auto; }
-
-.ms-host {
-  position: relative;
-  isolation: isolate;
-  z-index: 20;
-  pointer-events: auto;
-}
-
-.ms-host[data-ms-detached="1"] {
-  z-index: 2500;
-}
-
-.ms-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2600;
-  pointer-events: none;
-}
-
-.ms-overlay .ms-handle,
-.ms-overlay .ms-header,
-.ms-overlay .ms-btn, .ms-clone-controls {
-  pointer-events: auto;
-}
-
-.ms-note-host { position: absolute; }
-.ms-overlay { pointer-events: none; z-index: 300; }
-
-.menu .menu-item.ms-preset-item .ms-preset-edit{
-  position:absolute; right:30px; top:50%; transform:translateY(-50%);
-  width:20px; height:20px; border-radius:6px; display:flex; align-items:center; justify-content:center;
-  opacity:.6; pointer-events:auto; cursor:pointer;
-  background-repeat:no-repeat; background-position:center; background-size:16px 16px;
-  background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAydJREFUWIXVl09oHFUcxz+/+bMGnajRg3iRGEpFtBdF7EHQS5KiKO1l2N23GwiBxKIn679DoV6V1J4UEoQlu/uedgX1UpHaWkEk/sP6hwoWrIrgxWqUjQZ22/l56CyI2Ozsv4JfGGbezON9Pr8H82aecAXinNujqgeBHcC3wHPGmFMA3qjh9Xr9aVV9W0QmgXVV3QmctNY+DiCjhovI8yLy/tbW1iMLCwtNa+0EcAzYDcwIQKPRiNrt9kFgBrjucgOKyJvFYvHJXuBp87UwDEtxHF8EqFQq1+dyuTPAj561dqLdbp8GngGuAs5tc/zca+XAKpBvtVq1RqPhA8zPz/8OnALuCIAXgCkgNsa8ngWQFd5sNh9aXFzccs5dFJH9rVaLRqNRjqIo2NjYuBf4Tqy1vwKfGWNmhw1fWlr6C0BVxTn3ErBfVV/1PG9MVfepaj4AblDV70cFBxARVdXHnHMiIo+qKsByqVQ66nU6DAg/kMI/CILg4X/CO1ldXQ1E5Ka0+aIx5ikYwjqQwpdT+INxHG/+u8/Kyko4Pj5+VFX3pfADnWcDCQwKH0hgGPC+BYYF70tgmPCeBfqAH9kO3pOAc64gIsvAerPZ3NMNLiKHjTFPdBs3s4CqltPL26MounM7OHAk60crk0ClUhkD7gc+ARLgHWvt3f8Fz1p5J0GWTrlc7j7galVdEZHPgRPACWvt7Obm5ul+Ku8k0wyo6gyA7/vvGmO+8DxvmnQmoig61k/lnWSaARGZBb4pFAo/WWsnkiTZISJfqeoDwLSIHM5aebVavdX3/feSJNlbLpe/7CpQq9VuBnYBZ62168A9gK+qF4APRcQVi8WXs8ABPM+bAiY9z9sJdBcQkd1c+ne8DfhBVV8RkeNhGJ6M4/iPrODLpatAkiTHfd+f833/43w+f3ZQYM8Cc3NzfwK1YYM7Gfm+4P8hoKoj3aB0E/gt3TZdqUyl5/MAnoi8BUw75/aOmlytVm8RkWeB82EYfgQga2trNwZB8Ckwma5uv4yIPwbcxaU3r2CMeQPSzWm9Xr9WRA4B08A1IxK4ICJnkiQ5VCqVvu7c/BudLKDOrJMMjwAAAABJRU5ErkJggg==);
-}
-.menu .menu-item.ms-preset-item .ms-preset-edit:hover { opacity:1; background-color:var(--background-modifier-hover); }
-.menu .menu-item.ms-preset-item .ms-preset-del:hover  { opacity:1; background-color:var(--background-modifier-hover); }
-
-    .ms-imgsz-form .ms-row { display:flex; align-items:center; gap:10px; margin:8px 0; }
-    .ms-imgsz-form input[type="number"] { width:120px; }
-    `;
-    const style = document.createElement("style");
-    style.id = this.STYLE_ID;
-    style.textContent = css;
-    document.head.appendChild(style);
-
-  }
-}

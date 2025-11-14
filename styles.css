@@ -1,0 +1,826 @@
+/* Media Layout Plugin Styles */
+
+/* ========== Modal Styles ========== */
+
+/* Background Color Modal */
+.ms-bgcolor-wrap {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  margin: 6px 0 12px;
+}
+
+.ms-bgcolor-wrap input[type="color"] {
+  width: 64px;
+  height: 64px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.ms-bgcolor-wrap input[type="text"] {
+  width: 120px;
+}
+
+/* Width Preset Modal */
+.ms-width-preset-modal-content {}
+
+.ms-width-preset-modal-content .modal-button-container {
+  position: relative;
+  right: 20px;
+}
+
+/* Rename Modal */
+.ms-rename-modal .ms-rename-form {
+  margin-top: 8px;
+}
+
+.ms-rename-modal .ms-rename-form input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ms-rename-modal .ms-rename-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* Clone Settings Modal */
+.ms-clone-settings-modal .setting-item-control span {
+  display: inline-block;
+  width: 3.5em;
+  text-align: right;
+}
+
+/* Image Size Modal */
+.ms-imgsz-form .ms-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.ms-imgsz-form input[type="number"] {
+  width: 120px;
+}
+
+/* ========== Modal Width Classes ========== */
+.ms-modal-width-355 {
+  width: 355px;
+}
+
+/* ========== Input Size Classes ========== */
+.ms-input-width-300 {
+  width: 300px;
+  max-width: 100%;
+  min-width: 260px;
+}
+
+/* ========== Position Classes ========== */
+.ms-position-relative-bottom-0 {
+  position: relative;
+  bottom: 0px;
+}
+
+.ms-margin-bottom-12 {
+  margin-bottom: 12px;
+}
+
+.ms-margin-bottom-8 {
+  margin-bottom: 8px;
+}
+
+.ms-margin-right-6 {
+  margin-right: 6px;
+}
+
+/* ========== Display & Visibility Classes ========== */
+.ms-display-block {
+  display: block;
+  visibility: visible;
+}
+
+.ms-display-none {
+  display: none;
+}
+
+/* ========== Cursor Classes ========== */
+.ms-cursor-default {
+  cursor: default;
+}
+
+/* ========== Local Background ========== */
+.ms-local-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* ========== Media Background ========== */
+.ms-media-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  border-radius: inherit;
+}
+
+/* ========== Dynamic Media Background (uses CSS variables) ========== */
+.mx-media-embed .bg-slate-900,
+.media-extended .bg-slate-900,
+.media-embed .bg-slate-900,
+.ms-host[data-ms-kind="audio"] .ms-media-bg,
+.ms-host[data-ms-kind="video"][data-ms-parent-key] .ms-media-bg {
+  background-color: var(--ms-media-bg-color, #242424) !important;
+}
+
+.ms-host[data-ms-locked="1"] .ms-handle {
+  display: none !important;
+}
+
+.ms-host[data-ms-locked="1"] {
+  cursor: default !important;
+}
+
+/* Selection Marquee */
+#ms-marquee {
+  position: fixed;
+  border: 1px dashed var(--interactive-accent);
+  background-color: rgba(128, 0, 128, 0.1);
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+}
+
+.ms-host.--selected {
+  outline: 2px solid var(--interactive-accent) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 12px rgba(128, 0, 128, 0.5);
+}
+
+.mx-media-embed,
+.media-extended,
+.media-embed {
+  background-color: #0000 !important;
+}
+
+.mx-media-embed .media-controls,
+.media-extended .media-controls {
+  background: transparent !important;
+}
+
+.media-embed video,
+.mx-media-embed video,
+.media-extended video {
+  background: transparent !important;
+}
+
+/* ========== Clone Hide Delay (uses CSS variables) ========== */
+.ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="popup"] .ms-clone-controls {
+  transition: transform 0.2s ease-out var(--ms-clone-hide-delay, 2s), opacity 0.2s ease-out var(--ms-clone-hide-delay, 2s);
+}
+
+.ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="fade"] .ms-clone-controls {
+  transition: opacity 0.2s ease-out var(--ms-clone-hide-delay, 2s);
+}
+
+/* ========== Modal Animation (uses CSS variables) ========== */
+@keyframes ms-modal-bg-fade-in {
+  from { opacity: 0; }
+  to { opacity: 0.85; }
+}
+
+html[style*="--ms-modal-animation: enabled"] .modal-bg {
+  animation: ms-modal-bg-fade-in 0.5s ease forwards !important;
+}
+
+@keyframes ms-modal-scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+html[style*="--ms-modal-animation: enabled"] .modal:has(.ms-clone-settings-modal),
+html[style*="--ms-modal-animation: enabled"] .modal:has(.ms-bgcolor-modal-content),
+html[style*="--ms-modal-animation: enabled"] .modal:has(.ms-layout-settings-modal),
+html[style*="--ms-modal-animation: enabled"] .modal:has(.ms-rename-modal) {
+  animation: ms-modal-scale-in 0.15s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+}
+
+/* ========== Global Handle Styles (uses CSS variables) ========== */
+html[style*="--ms-handles-opacity: 0"] .ms-handle {
+  opacity: 0 !important;
+}
+
+/* ========== Main Plugin Styles ========== */
+
+.ms-host {
+  position: relative;
+  display: block;
+  will-change: transform;
+  isolation: isolate;
+  z-index: 20;
+  pointer-events: auto;
+}
+
+.ms-host[data-ms-detached="1"] {
+  z-index: 2500;
+}
+
+.ms-float-layer {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  pointer-events: none;
+  z-index: 2000;
+  transform: none;
+  display: block !important;
+  visibility: visible !important;
+}
+
+.workspace-leaf.is-readable .cm-sizer {
+  visibility: visible !important;
+  display: block !important;
+  position: relative;
+}
+
+.markdown-preview-sizer,
+.cm-sizer {
+  position: relative;
+  display: block !important;
+}
+
+.markdown-source-view,
+.cm-scroller,
+.markdown-reading-view {
+  position: relative;
+}
+
+.ms-float-layer .ms-host {
+  pointer-events: auto;
+}
+
+/* ========== Dock Styles ========== */
+
+.ms-dock {
+  position: absolute;
+  z-index: 2001;
+  top: 0;
+  bottom: 0;
+  width: 320px;
+  pointer-events: none;
+}
+
+.ms-dock .ms-host {
+  pointer-events: auto;
+}
+
+.ms-dock.ms-dock--right {
+  right: 0;
+}
+
+.ms-dock.ms-dock--left {
+  left: 0;
+}
+
+.ms-dock.ms-dock--top {
+  left: 0;
+  right: 0;
+  height: 220px;
+  width: auto;
+}
+
+/* ========== Overlay Styles ========== */
+
+.ms-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2600;
+  pointer-events: none;
+}
+
+.ms-overlay.--drag,
+.ms-overlay.--dragmove {
+  pointer-events: all;
+}
+
+.ms-overlay .ms-handle {
+  pointer-events: auto;
+}
+
+.ms-overlay .ms-handle,
+.ms-overlay .ms-header,
+.ms-overlay .ms-btn,
+.ms-clone-controls {
+  pointer-events: auto;
+}
+
+.ms-noselect {
+  user-select: none !important;
+}
+
+/* ========== Link Overlay ========== */
+.ms-link-overlay {}
+
+/* ========== Clone Styles ========== */
+
+.ms-host[data-ms-parent-key] .mejs__controls,
+.ms-host[data-ms-parent-key] .plyr__controls,
+.ms-host[data-ms-parent-key] .vjs-control-bar {
+  display: none !important;
+}
+
+.ms-host:fullscreen .ms-handle {
+  display: none !important;
+}
+
+.ms-host[data-ms-kind="video"][data-ms-parent-key],
+.ms-host[data-ms-kind="audio"][data-ms-parent-key] {
+  border-radius: 8px;
+}
+
+.ms-host[data-ms-parent-key] > video,
+.ms-host[data-ms-parent-key] > audio,
+.ms-host[data-ms-parent-key] .ms-clone-controls {
+  clip-path: inset(0 0 0 0 round 8px);
+}
+
+.ms-host[data-ms-kind="audio"][data-ms-parent-key] {
+  height: 70px;
+  padding-bottom: 0 !important;
+}
+
+/* Clone Controls Animation - Popup */
+.ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="popup"] .ms-clone-controls {
+  opacity: 0;
+  transform: translateY(5px) scaleY(0.1);
+  transform-origin: bottom;
+  will-change: transform, opacity;
+}
+
+.ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="popup"]:hover .ms-clone-controls {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+  transition-delay: 0s;
+}
+
+.ms-host[data-ms-kind="video"][data-ms-parent-key]:hover .ms-clone-controls:hover {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+/* Clone Controls Animation - Fade */
+.ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="fade"] .ms-clone-controls {
+  opacity: 0;
+}
+
+.ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="fade"]:hover .ms-clone-controls {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+/* Fullscreen Clone Controls */
+.ms-host[data-ms-kind="video"][data-ms-parent-key]:fullscreen.ms-fs-inactive .ms-clone-controls {
+  opacity: 0;
+  transition-delay: 0.5s;
+}
+
+.ms-host[data-ms-kind="video"][data-ms-parent-key][data-ms-animation="popup"]:fullscreen.ms-fs-inactive .ms-clone-controls {
+  transform: translateY(100%);
+}
+
+/* Audio Clone Controls */
+.ms-host[data-ms-kind="audio"][data-ms-parent-key] .ms-clone-controls {
+  opacity: 1;
+}
+
+.ms-clone-controls.ms-cc-compact .ms-cc-hide-compact {
+  display: none !important;
+}
+
+/* ========== Proxy Control Styles ========== */
+
+.ms-proxy-ctrl {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+}
+
+.ms-proxy-btn {
+  position: absolute;
+  pointer-events: auto;
+}
+
+/* ========== Handle Styles ========== */
+
+.ms-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2.5px;
+  background: var(--interactive-accent);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, .25);
+  display: none;
+  pointer-events: auto;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+.ms-handle--rb {
+  right: 0px;
+  bottom: 0px;
+}
+
+.ms-handle--lb {
+  left: 0px;
+  bottom: 0px;
+}
+
+.ms-handle--rt {
+  right: 0px;
+  top: 0px;
+}
+
+.ms-handle--lt {
+  left: 0px;
+  top: 0px;
+}
+
+.ms-handle--t {
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0 !important;
+}
+
+.ms-handle--b {
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0 !important;
+}
+
+.ms-handle--l {
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0 !important;
+}
+
+.ms-handle--r {
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0 !important;
+}
+
+/* Expanded touch areas for edge handles */
+.ms-host[data-ms-parent-key] .ms-handle--t::before,
+.ms-host[data-ms-parent-key] .ms-handle--b::before,
+.ms-host[data-ms-parent-key] .ms-handle--l::before,
+.ms-host[data-ms-parent-key] .ms-handle--r::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+}
+
+.ms-note-host .ms-handle--t::before,
+.ms-note-host .ms-handle--b::before,
+.ms-note-host .ms-handle--l::before,
+.ms-note-host .ms-handle--r::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+}
+
+/* Handle Cursors */
+.ms-handle--rb,
+.ms-handle--lt {
+  cursor: nwse-resize;
+}
+
+.ms-handle--lb,
+.ms-handle--rt {
+  cursor: nesw-resize;
+}
+
+.ms-handle--t,
+.ms-handle--b,
+.ms-handle--l,
+.ms-handle--r {
+  cursor: grab !important;
+}
+
+.ms-handle--t::before,
+.ms-handle--b::before,
+.ms-handle--l::before,
+.ms-handle--r::before {
+  cursor: inherit;
+}
+
+/* Handle Visibility */
+.workspace-leaf.mod-active .markdown-source-view .ms-host:hover .ms-handle {
+  display: block;
+  opacity: 1;
+}
+
+.markdown-reading-view .ms-handle {
+  display: none !important;
+}
+
+.markdown-reading-view .ms-float-layer .ms-host {
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.markdown-reading-view .ms-note-host .ms-note {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.markdown-reading-view .ms-overlay {
+  display: none !important;
+}
+
+/* Audio Handle Visibility */
+.ms-host[data-ms-kind="audio"][data-ms-show-handles="true"]:hover .ms-handle:not(.ms-handle--t):not(.ms-handle--b):not(.ms-handle--l):not(.ms-handle--r) {
+  opacity: 1 !important;
+}
+
+.ms-host[data-ms-kind="audio"] .ms-handle--t,
+.ms-host[data-ms-kind="audio"] .ms-handle--b,
+.ms-host[data-ms-kind="audio"] .ms-handle--l,
+.ms-host[data-ms-kind="audio"] .ms-handle--r {
+  opacity: 0 !important;
+}
+
+.ms-host[data-ms-kind="audio"][data-ms-locked="1"] .ms-handle {
+  display: none !important;
+}
+
+/* ========== Menu Preset Item Styles ========== */
+
+.menu .menu-item.ms-preset-item {
+  position: relative;
+  padding-right: 54px;
+}
+
+.menu .menu-item.ms-preset-item .ms-preset-del {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .6;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.menu .menu-item.ms-preset-item .ms-preset-del:hover {
+  opacity: 1;
+  background: var(--background-modifier-hover);
+}
+
+.menu .menu-item.ms-preset-item .ms-preset-del::before {
+  content: "×";
+  font-size: 14px;
+  line-height: 1;
+}
+
+.menu .menu-item.ms-preset-item .ms-preset-edit {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .6;
+  pointer-events: auto;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAydJREFUWIXVl09oHFUcxz+/+bMGnajRg3iRGEpFtBdF7EHQS5KiKO1l2N23GwiBxKIn679DoV6V1J4UEoQlu/uedgX1UpHaWkEk/sP6hwoWrIrgxWqUjQZ22/l56CyI2Ozsv4JfGGbezON9Pr8H82aecAXinNujqgeBHcC3wHPGmFMA3qjh9Xr9aVV9W0QmgXVV3QmctNY+DiCjhovI8yLy/tbW1iMLCwtNa+0EcAzYDcwIQKPRiNrt9kFgBrjucgOKyJvFYvHJXuBp87UwDEtxHF8EqFQq1+dyuTPAj561dqLdbp8GngGuAs5tc/zca+XAKpBvtVq1RqPhA8zPz/8OnALuCIAXgCkgNsa8ngWQFd5sNh9aXFzccs5dFJH9rVaLRqNRjqIo2NjYuBf4Tqy1vwKfGWNmhw1fWlr6C0BVxTn3ErBfVV/1PG9MVfepaj4AblDV70cFBxARVdXHnHMiIo+qKsByqVQ66nU6DAg/kMI/CILg4X/CO1ldXQ1E5Ka0+aIx5ikYwjqQwpdT+INxHG/+u8/Kyko4Pj5+VFX3pfADnWcDCQwKH0hgGPC+BYYF70tgmPCeBfqAH9kO3pOAc64gIsvAerPZ3NMNLiKHjTFPdBs3s4CqltPL26MounM7OHAk60crk0ClUhkD7gc+ARLgHWvt3f8Fz1p5J0GWTrlc7j7galVdEZHPgRPACWvt7Obm5ul+Ku8k0wyo6gyA7/vvGmO+8DxvmnQmoig61k/lnWSaARGZBb4pFAo/WWsnkiTZISJfqeoDwLSIHM5aebVavdX3/feSJNlbLpe/7CpQq9VuBnYBZ62168A9gK+qF4APRcQVi8WXs8ABPM+bAiY9z9sJdBcQkd1c+ne8DfhBVV8RkeNhGJ6M4/iPrODLpatAkiTHfd+f833/43w+f3ZQYM8Cc3NzfwK1YYM7Gfm+4P8hoKoj3aB0E/gt3TZdqUyl5/MAnoi8BUw75/aOmlytVm8RkWeB82EYfgQga2trNwZB8Ckwma5uv4yIPwbcxaU3r2CMeQPSzWm9Xr9WRA4B08A1IxK4ICJnkiQ5VCqVvu7c/BudLKDOrJMMjwAAAABJRU5ErkJggg==);
+}
+
+.menu .menu-item.ms-preset-item .ms-preset-edit:hover {
+  opacity: 1;
+  background-color: var(--background-modifier-hover);
+}
+
+.menu .menu-item.ms-preset-item .ms-preset-del:hover {
+  opacity: 1;
+  background-color: var(--background-modifier-hover);
+}
+
+/* ========== Note Box Styles ========== */
+
+.ms-note-host {
+  position: absolute;
+  z-index: 3000;
+  display: block;
+}
+
+.ms-note {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+}
+
+.ms-note-top {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 6px;
+  cursor: grab;
+  background: var(--background-modifier-hover);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.ms-note-top:active {
+  cursor: grabbing;
+}
+
+.ms-note-close {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: .75;
+}
+
+.ms-note-close:hover {
+  opacity: 1;
+  background: var(--background-modifier-hover);
+}
+
+.ms-note-close::before {
+  content: "×";
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.ms-note-body {
+  flex: 1;
+  padding: 8px;
+  overflow: auto;
+  white-space: pre-wrap;
+  outline: none;
+  --note-stroke: 1px;
+  --note-stroke-color: #000000;
+}
+
+/* Transparent Note Box */
+.ms-note-host.ms-note-transparent .ms-note {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.ms-note-host.ms-note-transparent .ms-note-top {
+  background: transparent !important;
+}
+
+.ms-note-host.ms-note-transparent .ms-note-close {
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.ms-note-host.ms-note-transparent:hover .ms-note {
+  border-color: var(--background-modifier-border) !important;
+}
+
+.ms-note-host.ms-note-transparent:hover .ms-note-close {
+  opacity: 0.75;
+}
+
+/* Text Stroke */
+.ms-note-body.ms-note-text-stroked {
+  filter: drop-shadow(calc(-1 * var(--note-stroke) * .7071) calc(var(--note-stroke) * .7071) 0 var(--note-stroke-color)) drop-shadow(calc(var(--note-stroke) * .7071) calc(-1 * var(--note-stroke) * .7071) 0 var(--note-stroke-color)) drop-shadow(var(--note-stroke) 0 0 var(--note-stroke-color)) drop-shadow(0 var(--note-stroke) 0 var(--note-stroke-color));
+}
+
+.workspace-leaf.mod-active .markdown-source-view .ms-note-host:hover .ms-handle {
+  display: block;
+  opacity: 1;
+}
+
+.ms-note-host .ms-overlay {
+  pointer-events: none;
+}
+
+.ms-note-host .ms-handle {
+  opacity: 0 !important;
+  pointer-events: auto;
+}
+
+/* ========== Custom Control Button Styles (for Clone Controls) ========== */
+.ms-cc-btn {
+  background: rgba(255, 255, 255, .15);
+}
+
+.ms-cc-btn:hover {
+  background: rgba(255, 255, 255, .25);
+}
+
+/* ========== Video Wrapper for Clones ========== */
+.ms-video-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+/* ========== Clone Controls Positioning ========== */
+.ms-clone-controls-bottom-70 {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  height: 70px;
+}
+
+/* ========== Flex & Alignment Utility Classes ========== */
+.ms-flex {
+  display: flex;
+}
+
+.ms-flex-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.ms-flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ms-margin-left-auto {
+  margin-left: auto;
+}
+
+.ms-margin-right-15 {
+  margin-right: 15px;
+}
+
+.ms-margin-right-8 {
+  margin-right: 8px;
+}
+
+.ms-margin-right-10 {
+  margin-right: 10px;
+}
+
+.ms-margin-left-0 {
+  margin-left: 0px;
+}
+
+/* ========== Clone Controls Center Group ========== */
+.ms-cc-center-group {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* ========== Clone Controls Time Label ========== */
+.ms-cc-time-label {
+  color: rgba(255, 255, 255, .7);
+  font-size: 12px;
+  white-space: nowrap;
+  padding-right: 8px;
+}
